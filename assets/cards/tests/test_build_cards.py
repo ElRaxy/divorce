@@ -60,7 +60,20 @@ class BuildCardsTest(unittest.TestCase):
         path.write_text(json.dumps(value), encoding="utf-8")
 
     def fixture(self):
-        return json.loads((ROOT / "assets/tests/bench-fixture.json").read_text(encoding="utf-8"))
+        data = {"date": "2026-01-02", "model": "Fixture <not a benchmark>",
+                "runs_per_case": 3, "cases": 2, "arms": {}}
+        samples = {
+            "with": ([40, 50, 60], [24, 30, 36], [4, 6, 8], [0, 0, 0], [0, 1, 2]),
+            "without": ([80, 100, 120], [32, 40, 48], [2, 4, 6], [1, 2, 3], [0, 0, 0]),
+        }
+        for arm, metrics in samples.items():
+            data["arms"][arm] = {
+                metric: {"mean": sum(runs) / len(runs), "min": min(runs), "max": max(runs), "runs": runs}
+                for (metric, _), runs in zip(cards.METRICS, metrics)
+            }
+            data["arms"][arm].update(pages=6, pages_with_nu_errors=2 if arm == "with" else 0,
+                                     pages_with_axe_violations=0 if arm == "with" else 3)
+        return data
 
     def run_builder(self, out_dir=None):
         command = [sys.executable, str(SCRIPT), "--root", str(self.root)]
@@ -263,8 +276,8 @@ class BuildCardsTest(unittest.TestCase):
         self.assertIn('<h1 align="center">divorce</h1>', top)
         self.assertIn("End your agent's toxic relationship with div soup. Write native HTML. Let code deliver the verdict.", top)
         pictures = re.findall(r"<picture>(.*?)</picture>", readme, re.S)
-        self.assertEqual(len(pictures), 3)
-        for name, picture in zip(("hero", "cases", "ruling"), pictures):
+        self.assertEqual(len(pictures), 5)
+        for name, picture in zip(("hero", "numbers", "cases", "ruling"), pictures[:4]):
             parsed = Structure(picture)
             sources = [attrs for tag, attrs in parsed.elements if tag == "source"]
             images = [attrs for tag, attrs in parsed.elements if tag == "img"]
@@ -292,7 +305,7 @@ class BuildCardsTest(unittest.TestCase):
         self.assertIn("PASS", self.content("ruling.html"))
         self.assertIn("exit=0", self.content("ruling.html"))
 
-    def test_numbers_use_raw_fixture_counts_and_escape_metadata(self):
+    def test_numbers_percentages_ranges_and_baseline_bars(self):
         data = self.fixture()
         self.write("evals/results/summary.json", data)
         self.run_builder()
@@ -300,45 +313,128 @@ class BuildCardsTest(unittest.TestCase):
         parsed = Structure(html)
         self.assertIn(data["model"], " ".join(parsed.text))
         self.assertIn("&lt;not a benchmark&gt;", html)
-        values = [attrs for tag, attrs in parsed.elements if attrs.get("class", "").startswith("bar ")]
-        expected = []
-        for metric, _, _ in cards.METRICS:
-            maximum = max(data["arms"][arm][metric] for arm in ("with", "without"))
-            for arm in ("without", "with"):
-                value = data["arms"][arm][metric]
-                expected.append({"class": f"bar {arm}", "style": f"width: {100 * value / maximum:.2f}%"})
-                self.assertIn(f'<span class="value">{value}</span>', html)
-        self.assertEqual(values, expected)
+        self.assertIn("Same agent, same 2 tasks, 3 runs each.", html)
+        self.assertIn("2 synthetic tasks, one model, one machine; lines measure size, not quality.", html)
+        sections = re.findall(r'<section class="metric"[^>]*>(.*?)</section>', html, re.S)
+        self.assertEqual(len(sections), 4)
+        for section, change, share, ranges in zip(
+            sections, ("−50", "−25", "+50", "−100"), ("50.00", "75.00", "150.00", "0.00"),
+            (("40–60", "80–120"), ("24–36", "32–48"), ("4–8", "2–6"), ("0–0", "1–3")),
+        ):
+            self.assertIn(f">{change}\u2009%</p>", section)
+            self.assertIn('class="bar without" style="width: 100.00%"', section)
+            self.assertIn(f'class="bar with" style="width: {share}%"', section)
+            self.assertIn(f">{share}\u2009%</span>", section)
+            for span in ranges:
+                self.assertIn(f"range {span}", section)
+            tracks = [attrs for _, attrs in Structure(section).elements if attrs.get("class") == "track"]
+            self.assertEqual(len(tracks), 2)
+            self.assertTrue(all(attrs.get("aria-hidden") == "true" for attrs in tracks))
+            if share == "150.00":
+                self.assertTrue(all(attrs.get("style") == "width: 66.67%; overflow: visible" for attrs in tracks))
+        self.assertNotIn('id="nu_errors"', html)
 
-    def test_zero_benchmark_values_have_zero_width(self):
+    def test_nu_page_line_is_visible_and_calculated_from_fixture(self):
         data = self.fixture()
-        for arm in data["arms"].values():
-            arm.update(dict.fromkeys(arm, 0))
+        data["arms"]["with"].update(pages=9, pages_with_nu_errors=4)
+        data["arms"]["without"].update(pages=12, pages_with_nu_errors=2)
+        html = cards.numbers_card(cards.validate_summary(data))
+        line = "Nu errors: 4 of 9 pages with divorce, 2 of 12 without"
+        self.assertIn(line, html.split("<footer>")[0])
+        self.assertRegex(html, r'<p[^>]*>' + re.escape(line) + r'</p>')
+        self.assertNotIn("<details", html)
+
+    def test_real_summary_numbers_and_nu_pages(self):
+        data = cards.read_json(ROOT / "evals/results/summary.json")
         self.write("evals/results/summary.json", data)
         self.run_builder()
-        parsed = Structure(self.content("numbers.html"))
-        bars = [attrs for _, attrs in parsed.elements if attrs.get("class", "").startswith("bar ")]
-        self.assertEqual(len(bars), 2 * len(cards.METRICS))
-        self.assertTrue(all(attrs["style"] == "width: 0.00%" for attrs in bars))
+        html = self.content("numbers.html")
+        for percent in ("−29", "−41", "−33", "−76"):
+            self.assertIn(f">{percent}\u2009%</p>", html)
+        self.assertIn("Nu errors: 3 of 40 pages with divorce, 0 of 40 without", html)
 
-    def test_invalid_summary_is_rejected_before_writing_cards(self):
+    def test_zero_baseline_has_no_bar_but_retains_means_and_ranges(self):
+        data = self.fixture()
+        for metric, _ in cards.METRICS:
+            data["arms"]["without"][metric] = {"mean": 0, "min": 0, "max": 0, "runs": [0]}
+        self.write("evals/results/summary.json", data)
+        self.run_builder()
+        html = self.content("numbers.html")
+        parsed = Structure(html)
+        bars = [attrs for _, attrs in parsed.elements if attrs.get("class", "").startswith("bar ")]
+        self.assertEqual(bars, [])
+        self.assertIn("No percentage: baseline is zero.", html)
+        self.assertIn("with divorce: mean 50.0; range 40–60", html)
+        self.assertIn("without divorce: mean 0; range 0–0", html)
+
+    def assert_invalid_summary_without_writes(self, data):
+        with self.assertRaises(ValueError):
+            cards.validate_summary(data)
+        self.write("evals/results/summary.json", data)
+        with self.assertRaises(ValueError):
+            cards.build(self.root)
+        self.assertFalse(self.output.exists())
+
+    def test_invalid_summary_metadata(self):
         for key, value in (("date", "invalid"), ("model", ""), ("cases", 0), ("runs_per_case", True)):
             with self.subTest(field=key):
                 data = self.fixture()
                 data[key] = value
-                with self.assertRaises(ValueError):
-                    cards.validate_summary(data)
-        for invalid in (-1, "3", False):
+                self.assert_invalid_summary_without_writes(data)
+
+    def test_missing_runs_is_rejected_before_writing(self):
+        data = self.fixture()
+        del data["arms"]["with"]["html_lines"]["runs"]
+        self.assert_invalid_summary_without_writes(data)
+
+    def test_inconsistent_min_is_rejected_before_writing(self):
+        data = self.fixture()
+        data["arms"]["with"]["html_lines"]["min"] -= 1
+        self.assert_invalid_summary_without_writes(data)
+
+    def test_nu_pages_exceeding_pages_is_rejected_before_writing(self):
+        data = self.fixture()
+        data["arms"]["with"]["pages_with_nu_errors"] = data["arms"]["with"]["pages"] + 1
+        self.assert_invalid_summary_without_writes(data)
+
+    def test_noninteger_is_rejected_before_writing(self):
+        for invalid in (1.5, "3", False):
+            with self.subTest(value=invalid):
+                data = self.fixture()
+                data["arms"]["with"]["html_lines"]["runs"][0] = invalid
+                self.assert_invalid_summary_without_writes(data)
+
+    def test_invalid_statistics_and_page_counts_in_either_arm(self):
+        for arm in ("with", "without"):
+            for metric, _ in cards.METRICS:
+                for key, invalid in (("runs", []), ("runs", [-1]), ("runs", None),
+                                     ("min", False), ("max", 999), ("max", 1.5),
+                                     ("mean", -1), ("mean", True), ("mean", "3"),
+                                     ("mean", float("nan")), ("mean", float("inf"))):
+                    with self.subTest(arm=arm, metric=metric, field=key, value=invalid):
+                        data = self.fixture()
+                        data["arms"][arm][metric][key] = invalid
+                        self.assert_invalid_summary_without_writes(data)
+            for key in ("pages", "pages_with_nu_errors", "pages_with_axe_violations"):
+                for invalid in (-1, False, 1.5, "3"):
+                    with self.subTest(arm=arm, field=key, value=invalid):
+                        data = self.fixture()
+                        data["arms"][arm][key] = invalid
+                        self.assert_invalid_summary_without_writes(data)
             data = self.fixture()
-            data["arms"]["with"]["gate_pass"] = invalid
-            with self.assertRaises(ValueError):
-                cards.validate_summary(data)
+            data["arms"][arm]["pages_with_axe_violations"] = data["arms"][arm]["pages"] + 1
+            self.assert_invalid_summary_without_writes(data)
+
+    def test_invalid_summary_preserves_existing_cards(self):
+        self.write("evals/results/summary.json", self.fixture())
+        self.run_builder()
+        before = {path.name: path.read_bytes() for path in self.output.glob("*.html")}
         self.write("evals/results/summary.json", {})
         result = subprocess.run([sys.executable, str(SCRIPT), "--root", str(self.root)], capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("error:", result.stderr)
         self.assertNotIn("Traceback", result.stderr)
-        self.assertFalse(self.output.exists())
+        self.assertEqual(before, {path.name: path.read_bytes() for path in self.output.glob("*.html")})
 
     def test_palette_text_contrast(self):
         self.assertTrue(cards.CSS.lstrip().startswith(":root {"))

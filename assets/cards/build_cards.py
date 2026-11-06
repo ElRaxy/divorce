@@ -11,10 +11,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 NEWLINE = "\n"
 METRICS = (
-    ("gate_pass", "Gate passes", "higher is better"),
-    ("nu_errors", "Nu errors", "lower is better"),
-    ("axe_violations", "axe violations", "lower is better"),
-    ("native_choice", "Native choices", "higher is better"),
+    ("html_lines", "HTML"),
+    ("js_lines", "JS"),
+    ("aria_attributes", "ARIA"),
+    ("axe_violation_nodes", "axe"),
+    ("nu_errors", "Nu errors"),
 )
 IMPACTS = ("minor", "moderate", "serious", "critical")
 MASCOT = '<img class="mascot" src="../../mascot.png" width="160" height="160" alt="A weary div character in round glasses signs separation papers with a red pen.">'
@@ -253,10 +254,26 @@ def validate_summary(data):
             if type(data[key]) is not int or data[key] < 1:
                 raise ValueError(f"{key} must be a positive integer")
         for arm in ("with", "without"):
-            for metric, _, _ in METRICS:
-                value = data["arms"][arm][metric]
-                if type(value) is not int or value < 0:
-                    raise ValueError(f"arms.{arm}.{metric} must be a non-negative integer")
+            values = data["arms"][arm]
+            for metric, _ in METRICS:
+                value = values[metric]
+                if not isinstance(value, dict):
+                    raise ValueError(f"arms.{arm}.{metric} must be an object")
+                runs = value["runs"]
+                if (not isinstance(runs, list) or not runs
+                        or any(type(run) is not int or run < 0 for run in runs)):
+                    raise ValueError(f"arms.{arm}.{metric}.runs must contain non-negative integers")
+                low, mean, high = value["min"], value["mean"], value["max"]
+                if (type(low) is not int or type(high) is not int
+                        or type(mean) not in (int, float)
+                        or not 0 <= low <= mean <= high
+                        or low != min(runs) or high != max(runs)):
+                    raise ValueError(f"arms.{arm}.{metric} has inconsistent statistics")
+            for key in ("pages", "pages_with_nu_errors", "pages_with_axe_violations"):
+                if type(values[key]) is not int or values[key] < 0:
+                    raise ValueError(f"arms.{arm}.{key} must be a non-negative integer")
+                if key != "pages" and values[key] > values["pages"]:
+                    raise ValueError(f"arms.{arm}.{key} exceeds pages")
     except (KeyError, TypeError) as error:
         raise ValueError(f"invalid or missing summary field: {error}") from error
     return data
@@ -264,22 +281,38 @@ def validate_summary(data):
 
 def numbers_card(data, theme=None):
     groups = []
-    for metric, label, direction in METRICS:
-        maximum = max(data["arms"][arm][metric] for arm in ("with", "without"))
+    for metric, label in METRICS:
+        if metric == "nu_errors":
+            continue
+        baseline = data["arms"]["without"][metric]["mean"]
+        current = data["arms"]["with"][metric]["mean"]
+        if baseline:
+            change = round((current / baseline - 1) * 100)
+            percent = f"{change:+d}".replace("-", "−") if change else "0"
+            delta = f'<p class="display" style="font-size: 56px">{percent}\u2009%</p>'
+        else:
+            delta = '<p class="muted">No percentage: baseline is zero.</p>'
         bars = []
         for arm in ("without", "with"):
-            value = data["arms"][arm][metric]
-            width = 100 * value / (maximum or 1)
-            bars.append(f'''<div class="bar-row"><span>{arm}</span>
-<div class="track" aria-hidden="true"><span class="bar {arm}" style="width: {width:.2f}%"></span></div>
-<span class="value">{value}</span></div>''')
+            stats = data["arms"][arm][metric]
+            if baseline:
+                width = 100 * stats["mean"] / baseline
+                track_style = (f' style="width: {100 * baseline / current:.2f}%; overflow: visible"'
+                               if current > baseline else "")
+                bars.append(f'''<div class="bar-row" style="grid-template-columns: 126px 1fr 110px"><span>{arm} divorce</span>
+<div class="track"{track_style} aria-hidden="true"><span class="bar {arm}" style="width: {width:.2f}%"></span></div>
+<span class="value">{width:.2f}\u2009%</span></div>''')
+            bars.append(f'<p class="direction">{arm} divorce: mean {stats["mean"]}; range {stats["min"]}–{stats["max"]}</p>')
+        scale = '<p class="direction">Share of baseline</p>' if baseline else ""
         groups.append(f'''<section class="metric" id="{metric}"><h2>{label}</h2>
-<p class="direction">{direction} · scale 0–{maximum}</p>{NEWLINE.join(bars)}</section>''')
+{delta}{scale}{NEWLINE.join(bars)}</section>''')
+    with_arm, without_arm = data["arms"]["with"], data["arms"]["without"]
     body = f'''<p class="label">With / without the skill</p>
-<h1>Same tasks.<br>The measured difference.</h1>
+<h1>Same agent, same {data["cases"]} tasks, {data["runs_per_case"]} runs each.</h1>
 {NEWLINE.join(groups)}
-<footer>Model: {escape(data["model"])}<br>{escape(data["date"])} · {data["runs_per_case"]} runs per case · {data["cases"]} cases per arm.<br>
-Raw counts. Each metric has its own scale, shared by both arms.</footer>'''
+<p style="margin-top: 28px">Nu errors: {with_arm["pages_with_nu_errors"]} of {with_arm["pages"]} pages with divorce, {without_arm["pages_with_nu_errors"]} of {without_arm["pages"]} without</p>
+<footer>{data["cases"]} synthetic tasks, one model, one machine; lines measure size, not quality.<br>
+Model: {escape(data["model"])}<br>{escape(data["date"])}</footer>'''
     return document("divorce — measured numbers", body, "benchmark", theme)
 
 

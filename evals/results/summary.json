@@ -1,0 +1,139 @@
+{
+ "date": "2026-11-06",
+ "model": "Claude Code 2.1.318, account default model",
+ "runs_per_case": 5,
+ "cases": 8,
+ "method": "claude plugin eval --ablation with-without; each index.html checked with Nu (vnu 26.11.4) and axe-core 4.10.2 in Chrome 156; totals over the 8 cases per run",
+ "arms": {
+  "with": {
+   "html_lines": {
+    "mean": 855.4,
+    "min": 816,
+    "max": 896,
+    "runs": [
+     896,
+     816,
+     876,
+     866,
+     823
+    ]
+   },
+   "js_lines": {
+    "mean": 198.4,
+    "min": 186,
+    "max": 218,
+    "runs": [
+     218,
+     186,
+     198,
+     190,
+     200
+    ]
+   },
+   "aria_attributes": {
+    "mean": 28.6,
+    "min": 23,
+    "max": 34,
+    "runs": [
+     28,
+     33,
+     34,
+     23,
+     25
+    ]
+   },
+   "axe_violation_nodes": {
+    "mean": 2,
+    "min": 0,
+    "max": 5,
+    "runs": [
+     1,
+     0,
+     0,
+     5,
+     4
+    ]
+   },
+   "nu_errors": {
+    "mean": 0.6,
+    "min": 0,
+    "max": 1,
+    "runs": [
+     0,
+     1,
+     0,
+     1,
+     1
+    ]
+   },
+   "pages_with_nu_errors": 3,
+   "pages_with_axe_violations": 3,
+   "pages": 40
+  },
+  "without": {
+   "html_lines": {
+    "mean": 1202,
+    "min": 1132,
+    "max": 1314,
+    "runs": [
+     1224,
+     1188,
+     1314,
+     1152,
+     1132
+    ]
+   },
+   "js_lines": {
+    "mean": 334.8,
+    "min": 303,
+    "max": 362,
+    "runs": [
+     339,
+     360,
+     362,
+     303,
+     310
+    ]
+   },
+   "aria_attributes": {
+    "mean": 42.4,
+    "min": 40,
+    "max": 45,
+    "runs": [
+     40,
+     43,
+     45,
+     40,
+     44
+    ]
+   },
+   "axe_violation_nodes": {
+    "mean": 8.2,
+    "min": 8,
+    "max": 9,
+    "runs": [
+     8,
+     8,
+     9,
+     8,
+     8
+    ]
+   },
+   "nu_errors": {
+    "mean": 0,
+    "min": 0,
+    "max": 0,
+    "runs": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "pages_with_nu_errors": 0,
+   "pages_with_axe_violations": 11,
+   "pages": 40
+  }
+ }
+}

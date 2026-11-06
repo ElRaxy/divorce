@@ -38,6 +38,8 @@ Never trimmed for minimalism: accessibility, input validation at trust boundarie
 | collects input | native controls inside `<form>`, each with a `<label>` | clickable rows that ignore Enter/Space/disabled |
 
 - ARIA refines native semantics; it does not rebuild them on a `div`. No ARIA is better than wrong ARIA.
+- A button with `popovertarget` must not carry `aria-expanded`: the browser already exposes its state ([spec](https://w3c.github.io/html-aria/#el-button)).
+- Do not put `aria-label` on a `<div>` or `<span>` without a role: give it the appropriate role or use the native element with a visible name ([spec](https://w3c.github.io/html-aria/#docconformance-naming)).
 - Style state with native pseudo-classes (`:disabled`, `:checked`, `:open`, `:invalid`, `:focus-visible`) before a
   parallel `data-*` state system.
 - A library primitive must still render the real element in the DOM: check it.

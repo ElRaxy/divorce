@@ -19,7 +19,12 @@ Works with Claude Code and Codex · [other agents →](#install)
 
 ## Numbers
 
-<!-- With/without results pending. Add the Numbers card only after measured results exist. -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/numbers-dark.png">
+  <img src="assets/cards/numbers-light.png" width="880" alt="HTML: −29 %; JS: −41 %; ARIA: −33 %; axe violation nodes: −76 %. Nu errors: 3 of 40 pages with divorce, 0 of 40 without.">
+</picture>
+
+Measured on synthetic tasks under the same run conditions; see the [with/without evaluation](evals/README.md) for the method and limits.
 
 ## The evidence
 
@@ -123,7 +128,7 @@ This is not a component library, CSS validator, JavaScript correctness check, pe
 <details>
 <summary>Where are the with/without results?</summary>
 
-The [with/without suite](evals/README.md) compares identical tasks under the same model and run conditions. Results are not published; its model grading is separate from the deterministic gate. No figures are entered into the record until measured.
+The [Numbers card](#numbers) shows the measured with/without results, including the Nu errors. See the [evaluation](evals/README.md) for the method and limits; model grading is separate from the deterministic gate.
 
 ```sh
 claude plugin eval . --ablation with-without --allow-tools Write Edit Bash --no-publish --keep-temp
@@ -142,6 +147,15 @@ claude plugin eval . --ablation with-without --allow-tools Write Edit Bash --no-
 
 [Full FAQ](docs/faq.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 </details>
+
+## Star History
+
+<a href="https://star-history.com/#ElRaxy/divorce&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ElRaxy/divorce&type=Date&theme=dark">
+    <img src="https://api.star-history.com/svg?repos=ElRaxy/divorce&type=Date" alt="Star history of ElRaxy/divorce">
+  </picture>
+</a>
 
 ## License
 
