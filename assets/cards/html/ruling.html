@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>divorce — the ruling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+  --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { width: 880px; margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.5 'JetBrains Mono', monospace; }
+main { padding: 48px; }
+h1, h2, .display, .wordmark { font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800; line-height: 1; letter-spacing: -.045em; }
+h1, h2, p { margin: 0; }
+h1 { font-size: 60px; }
+h2 { font-size: 24px; line-height: 1.1; }
+code, pre { font-family: 'JetBrains Mono', monospace; }
+.label { color: var(--muted); text-transform: uppercase; font-size: 12px;
+  letter-spacing: .14em; }
+.muted, footer { color: var(--muted); }
+.red { color: var(--red); }
+.green { color: var(--green); }
+.brand { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
+.mascot { display: block; object-fit: contain; flex: none; }
+.wordmark { font-size: 118px; }
+.hook { font: 800 42px/1.1 'Bricolage Grotesque', sans-serif; letter-spacing: -.035em;
+  max-width: 740px; margin: 0 0 32px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sample { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: 24px; }
+.sample h2 { margin: 14px 0 20px; font-size: 28px; letter-spacing: -.045em; }
+.sample h2 code { font-size: inherit; }
+.facts { margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.facts li + li { margin-top: 5px; }
+.facts .measured { color: var(--muted); margin-top: 16px; font-size: 12px; }
+footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
+.social { width: 1280px; height: 640px; }
+.social main { height: 640px; padding: 40px 48px; display: grid;
+  grid-template-columns: 1.12fr 1fr; gap: 40px; align-items: center; }
+.social .brand { gap: 16px; margin-bottom: 30px; }
+.social .mascot { width: 120px; height: 120px; }
+.social .wordmark { font-size: 88px; }
+.social .hook { font-size: 44px; margin: 0; }
+.social .pair { gap: 12px; grid-template-columns: 1fr; }
+.social .sample { padding: 18px 24px; }
+.social .sample h2 { margin: 8px 0 12px; }
+.social .facts { font-size: 13px; }
+.social .facts .measured { margin-top: 8px; }
+.social footer { margin-top: 20px; }
+.case-head { margin: 24px 0 36px; }
+.case-head h1 { font-size: 152px; white-space: nowrap; }
+.case-head p { font: 700 34px/1.1 'Bricolage Grotesque', sans-serif;
+  margin-top: 12px; letter-spacing: -.035em; }
+.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.case { min-height: 206px; padding: 20px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 14px; }
+.case h2 { min-height: 54px; font-size: 23px; margin: 18px 0; }
+.case .catch { font-size: 13px; }
+.case .impact { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.case .index { font-size: 12px; color: var(--muted); }
+.terminal { border: 1px solid var(--line); border-radius: 18px;
+  background: var(--card); margin-top: 32px; padding: 28px; }
+.terminal .command { color: var(--text); font-size: 13px; white-space: pre-wrap;
+  overflow-wrap: anywhere; }
+.terminal pre { font-size: 14px; line-height: 1.65; white-space: pre-wrap;
+  overflow-wrap: anywhere; margin: 24px 0 0; }
+.status { display: flex; justify-content: space-between; align-items: end;
+  border-top: 1px solid var(--line); margin-top: 24px; padding-top: 24px; }
+.status .display { font-size: 110px; }
+.status code { font-size: 24px; font-weight: 700; padding-bottom: 6px; }
+.benchmark h1 { margin: 20px 0 36px; font-size: 56px; }
+.metric { margin-top: 28px; }
+.metric h2 { margin-bottom: 6px; }
+.metric .direction { color: var(--muted); font-size: 11px; margin-bottom: 14px; }
+.bar-row { display: grid; grid-template-columns: 90px 1fr 64px;
+  align-items: center; gap: 12px; margin-top: 8px; font-size: 12px; }
+.track { height: 24px; background: var(--card); border-radius: 4px; overflow: hidden; }
+.bar { display: block; height: 100%; background: var(--muted); }
+.bar.with { background: var(--green); }
+.value { font: 800 24px/1 'Bricolage Grotesque', sans-serif; text-align: right; }
+</style>
+</head>
+<body class="ruling">
+<main>
+<p class="label">Recorded output / HTML only</p>
+<h1>The ruling.</h1>
+<section class="terminal" aria-label="Recorded gate result">
+<p class="command"><code>$ python3 skills/divorce/scripts/gate.py html examples/image-alt/before.html</code></p>
+<pre>{
+  &quot;html&quot;: [
+    {
+      &quot;errors&quot;: 1,
+      &quot;input&quot;: &quot;examples/image-alt/before.html&quot;,
+      &quot;warnings&quot;: 0
+    }
+  ],
+  &quot;reasons&quot;: [
+    &quot;html_errors&quot;
+  ],
+  &quot;verdict&quot;: &quot;fail&quot;
+}</pre>
+<div class="status"><p class="display red">FAIL</p>
+<code>exit=1</code></div>
+</section>
+<footer>Real gate output. Message details omitted.<br>
+Nu checks HTML. An HTML-only result says nothing about axe.</footer>
+</main>
+</body>
+</html>

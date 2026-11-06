@@ -1,12 +1,14 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/hero.svg">
-    <img src="assets/hero.svg" width="880" alt="divorce. DIV SOUP DISMISSED. Validators catch 4 of these 9; the other 5 look fine to every tool. Before: a div with a click handler is valid HTML, skipped by Tab and has no button role. After: a native button is reached by Tab and has the button role. Nu and axe measured.">
-  </picture>
+  <img src="assets/mascot.png" width="220" alt="A weary div with glasses signing separation papers with a red pen.">
 </p>
 
-**End your agent's toxic relationship with div soup. Write native HTML. Let code deliver the verdict.**
+<h1 align="center">divorce</h1>
+
+<p align="center"><em>End your agent's toxic relationship with div soup. Write native HTML. Let code deliver the verdict.</em></p>
+
+<p align="center">
+  <img src="assets/cards/hero.png" width="880" alt="Validators catch 4 of these 9. The other 5 look fine to every tool. A clickable div passes Nu and axe but has no button role. A native button brings keyboard behavior.">
+</p>
 
 ```text
 /plugin marketplace add ElRaxy/divorce
@@ -15,78 +17,74 @@
 
 Works with Claude Code and Codex · [other agents →](#install)
 
-## Grounds
+## Numbers
 
-The petition: too many divs doing a button's job. A `<div onclick>` gets a `role="button" tabindex="0"` patch. A fake select grows out of divs. Then come h1→h3 jumps, inputs without a label, positive tabindex, and an `<a>` without href acting as a button.
-
-divorce is an agent skill that asks what an element does before adding code. Native HTML gets custody of native behavior.
-
-- **The ladder:** omit, reuse, native HTML, CSS, an installed dependency. Only then the minimum JavaScript, plus a small test for logic.
-- **The gate:** Nu checks served HTML, axe checks the rendered DOM, and code issues the verdict.
-- **`not_measured`:** never counts as a pass.
+<!-- With/without results pending. Add the Numbers card only after measured results exist. -->
 
 ## The evidence
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/cases-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/cases.svg">
-    <img src="assets/cases.svg" width="880" alt="4 of 9 caught by tools. Nu and axe measured. Input label: axe, critical. Heading order: Nu and axe, moderate. Image alt: Nu and axe, critical. Positive tabindex: axe, serious. Div button, button link, custom modal, custom disclosure and div list: no tool; the ladder.">
-  </picture>
+  <img src="assets/cards/cases.png" width="880" alt="5 of 9 invisible to every tool. Nu and axe catch heading order and missing image alt; axe catches missing labels and positive tabindex. The other cases need the ladder and manual checks.">
 </p>
 
-[The case file](examples/manifest.json) and [axe measurements](examples/axe-measured.json): axe-core 4.10.2 in Chrome 156, across all eighteen HTML files. A finding is evidence; its impact and the gate policy determine the ruling.
+[Case file](examples/manifest.json) · [Measured axe results](examples/axe-measured.json). A finding is evidence; its impact and the gate policy determine the ruling.
 
-## Before a single tag
+## How it works
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/ladder-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/ladder.svg">
-    <img src="assets/ladder.svg" width="880" alt="Stop at the first rung that holds. Six steps: 1. Does it need to exist? If not, don't write it. 2. Does the project already have it? A house component beats a native widget, and both beat a new one. 3. Is there a native element for it? (table below) 4. Can CSS do it without JavaScript? 5. Is there a dependency already installed that covers it? 6. Only then: the smallest code that works, plus a small test if it has logic. Accessibility, boundary validation and data-loss handling stay.">
-  </picture>
-</p>
+Read the code. Stop at the first rung that holds.
 
-Read the code, then stop at the first rung that holds. The [skill and its element table](skills/divorce/SKILL.md#2-pick-the-element-by-what-it-does) set the terms; accessibility, boundary validation and data-loss handling remain protected.
+1. Does it need to exist? If not, omit it.
+2. Does the project already have it? Reuse it.
+3. Is there a native HTML element for it? Use it.
+4. Can CSS do it without JavaScript?
+5. Does an installed dependency cover it?
+6. Only then: the smallest code that works, plus a small test for logic.
+
+The [skill and element table](skills/divorce/SKILL.md#2-pick-the-element-by-what-it-does) set the terms. Accessibility, boundary validation and data-loss handling stay.
 
 ## The ruling
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/verdict-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/verdict.svg">
-    <img src="assets/verdict.svg" width="880" alt="Terminal record: python3 skills/divorce/scripts/gate.py html examples/image-alt/before.html. Abbreviated real Nu output: 1 error, 0 warnings; message details omitted. Verdict fail, reason html_errors, exit 1. This is an HTML-only ruling.">
-  </picture>
+  <img src="assets/cards/ruling.png" width="880" alt="Real HTML-only gate output: missing image alt, 1 Nu error, 0 warnings. FAIL, reason html_errors, exit=1.">
 </p>
 
-[Recorded output](assets/data/gate-real.json), abbreviated on the card. Nu checks served HTML; axe checks the rendered DOM. Code issues the verdict. Missing or unusable evidence means `not_measured`, never a pass.
+These cards are HTML. They pass divorce's own gate.
 
-## The settlement
+[Recorded output](assets/data/gate-real.json), abbreviated on the card. Nu checks served HTML; axe checks the rendered DOM. Code issues the verdict. Missing evidence means `not_measured`, never a pass.
 
-Keep the smallest solution that meets the terms. Run both checks on the same page and state; inspect keyboard, focus, interactions and visuals separately. A passing gate closes those checks, not the whole case.
+## Install
 
-## Fine print
+Choose one route. Run shell commands from an existing checkout's root. For the Claude Code plugin, use the commands at the top; names come from the [plugin](.claude-plugin/plugin.json) and [marketplace](.claude-plugin/marketplace.json) manifests. Validator setup is separate.
+
+| Route | Command | Destination or effect |
+| --- | --- | --- |
+| Claude, user-wide | `sh install.sh --claude` | Copies the entire skill and scripts to `~/.claude/skills/divorce/`, recording the installation. |
+| Claude, one project | `sh install.sh --claude --project DIR` | Copies to `DIR/.claude/skills/divorce/`. |
+| Codex | `sh install.sh --codex` | Copies to `~/.codex/skills/divorce/`. `--project` is Claude-only. |
+| Other agents | `sh install.sh --agents-md AGENTS.md` | Appends or replaces a marked block in the instruction file your agent reads. |
+
+For a manual copy, copy the entire `skills/divorce/` directory, including scripts, to `~/.claude/skills/divorce/`. Instruction blocks point to the gate's absolute path in the checkout: keep the checkout in place.
+
+The standalone installer does not register a plugin, install validators or add an automatic gate hook. Copies do not update themselves. See [update, dry-run and removal behavior](docs/faq.md#does-installing-it-make-the-gate-run-itself).
 
 <details>
-<summary>With/without: evidence still pending</summary>
+<summary>Requirements and validator setup</summary>
 
-The [with/without suite](evals/README.md) compares identical tasks under the same model and run conditions. Results are not published; its model grading is separate from the deterministic gate. No figures are entered into the record until measured.
-
-```sh
-claude plugin eval . --ablation with-without --allow-tools Write Edit Bash --no-publish --keep-temp
-```
-</details>
-
-<details>
-<summary>Commands: prepare the evidence</summary>
-
-Shell commands run from the checkout root. Install Nu separately:
+- Python 3.9+ for the standalone installer; Python 3 for the gate.
+- A shell for the installation scripts.
+- Nu HTML Checker: `VNU`, `vnu` on `PATH`, or `VNU_JAR` with Java.
+- For Nu setup: network access, `curl`, and `shasum` or `sha1sum`. Native macOS/Linux archives also need `unzip`; `--jar` needs Java. The installer verifies the downloaded SHA-1 and checks the validator's version command.
+- A rendered browser page and a way to evaluate the axe snippet. It loads axe-core 4.10.2 from a CDN unless that version is already present. Script loading must be allowed.
 
 ```sh
 sh skills/divorce/scripts/install-vnu.sh
 ```
 
 Set `VNU` to the binary path it prints, or put `vnu` on `PATH`. For a JAR installation, use `--jar` and set `VNU_JAR` to the printed JAR path; Java must be available.
+</details>
+
+<details>
+<summary>Commands: prepare the evidence</summary>
 
 With the served version of `examples/div-button/after.html` already loaded in your verification browser session:
 
@@ -102,8 +100,10 @@ For your project, replace the HTML input with its served URL or built HTML file.
 See [all commands and flags](docs/how-it-works.md#commands).
 </details>
 
+## FAQ
+
 <details>
-<summary>Exit codes and verdict: the fine print</summary>
+<summary>What does the verdict cover?</summary>
 
 | Exit | JSON verdict | Meaning |
 | --- | --- | --- |
@@ -121,34 +121,17 @@ This is not a component library, CSS validator, JavaScript correctness check, pe
 </details>
 
 <details>
-<summary>Requirements</summary>
+<summary>Where are the with/without results?</summary>
 
-- Python 3.9+ for the standalone installer; Python 3 for the gate.
-- A shell for the installation scripts.
-- Nu HTML Checker: `VNU`, `vnu` on `PATH`, or `VNU_JAR` with Java.
-- For Nu setup: network access, `curl`, and `shasum` or `sha1sum`. Native macOS/Linux archives also need `unzip`; `--jar` needs Java. The installer verifies the downloaded SHA-1 and checks the validator's version command.
-- A rendered browser page and a way to evaluate the axe snippet. It loads axe-core 4.10.2 from a CDN unless that version is already present. Script loading must be allowed.
-</details>
+The [with/without suite](evals/README.md) compares identical tasks under the same model and run conditions. Results are not published; its model grading is separate from the deterministic gate. No figures are entered into the record until measured.
 
-<details id="install">
-<summary>Install: Codex, standalone Claude and other agents</summary>
-
-Choose one route. Run shell commands from an existing checkout's root. For the Claude Code plugin, use the commands at the top; names come from the [plugin](.claude-plugin/plugin.json) and [marketplace](.claude-plugin/marketplace.json) manifests. Validator setup is separate.
-
-| Route | Command | Destination or effect |
-| --- | --- | --- |
-| Claude, user-wide | `sh install.sh --claude` | Copies the entire skill and scripts to `~/.claude/skills/divorce/`, recording the installation. |
-| Claude, one project | `sh install.sh --claude --project DIR` | Copies to `DIR/.claude/skills/divorce/`. |
-| Codex | `sh install.sh --codex` | Copies to `~/.codex/skills/divorce/`. `--project` is Claude-only. |
-| Other agents | `sh install.sh --agents-md AGENTS.md` | Appends or replaces a marked block in the instruction file your agent reads. |
-
-For a manual copy, copy the entire `skills/divorce/` directory, including scripts, to `~/.claude/skills/divorce/`. Instruction blocks point to the gate's absolute path in the checkout: keep the checkout in place.
-
-The standalone installer does not register a plugin, install validators or add an automatic gate hook. Copies do not update themselves. See [update, dry-run and removal behavior](docs/faq.md#does-installing-it-make-the-gate-run-itself).
+```sh
+claude plugin eval . --ablation with-without --allow-tools Write Edit Bash --no-publish --keep-temp
+```
 </details>
 
 <details>
-<summary>FAQ: terms of separation</summary>
+<summary>Frameworks, conventions and maintenance</summary>
 
 - [Framework support](docs/faq.md#can-react-vue-wordpresselementor-and-php-keep-the-house): check served HTML and the rendered DOM.
 - [Automated coverage](docs/faq.md#does-a-green-result-mean-wcag-and-i-are-married-forever): a passing gate is not full WCAG conformance.
@@ -160,16 +143,10 @@ The standalone installer does not register a plugin, install validators or add a
 [Full FAQ](docs/faq.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 </details>
 
-<details>
-<summary>Credits and license</summary>
+## License
 
-### Credits
+[MIT](LICENSE). Third-party components retain their own licenses as described in [NOTICE](NOTICE).
 
 A cousin of [ponytail](https://github.com/DietrichGebert/ponytail) (MIT), which removes code. divorce guides the code that remains toward the spec. The decision ladder is adapted from ponytail; semantic HTML and modern CSS guidance is adapted from [kemiljk/skills](https://github.com/kemiljk/skills) (MIT).
 
 Nu HTML Checker comes from validator/validator (MIT). axe-core is MPL-2.0. Neither validator is bundled here. See [NOTICE](NOTICE) for attribution and component details.
-
-### License
-
-[MIT](LICENSE). Third-party components retain their own licenses as described in [NOTICE](NOTICE).
-</details>
