@@ -1,0 +1,11 @@
+{
+  "name": "divorce",
+  "owner": { "name": "ElRaxy" },
+  "plugins": [
+    {
+      "name": "divorce",
+      "source": "./",
+      "description": "Native web standards and deterministic HTML and accessibility checks."
+    }
+  ]
+}

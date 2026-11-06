@@ -1,0 +1,7 @@
+# Local agent launcher artifacts; not published.
+*.result.json
+*.codex-result.json
+*.review.json
+*.review-opencode.json
+*.tests.log
+__pycache__/

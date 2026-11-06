@@ -1,0 +1,93 @@
+{
+  "cases": [
+    {
+      "id": "div-button",
+      "title": "Use a button for an action",
+      "spec": "https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. No axe rule is asserted: a clickable div without an interactive role is not reliably reported as a button failure."
+    },
+    {
+      "id": "button-link",
+      "title": "Use a link for navigation",
+      "spec": "https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. No axe rule is asserted: a named button used for navigation can pass automated accessibility checks."
+    },
+    {
+      "id": "custom-modal",
+      "title": "Use dialog for a modal task",
+      "spec": "https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. No axe rule is asserted: focus trapping, Escape and focus restoration require interaction checks. Native dialog supplies those behaviors."
+    },
+    {
+      "id": "custom-disclosure",
+      "title": "Use details for a disclosure",
+      "spec": "https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. No axe rule is asserted: omitted disclosure semantics on plain div elements are not reliably detected."
+    },
+    {
+      "id": "input-label",
+      "title": "Associate a label with its control",
+      "spec": "https://html.spec.whatwg.org/multipage/forms.html#the-label-element",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [
+        "label"
+      ],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. The label rule occurrence is unverified: axe has not been run. Missing a label is not itself a Nu HTML Checker syntax error."
+    },
+    {
+      "id": "heading-order",
+      "title": "Keep heading levels in order",
+      "spec": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html#intent",
+      "before_html": "fail",
+      "after_html": "pass",
+      "axe_rules": [
+        "heading-order"
+      ],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. The heading-order rule occurrence is unverified: axe has not been run. Nu HTML Checker reports the skipped level (h1 to h3) as an error."
+    },
+    {
+      "id": "image-alt",
+      "title": "Provide an image text alternative",
+      "spec": "https://html.spec.whatwg.org/multipage/images.html#alt",
+      "before_html": "fail",
+      "after_html": "pass",
+      "axe_rules": [
+        "image-alt"
+      ],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. Expected Nu error: an img element must have an alt attribute, except under certain conditions; this image has no applicable exception. The image-alt rule occurrence is unverified: axe has not been run."
+    },
+    {
+      "id": "positive-tabindex",
+      "title": "Follow document order for focus",
+      "spec": "https://html.spec.whatwg.org/multipage/interaction.html#the-tabindex-attribute",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [
+        "tabindex"
+      ],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. The tabindex rule occurrence is unverified: axe has not been run. A positive tabindex is valid HTML; removing it restores document order."
+    },
+    {
+      "id": "div-list",
+      "title": "Represent a list with ul and li",
+      "spec": "https://html.spec.whatwg.org/multipage/grouping-content.html#the-ul-element",
+      "before_html": "pass",
+      "after_html": "pass",
+      "axe_rules": [],
+      "note": "HTML expectations measured with Nu HTML Checker 26.11.4 on 2026-11-06. No axe rule is asserted: list and listitem validate existing list markup; they do not infer a missing list from plain div elements."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "divorce",
+  "version": "0.1.0",
+  "description": "Minimal, native HTML, CSS, JavaScript and ARIA guided by web standards, with a deterministic Nu HTML Checker and axe-core gate.",
+  "author": { "name": "ElRaxy" },
+  "homepage": "https://github.com/ElRaxy/divorce",
+  "repository": "https://github.com/ElRaxy/divorce",
+  "license": "MIT",
+  "keywords": ["html", "css", "javascript", "aria", "accessibility", "wcag", "web-standards"]
+}

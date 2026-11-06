@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Use dialog for a modal task</title>
+</head>
+<body>
+<main>
+  <h1>Notification settings</h1>
+  <button type="button" onclick="document.getElementById('notice').showModal()">Show notice</button>
+  <dialog id="notice" aria-labelledby="notice-title">
+    <h2 id="notice-title">Notice</h2>
+    <p>Your settings are saved.</p>
+    <form method="dialog"><button>Close</button></form>
+  </dialog>
+</main>
+</body>
+</html>

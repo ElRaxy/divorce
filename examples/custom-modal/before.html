@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Use dialog for a modal task</title>
+</head>
+<body>
+<main>
+  <h1>Notification settings</h1>
+  <button type="button" onclick="document.getElementById('notice').hidden = false; document.getElementById('close').focus()">Show notice</button>
+  <div id="notice" hidden style="position: fixed; inset: 20%; padding: 1rem; background: white; border: 1px solid">
+    <h2>Notice</h2>
+    <p>Your settings are saved.</p>
+    <button id="close" type="button" onclick="document.getElementById('notice').hidden = true">Close</button>
+  </div>
+</main>
+</body>
+</html>

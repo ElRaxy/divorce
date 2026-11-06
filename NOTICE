@@ -1,0 +1,23 @@
+divorce
+Copyright (c) 2026 divorce contributors
+Licensed under the MIT License; see LICENSE.
+
+Acknowledgments and third-party components:
+
+- DietrichGebert/ponytail (MIT)
+  https://github.com/DietrichGebert/ponytail
+  The minimal-code decision ladder is adapted from this project.
+
+- kemiljk/skills (MIT)
+  https://github.com/kemiljk/skills
+  The semantic HTML and modern CSS guidance is adapted from this project.
+
+- validator/validator (MIT)
+  https://github.com/validator/validator
+  Nu HTML Checker is installed separately from its official releases.
+  Its binaries are not bundled with divorce.
+
+- dequelabs/axe-core (MPL-2.0)
+  https://github.com/dequelabs/axe-core
+  axe-core is loaded from a CDN at runtime and is not redistributed here.
+  Its license is available from the upstream project.
