@@ -19,7 +19,19 @@ METRICS = (
 )
 IMPACTS = ("minor", "moderate", "serious", "critical")
 MASCOT = '<img class="mascot" src="../../mascot.png" width="160" height="160" alt="A weary div character in round glasses signs separation papers with a red pen.">'
-CSS = """:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+CSS = """@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
   --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
@@ -52,7 +64,7 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
 .facts .measured { color: var(--muted); margin-top: 16px; font-size: 12px; }
 footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social { width: 1280px; height: 640px; }
-.social main { height: 640px; padding: 40px 48px; display: grid;
+.social main { height: 640px; padding: 40px 48px; display: grid; position: relative;
   grid-template-columns: 1.12fr 1fr; gap: 40px; align-items: center; }
 .social .brand { gap: 16px; margin-bottom: 30px; }
 .social .mascot { width: 120px; height: 120px; }
@@ -64,6 +76,8 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social .facts { font-size: 13px; }
 .social .facts .measured { margin-top: 8px; }
 .social footer { margin-top: 20px; }
+.social .benchmark-summary { position: absolute; bottom: 22px; left: 48px;
+  color: var(--muted); font-size: 12px; }
 .cases main { padding: 32px; }
 .cases .label { height: 18px; line-height: 18px; }
 .case-head { display: flex; align-items: center; gap: 24px;
@@ -101,16 +115,27 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
   border-top: 1px solid var(--line); margin-top: 24px; padding-top: 24px; }
 .status .display { font-size: 110px; }
 .status code { font-size: 24px; font-weight: 700; padding-bottom: 6px; }
-.benchmark h1 { margin: 20px 0 36px; font-size: 56px; }
-.metric { margin-top: 28px; }
-.metric h2 { margin-bottom: 6px; }
-.metric .direction { color: var(--muted); font-size: 11px; margin-bottom: 14px; }
-.bar-row { display: grid; grid-template-columns: 90px 1fr 64px;
-  align-items: center; gap: 12px; margin-top: 8px; font-size: 12px; }
-.track { height: 24px; background: var(--card); border-radius: 4px; overflow: hidden; }
+.benchmark main { padding: 28px; }
+.benchmark .label { height: 18px; line-height: 18px; }
+.benchmark h1 { height: 40px; margin: 12px 0 20px; font-size: 32px; line-height: 40px; }
+.metric { height: 80px; display: grid; grid-template-columns: 90px minmax(0, 1fr) 140px;
+  grid-template-rows: 40px 28px; gap: 4px 16px; padding: 4px 0;
+  border-bottom: 1px solid var(--line); }
+.metric h2 { grid-column: 1; grid-row: 1; align-self: center; font-size: 24px; }
+.metric-bars { grid-column: 2; grid-row: 1; }
+.metric .display { grid-column: 3; grid-row: 1; align-self: center;
+  text-align: right; font-size: 48px; white-space: nowrap; }
+.metric .unavailable { grid-column: 3; grid-row: 1; font-size: 10px; line-height: 13px; }
+.metric-ranges { grid-column: 2 / 4; grid-row: 2; }
+.metric .direction { color: var(--muted); font-size: 10px; line-height: 14px; white-space: nowrap; }
+.bar-row { display: grid; grid-template-columns: 110px 1fr 42px;
+  align-items: center; gap: 8px; height: 20px; font-size: 11px; }
+.track { height: 12px; background: var(--card); border-radius: 4px; overflow: hidden; }
 .bar { display: block; height: 100%; background: var(--muted); }
 .bar.with { background: var(--green); }
-.value { font: 800 24px/1 'Bricolage Grotesque', sans-serif; text-align: right; }
+.value { font: 700 12px/20px 'JetBrains Mono', monospace; text-align: right; }
+.benchmark .nu-line { margin-top: 14px; height: 18px; font-size: 12px; line-height: 18px; }
+.benchmark footer { margin-top: 14px; height: 48px; line-height: 16px; }
 """
 
 
@@ -144,9 +169,6 @@ def document(title, body, kind="", theme=None):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>{CSS}{themed_css}</style>
 </head>
 <body class="{kind}">
@@ -175,7 +197,7 @@ def comparison(case, measured):
     return '<div class="pair">' + "\n".join(panels) + '</div>'
 
 
-def hero(rows, caught, missed, measured, social=False, theme=None):
+def hero(rows, caught, missed, measured, social=False, theme=None, summary=None):
     hook = (f"Validators catch {caught} of these {len(rows)}. "
             f"The other {missed} look fine to every tool.")
     case = next(row for row in rows if row["id"] == "div-button")
@@ -185,6 +207,10 @@ def hero(rows, caught, missed, measured, social=False, theme=None):
     source = '<footer>Nu + axe: recorded checks. Tab and role: native HTML behavior.</footer>'
     pair = comparison(case, measured)
     body = f'<div>{intro}{source}</div>\n{pair}' if social else intro + pair + source
+    if social and summary is not None:
+        body += (f'<p class="benchmark-summary">{percentage_change(summary, "js_lines")} JavaScript · '
+                 f'{percentage_change(summary, "axe_violation_nodes")} axe violations · '
+                 f'{summary["runs_per_case"]} runs</p>')
     return document("divorce — native HTML, measured evidence", body, "social" if social else "hero", theme)
 
 
@@ -279,6 +305,14 @@ def validate_summary(data):
     return data
 
 
+def percentage_change(data, metric):
+    baseline = data["arms"]["without"][metric]["mean"]
+    if not baseline:
+        return "not measured"
+    change = round((data["arms"]["with"][metric]["mean"] / baseline - 1) * 100)
+    return (f"{change:+d}".replace("-", "−") if change else "0") + "%"
+
+
 def numbers_card(data, theme=None):
     groups = []
     for metric, label in METRICS:
@@ -287,30 +321,30 @@ def numbers_card(data, theme=None):
         baseline = data["arms"]["without"][metric]["mean"]
         current = data["arms"]["with"][metric]["mean"]
         if baseline:
-            change = round((current / baseline - 1) * 100)
-            percent = f"{change:+d}".replace("-", "−") if change else "0"
-            delta = f'<p class="display" style="font-size: 56px">{percent}\u2009%</p>'
+            percent = percentage_change(data, metric).replace("%", "\u2009%")
+            delta = f'<p class="display">{percent}</p>'
         else:
-            delta = '<p class="muted">No percentage: baseline is zero.</p>'
+            delta = '<p class="muted unavailable">No percentage: baseline is zero.</p>'
         bars = []
+        ranges = []
         for arm in ("without", "with"):
             stats = data["arms"][arm][metric]
             if baseline:
                 width = 100 * stats["mean"] / baseline
                 track_style = (f' style="width: {100 * baseline / current:.2f}%; overflow: visible"'
                                if current > baseline else "")
-                bars.append(f'''<div class="bar-row" style="grid-template-columns: 126px 1fr 110px"><span>{arm} divorce</span>
+                bars.append(f'''<div class="bar-row"><span>{arm} divorce</span>
 <div class="track"{track_style} aria-hidden="true"><span class="bar {arm}" style="width: {width:.2f}%"></span></div>
-<span class="value">{width:.2f}\u2009%</span></div>''')
-            bars.append(f'<p class="direction">{arm} divorce: mean {stats["mean"]}; range {stats["min"]}–{stats["max"]}</p>')
-        scale = '<p class="direction">Share of baseline</p>' if baseline else ""
+<span class="value">{width:.0f}\u2009%</span></div>''')
+            ranges.append(f'<p class="direction">{arm} divorce: mean {stats["mean"]}; range {stats["min"]}–{stats["max"]}</p>')
         groups.append(f'''<section class="metric" id="{metric}"><h2>{label}</h2>
-{delta}{scale}{NEWLINE.join(bars)}</section>''')
+<div class="metric-bars">{NEWLINE.join(bars)}</div>{delta}
+<div class="metric-ranges">{NEWLINE.join(ranges)}</div></section>''')
     with_arm, without_arm = data["arms"]["with"], data["arms"]["without"]
     body = f'''<p class="label">With / without the skill</p>
 <h1>Same agent, same {data["cases"]} tasks, {data["runs_per_case"]} runs each.</h1>
 {NEWLINE.join(groups)}
-<p style="margin-top: 28px">Nu errors: {with_arm["pages_with_nu_errors"]} of {with_arm["pages"]} pages with divorce, {without_arm["pages_with_nu_errors"]} of {without_arm["pages"]} without</p>
+<p class="nu-line">Nu errors: {with_arm["pages_with_nu_errors"]} of {with_arm["pages"]} pages with divorce, {without_arm["pages_with_nu_errors"]} of {without_arm["pages"]} without</p>
 <footer>{data["cases"]} synthetic tasks, one model, one machine; lines measure size, not quality.<br>
 Model: {escape(data["model"])}<br>{escape(data["date"])}</footer>'''
     return document("divorce — measured numbers", body, "benchmark", theme)
@@ -325,7 +359,7 @@ def build(root=ROOT, out_dir=None):
     rows, caught, missed = evidence(manifest, measured)
     summary = root / "evals/results/summary.json"
     data = validate_summary(read_json(summary)) if summary.exists() else None
-    pages = {"social.html": hero(rows, caught, missed, measured, social=True)}
+    pages = {"social.html": hero(rows, caught, missed, measured, social=True, summary=data)}
     for theme in ("light", "dark"):
         pages[f"hero-{theme}.html"] = hero(rows, caught, missed, measured, theme=theme)
         pages[f"cases-{theme}.html"] = cases_card(rows, missed, measured, theme)

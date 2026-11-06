@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>divorce — two recorded runs</title>
+<style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800;
+  font-style: normal; font-display: block;
+  src: url("../fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+  --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { width: 880px; height: 500px; margin: 0; background: var(--bg);
+  color: var(--text); font: 12px/1.4 'JetBrains Mono', monospace; }
+main { height: 500px; padding: 22px 24px 16px; }
+h1 { margin: 0 0 14px; font: 800 22px/1 'Bricolage Grotesque', sans-serif;
+  letter-spacing: -.045em; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.terminal { height: 397px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px; display: flex; flex-direction: column; }
+h2 { margin: 0 0 12px; font: 700 12px/18px 'JetBrains Mono', monospace;
+  letter-spacing: .08em; }
+.steps { margin: 0; padding: 0; list-style: none; }
+.steps li { margin-bottom: 8px; display: grid;
+  grid-template-columns: 42px minmax(0, 1fr); gap: 8px; }
+.tool { color: var(--muted); font-weight: 700; }
+pre { margin: 1px 0 0; white-space: pre-wrap; overflow-wrap: anywhere;
+  font: 11px/14px 'JetBrains Mono', monospace; }
+.final { font-size: 11px; line-height: 15px; margin: 6px 0 0; }
+.status { margin: auto 0 0; border-top: 1px solid var(--line); padding-top: 10px;
+  font-size: 11px; font-weight: 700; }
+.red { color: var(--red); } .green { color: var(--green); }
+footer { color: var(--muted); font-size: 10px; margin-top: 14px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+<h1>Same task. Two recorded runs.</h1>
+<div class="split">
+<section class="terminal" aria-labelledby="without-title">
+<h2 id="without-title">WITHOUT DIVORCE</h2>
+<ol class="steps" id="without-steps"></ol>
+<p class="final" id="without-final"></p>
+<p class="status red" id="without-status"></p>
+</section>
+<section class="terminal" aria-labelledby="with-title">
+<h2 id="with-title">WITH DIVORCE</h2>
+<ol class="steps" id="with-steps"></ol>
+<p class="final" id="with-final"></p>
+<p class="status green" id="with-status"></p>
+</section>
+</div>
+<footer>Replay of two recorded runs from the benchmark (same task, same model).</footer>
+</main>
+<script id="replay-data" type="application/json">{"with": {"final": "I wrote `index.html`, but I couldn't run the automated validity and accessibility checks. I didn't open it in a browser either, so none of the behaviour has been tested.\n\n**Checks:**\n- **HTML validity:** the checker was set up, but it couldn't start. The sandbox blocks reading the library folder it needs (`~/project`), so the result was \"not measured\", not a pass.\n- **Accessibility (axe):** this check needs the page loaded in a headless browser, so I skipped it.\n\n**What the page does:**\n- It shows a \"My Documents\" title and one saved document, \"Quarterly Report.pdf\", with a Delete button. The confirmation uses the browser's built-in modal dialog, so keyboard operation and keeping focus inside the modal come from the browser rather than custom code.\n- When the modal opens, focus goes to Cancel, so pressing Enter by accident doesn't delete anything.\n- Cancel, Escape, or any other way of closing without confirming keeps the document and puts focus back on the Delete button.\n- Confirming removes the document, shows \"No documents.\", and shows \"Document deleted.\" That message is announced to screen readers and receives focus, since the Delete button no longer exists.\n- Everything is inside the file, with no external resources. It supports light and dark mode and has visible focus outlines.\n\n**Still to check yourself:** Tab and Shift+Tab inside the modal, Enter and Space on each button, Escape, where focus lands afterwards, colour contrast, and how it looks.\n\nTo get the automated checks, either allow reading that `lib` folder in the sandbox settings or run the commands outside the sandbox:\n\n```\npython3 gate.py html index.html\n```\n\nThe axe commands from the skill instructions cover the accessibility check.", "steps": [{"summary": "divorce:divorce\nBuild index.html: small document manager with delete confirmation modal", "tool": "Skill"}, {"summary": "index.html\n\u003cbutton type=\"button\" class=\"outline-danger\" id=\"delete-btn\" aria-label=\"Delete Quarterly Report.pdf\">Delete\u003c/button>\n\u003cdialog id=\"confirm\" aria-labelledby=\"confirm-title\" aria-describedby=\"confirm-desc\">", "tool": "Write"}, {"summary": "Run HTML validator gate on the file\nG=gate.py; cd ~/project && python3 $G html index.html; echo \"exit=$?\"; which agent-browser", "tool": "Bash"}, {"summary": "Locate the validator binary\nls ~/project 2>&1; ls ~/project 2>&1; sed -n 1,80p gate.py | grep -n -i vnu", "tool": "Bash"}, {"summary": "Run Nu validator directly\nvnu --format json index.html; echo \"exit=$?\"", "tool": "Bash"}]}, "without": {"final": "I've created `index.html` in the current directory. It's a single standalone page with inline CSS and JavaScript and no external resources. I didn't open it in a browser, as you asked, so the behaviour below hasn't been tried in one yet.\n\n**What's on the page:**\n- **Content:** a \"Document Manager\" title and one saved document, \"Quarterly Report.pdf\", with a Delete button.\n- **Opening the modal:** Delete opens a confirmation modal built on the browser's native `\u003cdialog>` element. While it's open, the rest of the page can't be used, and focus starts on **Cancel** so the safe choice is the default.\n- **Keyboard:** Tab and Shift+Tab move between the two buttons and wrap around inside the modal. Enter or Space activates the focused button.\n- **Cancelling:** Cancel, Escape, or clicking outside the modal closes it, keeps the document, and puts focus back on the original Delete button.\n- **Confirming:** Delete in the modal removes the document and shows a \"No saved documents.\" placeholder. A short confirmation, \"“Quarterly Report.pdf” was deleted.\", is announced to screen readers. Focus moves to that message, since the original Delete button no longer exists.\n- **Accessibility details:** the modal's title and description are linked to it for screen readers, focus outlines are visible, and the opening animation is turned off for users who prefer reduced motion.", "steps": [{"summary": "index.html\n\u003cbutton type=\"button\" class=\"btn-danger\" id=\"delete-btn\"\n\u003cdialog id=\"confirm\" aria-labelledby=\"confirm-title\" aria-describedby=\"confirm-desc\">", "tool": "Write"}]}}</script>
+<script>
+const runs = JSON.parse(document.getElementById('replay-data').textContent);
+window.FRAMES = 75;
+window.setFrame = function (n) {
+  const frame = Math.max(0, Math.min(window.FRAMES - 1, Math.floor(Number(n) || 0)));
+  for (const arm of ['without', 'with']) {
+    const run = runs[arm];
+    const list = document.getElementById(arm + '-steps');
+    list.replaceChildren();
+    run.steps.forEach(function (step, index) {
+      if (frame < 6 + index * 8) return;
+      const row = document.createElement('li');
+      const label = document.createElement('span');
+      label.className = 'tool';
+      label.textContent = '$ ' + step.tool;
+      const input = document.createElement('pre');
+      const lines = step.summary.split('\n');
+      if (step.tool === 'Write') {
+        input.textContent = lines[0] + '\n' + lines.slice(1).map(line =>
+          line.length > 47 ? line.slice(0, 46) + '…' : line).join('\n');
+      } else if (step.tool === 'Bash') {
+        input.textContent = lines[0] + '\n' + (lines[1].length > 47 ? lines[1].slice(0, 46) + '…' : lines[1]);
+      } else {
+        input.textContent = lines[0];
+      }
+      row.append(label, input);
+      list.append(row);
+    });
+    const complete = frame >= 52;
+    const firstSentence = run.final.match(/^.*?[.!?](?:\s|$)/s);
+    document.getElementById(arm + '-final').textContent = complete
+      ? (firstSentence ? firstSentence[0].trim() : run.final) : '';
+    document.getElementById(arm + '-status').textContent = complete
+      ? (arm === 'without' ? 'claimed done · checks: none' : 'checks: not_measured · not claimed') : '';
+  }
+};
+window.setFrame(0);
+</script>
+</body>
+</html>

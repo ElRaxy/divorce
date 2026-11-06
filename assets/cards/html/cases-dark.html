@@ -4,10 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>divorce — the evidence</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
-<style>:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+<style>@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
   --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
@@ -40,7 +49,7 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
 .facts .measured { color: var(--muted); margin-top: 16px; font-size: 12px; }
 footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social { width: 1280px; height: 640px; }
-.social main { height: 640px; padding: 40px 48px; display: grid;
+.social main { height: 640px; padding: 40px 48px; display: grid; position: relative;
   grid-template-columns: 1.12fr 1fr; gap: 40px; align-items: center; }
 .social .brand { gap: 16px; margin-bottom: 30px; }
 .social .mascot { width: 120px; height: 120px; }
@@ -52,6 +61,8 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social .facts { font-size: 13px; }
 .social .facts .measured { margin-top: 8px; }
 .social footer { margin-top: 20px; }
+.social .benchmark-summary { position: absolute; bottom: 22px; left: 48px;
+  color: var(--muted); font-size: 12px; }
 .cases main { padding: 32px; }
 .cases .label { height: 18px; line-height: 18px; }
 .case-head { display: flex; align-items: center; gap: 24px;
@@ -89,16 +100,27 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
   border-top: 1px solid var(--line); margin-top: 24px; padding-top: 24px; }
 .status .display { font-size: 110px; }
 .status code { font-size: 24px; font-weight: 700; padding-bottom: 6px; }
-.benchmark h1 { margin: 20px 0 36px; font-size: 56px; }
-.metric { margin-top: 28px; }
-.metric h2 { margin-bottom: 6px; }
-.metric .direction { color: var(--muted); font-size: 11px; margin-bottom: 14px; }
-.bar-row { display: grid; grid-template-columns: 90px 1fr 64px;
-  align-items: center; gap: 12px; margin-top: 8px; font-size: 12px; }
-.track { height: 24px; background: var(--card); border-radius: 4px; overflow: hidden; }
+.benchmark main { padding: 28px; }
+.benchmark .label { height: 18px; line-height: 18px; }
+.benchmark h1 { height: 40px; margin: 12px 0 20px; font-size: 32px; line-height: 40px; }
+.metric { height: 80px; display: grid; grid-template-columns: 90px minmax(0, 1fr) 140px;
+  grid-template-rows: 40px 28px; gap: 4px 16px; padding: 4px 0;
+  border-bottom: 1px solid var(--line); }
+.metric h2 { grid-column: 1; grid-row: 1; align-self: center; font-size: 24px; }
+.metric-bars { grid-column: 2; grid-row: 1; }
+.metric .display { grid-column: 3; grid-row: 1; align-self: center;
+  text-align: right; font-size: 48px; white-space: nowrap; }
+.metric .unavailable { grid-column: 3; grid-row: 1; font-size: 10px; line-height: 13px; }
+.metric-ranges { grid-column: 2 / 4; grid-row: 2; }
+.metric .direction { color: var(--muted); font-size: 10px; line-height: 14px; white-space: nowrap; }
+.bar-row { display: grid; grid-template-columns: 110px 1fr 42px;
+  align-items: center; gap: 8px; height: 20px; font-size: 11px; }
+.track { height: 12px; background: var(--card); border-radius: 4px; overflow: hidden; }
 .bar { display: block; height: 100%; background: var(--muted); }
 .bar.with { background: var(--green); }
-.value { font: 800 24px/1 'Bricolage Grotesque', sans-serif; text-align: right; }
+.value { font: 700 12px/20px 'JetBrains Mono', monospace; text-align: right; }
+.benchmark .nu-line { margin-top: 14px; height: 18px; font-size: 12px; line-height: 18px; }
+.benchmark footer { margin-top: 14px; height: 48px; line-height: 16px; }
 html, body { background: #0d1117; }
 main { background: var(--bg); border: 1px solid #8b949e; border-radius: 24px; }
 </style>

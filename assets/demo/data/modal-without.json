@@ -1,0 +1,9 @@
+{
+  "final": "I've created `index.html` in the current directory. It's a single standalone page with inline CSS and JavaScript and no external resources. I didn't open it in a browser, as you asked, so the behaviour below hasn't been tried in one yet.\n\n**What's on the page:**\n- **Content:** a \"Document Manager\" title and one saved document, \"Quarterly Report.pdf\", with a Delete button.\n- **Opening the modal:** Delete opens a confirmation modal built on the browser's native `<dialog>` element. While it's open, the rest of the page can't be used, and focus starts on **Cancel** so the safe choice is the default.\n- **Keyboard:** Tab and Shift+Tab move between the two buttons and wrap around inside the modal. Enter or Space activates the focused button.\n- **Cancelling:** Cancel, Escape, or clicking outside the modal closes it, keeps the document, and puts focus back on the original Delete button.\n- **Confirming:** Delete in the modal removes the document and shows a \"No saved documents.\" placeholder. A short confirmation, \"“Quarterly Report.pdf” was deleted.\", is announced to screen readers. Focus moves to that message, since the original Delete button no longer exists.\n- **Accessibility details:** the modal's title and description are linked to it for screen readers, focus outlines are visible, and the opening animation is turned off for users who prefer reduced motion.",
+  "steps": [
+    {
+      "summary": "index.html\n<button type=\"button\" class=\"btn-danger\" id=\"delete-btn\"\n<dialog id=\"confirm\" aria-labelledby=\"confirm-title\" aria-describedby=\"confirm-desc\">",
+      "tool": "Write"
+    }
+  ]
+}

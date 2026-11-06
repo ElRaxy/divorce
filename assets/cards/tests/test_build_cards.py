@@ -166,8 +166,49 @@ class BuildCardsTest(unittest.TestCase):
                 self.assertTrue(all(attrs.get("alt", "").strip() for tag, attrs in elements if tag == "img"))
                 headings = [int(tag[1]) for tag, _ in elements if tag in {"h1", "h2", "h3", "h4", "h5", "h6"}]
                 self.assertTrue(all(after <= before + 1 for before, after in zip([0] + headings, headings)))
-                self.assertTrue(any("fonts.googleapis.com/css2" in attrs.get("href", "") for tag, attrs in elements if tag == "link"))
+                self.assertFalse(any(tag == "link" and attrs.get("href", "").startswith("http")
+                                     for tag, attrs in elements))
                 self.assertFalse(any(tag in ("script", "svg") for tag, _ in elements))
+
+    def assert_font_paths(self, urls):
+        for url in urls:
+            path = (ROOT / "assets/cards/html" / url).resolve()
+            self.assertTrue(path.is_file(), f"Missing font: {url}")
+
+    def assert_local_fonts(self, html):
+        blocks = re.findall(r"@font-face\s*\{([^}]*)\}", html, re.I)
+        self.assertEqual(len(blocks), 4)
+        faces, urls = [], []
+        for block in blocks:
+            family = re.search(r'''font-family:\s*['"]([^'"]+)['"]\s*;''', block).group(1)
+            weight = re.search(r"font-weight:\s*(\d+)\s*;", block).group(1)
+            url = re.search(r'''src:\s*url\("([^"]+)"\)\s*format\("woff2"\)\s*;''', block).group(1)
+            self.assertRegex(block, r"font-display:\s*block\s*;")
+            self.assertRegex(block, r"font-style:\s*normal\s*;")
+            self.assertRegex(url, r"^\.\./\.\./fonts/[\w-]+\.woff2$")
+            faces.append((family, weight))
+            urls.append(url)
+        self.assertCountEqual(faces, [("Bricolage Grotesque", "700"), ("Bricolage Grotesque", "800"),
+                                      ("JetBrains Mono", "400"), ("JetBrains Mono", "700")])
+        self.assert_font_paths(urls)
+        self.assertNotRegex(html, r'''(?i)(?:\b(?:href|src)\s*=\s*["']?\s*|url\s*\(\s*["']?\s*)(?:https?:|//|data:)|@import\b''')
+        return urls
+
+    def test_generated_and_published_html_load_local_fonts(self):
+        self.write("evals/results/summary.json", self.fixture())
+        self.run_builder()
+        published = sorted((ROOT / "assets/cards/html").glob("*.html"))
+        self.assertEqual({p.name for p in published},
+                         CARD_NAMES | {"social.html", "numbers-light.html", "numbers-dark.html"})
+        for path in [*self.output.glob("*.html"), *published]:
+            with self.subTest(card=str(path)):
+                self.assert_local_fonts(path.read_text(encoding="utf-8"))
+
+    def test_missing_font_path_fails(self):
+        urls = self.assert_local_fonts(cards.document("Fonts", ""))
+        urls[0] = "../../fonts/nonexistent.woff2"
+        with self.assertRaisesRegex(AssertionError, "Missing font"):
+            self.assert_font_paths(urls)
 
     def test_hero_and_social_have_distinct_branding(self):
         self.run_builder()
@@ -324,7 +365,7 @@ class BuildCardsTest(unittest.TestCase):
             self.assertIn(f">{change}\u2009%</p>", section)
             self.assertIn('class="bar without" style="width: 100.00%"', section)
             self.assertIn(f'class="bar with" style="width: {share}%"', section)
-            self.assertIn(f">{share}\u2009%</span>", section)
+            self.assertIn(f">{float(share):.0f}\u2009%</span>", section)
             for span in ranges:
                 self.assertIn(f"range {span}", section)
             tracks = [attrs for _, attrs in Structure(section).elements if attrs.get("class") == "track"]
@@ -333,6 +374,82 @@ class BuildCardsTest(unittest.TestCase):
             if share == "150.00":
                 self.assertTrue(all(attrs.get("style") == "width: 66.67%; overflow: visible" for attrs in tracks))
         self.assertNotIn('id="nu_errors"', html)
+
+    def test_numbers_visible_percentages_are_integers(self):
+        data = cards.read_json(ROOT / "evals/results/summary.json")
+        self.write("evals/results/summary.json", data)
+        self.run_builder()
+        for theme in THEMES:
+            html = (self.output / f"numbers-{theme}.html").read_text(encoding="utf-8")
+            visible = " ".join(Structure(html).text)
+            self.assertNotRegex(visible, r"\d+\.\d+\s*%")
+            self.assertEqual(len(re.findall(r"[−+]?\d+\s*%", visible)), 12)
+            self.assertIn("59\u2009%", visible)
+            self.assertIn("−41\u2009%", visible)
+
+    def test_numbers_height_is_below_620_from_layout_budget(self):
+        self.write("evals/results/summary.json", self.fixture())
+        self.run_builder()
+        for theme in THEMES:
+            html = (self.output / f"numbers-{theme}.html").read_text(encoding="utf-8")
+            css = re.search(r"<style>(.*?)</style>", html, re.S).group(1)
+
+            def declaration(selector, name):
+                rules = re.findall(re.escape(selector) + r"\s*\{([^}]*)\}", css)
+                values = [match.group(1).strip() for rule in rules
+                          if (match := re.search(r"(?:^|;)\s*" + re.escape(name) + r":\s*([^;]+)", rule))]
+                self.assertTrue(values, (selector, name))
+                return values[-1]
+
+            def pixels(selector, name):
+                value = declaration(selector, name)
+                self.assertRegex(value, r"^\d+px$")
+                return int(value[:-2])
+
+            metric_count = len(re.findall(r'<section class="metric"', html))
+            self.assertEqual(metric_count, 4)
+            margin = declaration(".benchmark h1", "margin").split()
+            self.assertEqual(margin[1], "0")
+            border = int(declaration("main", "border").split("px", 1)[0])
+            height = (2 * pixels(".benchmark main", "padding") + 2 * border
+                      + pixels(".benchmark .label", "height")
+                      + pixels(".benchmark h1", "height")
+                      + int(margin[0][:-2]) + int(margin[2][:-2])
+                      + metric_count * pixels(".metric", "height")
+                      + pixels(".benchmark .nu-line", "margin-top")
+                      + pixels(".benchmark .nu-line", "height")
+                      + pixels(".benchmark footer", "margin-top")
+                      + pixels(".benchmark footer", "height"))
+            self.assertLess(height, 620, f"numbers CSS height: {height}px")
+            self.assertEqual(declaration(".metric", "display"), "grid")
+            self.assertEqual(declaration(".metric h2", "grid-row"), "1")
+            self.assertEqual(declaration(".metric-bars", "grid-row"), "1")
+            self.assertEqual(declaration(".metric .display", "grid-column"), "3")
+            self.assertEqual(declaration(".metric-ranges", "grid-row"), "2")
+            self.assertGreaterEqual(pixels(".metric", "height"),
+                                    2 * pixels(".bar-row", "height")
+                                    + 2 * pixels(".metric .direction", "line-height") + 4)
+            self.assertGreaterEqual(pixels(".benchmark footer", "height"),
+                                    3 * pixels(".benchmark footer", "line-height"))
+            self.assertNotRegex(css, r"(?:\.benchmark[^{}]*|\.metric[^{}]*)\{[^}]*overflow\s*:\s*(?:hidden|clip)")
+
+    def test_social_benchmark_summary_is_computed_from_supplied_data(self):
+        self.write("evals/results/summary.json", self.fixture())
+        self.run_builder()
+        social = self.content("social.html")
+        self.assertIn("−25% JavaScript · −100% axe violations · 3 runs", social)
+        self.assertNotIn("−41% JavaScript", social)
+        data = cards.read_json(ROOT / "evals/results/summary.json")
+        self.write("evals/results/summary.json", data)
+        self.run_builder()
+        self.assertIn("−41% JavaScript · −76% axe violations · 5 runs", self.content("social.html"))
+
+    def test_social_zero_baseline_does_not_invent_percentage(self):
+        data = self.fixture()
+        data["arms"]["without"]["js_lines"] = {"mean": 0, "min": 0, "max": 0, "runs": [0]}
+        self.write("evals/results/summary.json", data)
+        self.run_builder()
+        self.assertIn("not measured JavaScript", self.content("social.html"))
 
     def test_nu_page_line_is_visible_and_calculated_from_fixture(self):
         data = self.fixture()
@@ -437,7 +554,7 @@ class BuildCardsTest(unittest.TestCase):
         self.assertEqual(before, {path.name: path.read_bytes() for path in self.output.glob("*.html")})
 
     def test_palette_text_contrast(self):
-        self.assertTrue(cards.CSS.lstrip().startswith(":root {"))
+        self.assertTrue(re.sub(r"@font-face\s*\{[^}]*\}", "", cards.CSS).lstrip().startswith(":root {"))
         self.assertIn("--bg: #0b0b0c", cards.CSS)
         self.assertIn("--red: #ff4d4d", cards.CSS)
         self.assertIn("--green: #3ddc84", cards.CSS)
