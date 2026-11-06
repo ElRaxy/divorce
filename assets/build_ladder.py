@@ -27,10 +27,10 @@ def render(rungs, palette):
     paper, card, ink, muted, rule, accent = palette
     parts = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1080" viewBox="0 0 1280 1080" role="img" aria-labelledby="title description">',
-        '  <title id="title">Before a single tag</title>',
+        '  <title id="title">The ladder</title>',
         f'  <desc id="description">Stop at the first rung that holds. {escape(" ".join(f"{i}. {rung}" for i, rung in enumerate(rungs, 1)))}</desc>',
         f'  <rect width="1280" height="1080" fill="{paper}"/>',
-        f'  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="{ink}">Before a single tag</text>',
+        f'  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="{ink}">The ladder</text>',
         f'  <text x="48" y="142" font-family="Georgia, serif" font-size="30" fill="{muted}">Stop at the first rung that holds.</text>',
     ]
     for index, rung in enumerate(rungs):

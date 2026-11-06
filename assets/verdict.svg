@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="773" viewBox="0 0 1280 773" role="img" aria-labelledby="title description">
-  <title id="title">The ruling</title>
+  <title id="title">Exhibit A</title>
   <desc id="description">Recorded HTML check of examples/image-alt/before.html: 1 errors, 0 warnings, verdict fail, exit 1. Message details omitted from the display. This is an HTML-only ruling; no axe result is claimed.</desc>
   <rect width="1280" height="773" fill="#f4efdf"/>
-  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="#28271f">The ruling</text>
+  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="#28271f">Exhibit A</text>
   <text x="48" y="140" font-family="Georgia, serif" font-size="28" fill="#676254">Recorded HTML check. Message details omitted.</text>
   <rect x="48" y="174" width="1184" height="559" rx="6" fill="#fbf8ee" stroke="#c4baa4"/>
   <g font-family="Courier New, Courier, monospace" font-size="26" fill="#28271f">

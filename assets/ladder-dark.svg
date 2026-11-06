@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1080" viewBox="0 0 1280 1080" role="img" aria-labelledby="title description">
-  <title id="title">Before a single tag</title>
+  <title id="title">The ladder</title>
   <desc id="description">Stop at the first rung that holds. 1. Does it need to exist? If not, don&#x27;t write it. 2. Does the project already have it? A house component beats a native widget, and both beat a new one. 3. Is there a native element for it? (table below) 4. Can CSS do it without JavaScript? 5. Is there a dependency already installed that covers it? 6. Only then: the smallest code that works, plus a small test if it has logic.</desc>
   <rect width="1280" height="1080" fill="#211f1a"/>
-  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="#f2ead5">Before a single tag</text>
+  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="#f2ead5">The ladder</text>
   <text x="48" y="142" font-family="Georgia, serif" font-size="30" fill="#c2b79e">Stop at the first rung that holds.</text>
   <g data-rung="1">
     <rect x="48" y="185" width="1184" height="132" fill="#2c2922"/>

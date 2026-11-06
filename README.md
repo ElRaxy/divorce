@@ -17,7 +17,13 @@ Works with Claude Code and Codex · [other agents →](#install)
 
 ## Grounds
 
-The petition: too many divs doing a button's job. divorce is an agent skill that asks what an element does before adding code. Native HTML gets custody of native behavior.
+The petition: too many divs doing a button's job. A `<div onclick>` gets a `role="button" tabindex="0"` patch. A fake select grows out of divs. Then come h1→h3 jumps, inputs without a label, positive tabindex, and an `<a>` without href acting as a button.
+
+divorce is an agent skill that asks what an element does before adding code. Native HTML gets custody of native behavior.
+
+- **The ladder:** omit, reuse, native HTML, CSS, an installed dependency. Only then the minimum JavaScript, plus a small test for logic.
+- **The gate:** Nu checks served HTML, axe checks the rendered DOM, and code issues the verdict.
+- **`not_measured`:** never counts as a pass.
 
 ## The evidence
 

@@ -39,10 +39,10 @@ def render(record, palette):
     )
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="{height}" viewBox="0 0 1280 {height}" role="img" aria-labelledby="title description">',
-        '  <title id="title">The ruling</title>',
+        '  <title id="title">Exhibit A</title>',
         f'  <desc id="description">{escape(description)}</desc>',
         f'  <rect width="1280" height="{height}" fill="{paper}"/>',
-        f'  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="{ink}">The ruling</text>',
+        f'  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="{ink}">Exhibit A</text>',
         f'  <text x="48" y="140" font-family="Georgia, serif" font-size="28" fill="{muted}">Recorded HTML check. Message details omitted.</text>',
         f'  <rect x="48" y="174" width="1184" height="{height - 214}" rx="6" fill="{card}" stroke="{rule}"/>',
         f'  <g font-family="Courier New, Courier, monospace" font-size="26" fill="{ink}">',
