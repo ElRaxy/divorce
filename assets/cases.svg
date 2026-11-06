@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="736" viewBox="0 0 1280 736" role="img" aria-labelledby="title description">
+  <title id="title">4 of 9 caught by tools</title>
+  <desc id="description">Manifest coverage: Nu results are measured; axe rules are expected, not run. Cases without a tool rely on the decision ladder and manual checks.</desc>
+  <style>
+    text { font-family: Georgia, 'Times New Roman', serif; }
+    .mono { font-family: 'Courier New', Courier, monospace; }
+  </style>
+  <rect width="1280" height="736" fill="#f4efdf"/>
+  <text x="48" y="100" font-size="60" fill="#28271f">4 of 9 caught by tools</text>
+  <text class="mono" x="48" y="151" font-size="28" fill="#676254">Nu measured · axe expected, not run</text>
+  <path d="M48 175 H1232" stroke="#c4baa4" stroke-width="2"/>
+  <g transform="translate(48 200)">
+    <title>Use a button for an action</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">div button</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">no tool: the ladder</text>
+  </g>
+  <g transform="translate(451 200)">
+    <title>Use a link for navigation</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">button link</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">no tool: the ladder</text>
+  </g>
+  <g transform="translate(854 200)">
+    <title>Use dialog for a modal task</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">custom modal</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">no tool: the ladder</text>
+  </g>
+  <g transform="translate(48 365)">
+    <title>Use details for a disclosure</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">custom disclosure</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">no tool: the ladder</text>
+  </g>
+  <g transform="translate(451 365)">
+    <title>Associate a label with its control</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">input label</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">axe</text>
+  </g>
+  <g transform="translate(854 365)">
+    <title>Keep heading levels in order</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">heading order</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">Nu + axe</text>
+  </g>
+  <g transform="translate(48 530)">
+    <title>Provide an image text alternative</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">image alt</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">Nu + axe</text>
+  </g>
+  <g transform="translate(451 530)">
+    <title>Follow document order for focus</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">positive tabindex</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">axe</text>
+  </g>
+  <g transform="translate(854 530)">
+    <title>Represent a list with ul and li</title>
+    <rect width="378" height="141" fill="#fbf8ee" stroke="#c4baa4"/>
+    <text x="22" y="53" font-size="34" fill="#28271f">div list</text>
+    <path d="M22 72 H356" stroke="#c4baa4"/>
+    <text class="mono" x="22" y="111" font-size="28" fill="#8b3e2f">no tool: the ladder</text>
+  </g>
+</svg>
