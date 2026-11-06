@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">divorce — let the browser keep the buttons</title>
-  <desc id="desc">Validators catch 4 of these 9. The other 5 look fine to every tool. A div with a click handler is valid HTML but skipped by Tab and has no button role. A native button is reached by Tab and has the button role. Counts follow the example manifest: Nu measured; axe expected, not run.</desc>
+  <desc id="desc">Validators catch 4 of these 9. The other 5 look fine to every tool. A div with a click handler is valid HTML but skipped by Tab and has no button role. A native button is reached by Tab and has the button role. Nu and axe measured: counts use the example manifest and measured axe violations in each before example.</desc>
   <rect width="1280" height="640" fill="#201F1A"/>
   <rect x="18" y="18" width="1244" height="604" fill="none" stroke="#686352"/>
   <path d="M40 184H1240" stroke="#686352"/>
@@ -28,5 +28,5 @@
     <text x="80" y="546" font-size="28">Nu HTML Checker: valid</text>
     <text x="678" y="508" font-size="28">Tab: reaches it · role: button</text>
   </g>
-  <text x="64" y="608" fill="#C4B9A2" font-family="'Courier New', Courier, monospace" font-size="22">Nu measured · axe expected, not run</text>
+  <text x="64" y="608" fill="#C4B9A2" font-family="'Courier New', Courier, monospace" font-size="22">Nu and axe measured</text>
 </svg>

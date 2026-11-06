@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1080" viewBox="0 0 1280 1080" role="img" aria-labelledby="title description">
+  <title id="title">Before a single tag</title>
+  <desc id="description">Stop at the first rung that holds. 1. Does it need to exist? If not, don&#x27;t write it. 2. Does the project already have it? A house component beats a native widget, and both beat a new one. 3. Is there a native element for it? (table below) 4. Can CSS do it without JavaScript? 5. Is there a dependency already installed that covers it? 6. Only then: the smallest code that works, plus a small test if it has logic.</desc>
+  <rect width="1280" height="1080" fill="#211f1a"/>
+  <text x="48" y="90" font-family="Georgia, serif" font-size="60" fill="#f2ead5">Before a single tag</text>
+  <text x="48" y="142" font-family="Georgia, serif" font-size="30" fill="#c2b79e">Stop at the first rung that holds.</text>
+  <g data-rung="1">
+    <rect x="48" y="185" width="1184" height="132" fill="#2c2922"/>
+    <path d="M48 317 V185 H1232" fill="none" stroke="#605746" stroke-width="3"/>
+    <text x="64" y="233" font-family="Courier New, monospace" font-size="32" fill="#e6ab82">1</text>
+    <text class="rung" x="120" y="231" font-family="Georgia, serif" font-size="28" fill="#f2ead5">
+      <tspan x="120" dy="0">Does it need to exist? If not, don&#x27;t write it.</tspan>
+    </text>
+  </g>
+  <g data-rung="2">
+    <rect x="126" y="317" width="1106" height="132" fill="#2c2922"/>
+    <path d="M126 449 V317 H1232" fill="none" stroke="#605746" stroke-width="3"/>
+    <text x="142" y="365" font-family="Courier New, monospace" font-size="32" fill="#e6ab82">2</text>
+    <text class="rung" x="198" y="363" font-family="Georgia, serif" font-size="28" fill="#f2ead5">
+      <tspan x="198" dy="0">Does the project already have it? A house component beats a native</tspan>
+      <tspan x="198" dy="35">widget, and both beat a new one.</tspan>
+    </text>
+  </g>
+  <g data-rung="3">
+    <rect x="204" y="449" width="1028" height="132" fill="#2c2922"/>
+    <path d="M204 581 V449 H1232" fill="none" stroke="#605746" stroke-width="3"/>
+    <text x="220" y="497" font-family="Courier New, monospace" font-size="32" fill="#e6ab82">3</text>
+    <text class="rung" x="276" y="495" font-family="Georgia, serif" font-size="28" fill="#f2ead5">
+      <tspan x="276" dy="0">Is there a native element for it? (table below)</tspan>
+    </text>
+  </g>
+  <g data-rung="4">
+    <rect x="282" y="581" width="950" height="132" fill="#2c2922"/>
+    <path d="M282 713 V581 H1232" fill="none" stroke="#605746" stroke-width="3"/>
+    <text x="298" y="629" font-family="Courier New, monospace" font-size="32" fill="#e6ab82">4</text>
+    <text class="rung" x="354" y="627" font-family="Georgia, serif" font-size="28" fill="#f2ead5">
+      <tspan x="354" dy="0">Can CSS do it without JavaScript?</tspan>
+    </text>
+  </g>
+  <g data-rung="5">
+    <rect x="360" y="713" width="872" height="132" fill="#2c2922"/>
+    <path d="M360 845 V713 H1232" fill="none" stroke="#605746" stroke-width="3"/>
+    <text x="376" y="761" font-family="Courier New, monospace" font-size="32" fill="#e6ab82">5</text>
+    <text class="rung" x="432" y="759" font-family="Georgia, serif" font-size="28" fill="#f2ead5">
+      <tspan x="432" dy="0">Is there a dependency already installed that covers</tspan>
+      <tspan x="432" dy="35">it?</tspan>
+    </text>
+  </g>
+  <g data-rung="6">
+    <rect x="438" y="845" width="794" height="132" fill="#2c2922"/>
+    <path d="M438 977 V845 H1232" fill="none" stroke="#605746" stroke-width="3"/>
+    <text x="454" y="893" font-family="Courier New, monospace" font-size="32" fill="#e6ab82">6</text>
+    <text class="rung" x="510" y="891" font-family="Georgia, serif" font-size="28" fill="#f2ead5">
+      <tspan x="510" dy="0">Only then: the smallest code that works, plus a</tspan>
+      <tspan x="510" dy="35">small test if it has logic.</tspan>
+    </text>
+  </g>
+  <path d="M438 977 H1232" stroke="#605746" stroke-width="3"/>
+  <text x="48" y="1035" font-family="Georgia, serif" font-size="26" fill="#c2b79e">Accessibility, boundary validation and data-loss handling stay.</text>
+</svg>

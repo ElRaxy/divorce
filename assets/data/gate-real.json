@@ -1,0 +1,70 @@
+[
+  {
+    "html": [
+      {
+        "input": "examples/image-alt/before.html",
+        "errors": 1,
+        "warnings": 0,
+        "messages": [
+          {
+            "type": "error",
+            "message": "An “img” element must have an “alt” attribute, except under certain conditions. For details, consult guidance on providing text alternatives for images.",
+            "line": 10,
+            "column": 224,
+            "extract": "le</h1>\n  <img src=\"data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2240%22%20height=%2240%22%3E%3Ccircle%20cx=%2220%22%20cy=%2220%22%20r=%2218%22%20fill=%22green%22/%3E%3C"
+          }
+        ]
+      }
+    ],
+    "verdict": "fail",
+    "reasons": [
+      "html_errors"
+    ]
+  },
+  {
+    "html": [
+      {
+        "input": "examples/image-alt/after.html",
+        "errors": 0,
+        "warnings": 0,
+        "messages": []
+      }
+    ],
+    "verdict": "pass",
+    "reasons": []
+  },
+  {
+    "html": [
+      {
+        "input": "examples/heading-order/before.html",
+        "errors": 1,
+        "warnings": 0,
+        "messages": [
+          {
+            "type": "error",
+            "message": "The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.",
+            "line": 10,
+            "column": 6,
+            "extract": "de</h1>\n  <h3>Delive"
+          }
+        ]
+      }
+    ],
+    "verdict": "fail",
+    "reasons": [
+      "html_errors"
+    ]
+  },
+  {
+    "html": [
+      {
+        "input": "examples/heading-order/after.html",
+        "errors": 0,
+        "warnings": 0,
+        "messages": []
+      }
+    ],
+    "verdict": "pass",
+    "reasons": []
+  }
+]

@@ -1,0 +1,68 @@
+{
+ "tool": "axe-core 4.10.2",
+ "browser": "Chrome/156.0.0.0",
+ "date": "2026-11-06",
+ "how": "gate.py axe-snippet via agent-browser eval on each example served over local HTTP",
+ "cases": {
+  "button-link": {
+   "after": [],
+   "before": []
+  },
+  "custom-disclosure": {
+   "after": [],
+   "before": []
+  },
+  "custom-modal": {
+   "after": [],
+   "before": []
+  },
+  "div-button": {
+   "after": [],
+   "before": []
+  },
+  "div-list": {
+   "after": [],
+   "before": []
+  },
+  "heading-order": {
+   "after": [],
+   "before": [
+    {
+     "id": "heading-order",
+     "impact": "moderate",
+     "nodes": 1
+    }
+   ]
+  },
+  "image-alt": {
+   "after": [],
+   "before": [
+    {
+     "id": "image-alt",
+     "impact": "critical",
+     "nodes": 1
+    }
+   ]
+  },
+  "input-label": {
+   "after": [],
+   "before": [
+    {
+     "id": "label",
+     "impact": "critical",
+     "nodes": 1
+    }
+   ]
+  },
+  "positive-tabindex": {
+   "after": [],
+   "before": [
+    {
+     "id": "tabindex",
+     "impact": "serious",
+     "nodes": 2
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,10 @@
+{
+  "date": "2000-01-01",
+  "model": "SYNTHETIC TEST FIXTURE <not a benchmark> & no model run",
+  "runs_per_case": 2,
+  "cases": 4,
+  "arms": {
+    "with": {"gate_pass": 6, "nu_errors": 2, "axe_violations": 3, "native_choice": 7},
+    "without": {"gate_pass": 4, "nu_errors": 8, "axe_violations": 6, "native_choice": 2}
+  }
+}
