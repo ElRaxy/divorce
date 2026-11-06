@@ -52,19 +52,35 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social .facts { font-size: 13px; }
 .social .facts .measured { margin-top: 8px; }
 .social footer { margin-top: 20px; }
-.case-head { margin: 24px 0 36px; }
-.case-head h1 { font-size: 152px; white-space: nowrap; }
-.case-head p { font: 700 34px/1.1 'Bricolage Grotesque', sans-serif;
-  margin-top: 12px; letter-spacing: -.035em; }
-.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.case { min-height: 206px; padding: 20px; background: var(--card);
-  border: 1px solid var(--line); border-radius: 14px; }
-.case h2 { min-height: 54px; font-size: 23px; margin: 18px 0; }
-.case .catch { font-size: 13px; }
-.case .impact { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.cases main { padding: 32px; }
+.cases .label { height: 18px; line-height: 18px; }
+.case-head { display: flex; align-items: center; gap: 24px;
+  height: 64px; margin: 16px 0; white-space: nowrap; }
+.case-head h1 { font-size: 64px; }
+.case-head p { font: 700 32px/1 'Bricolage Grotesque', sans-serif;
+  letter-spacing: -.035em; }
+.case-table { width: 100%; table-layout: fixed; border-spacing: 0; }
+.case-table th, .case-table td { padding: 0 12px; text-align: left;
+  white-space: nowrap; border-bottom: 1px solid var(--line); }
+.case-table thead tr { height: 28px; }
+.case-table thead th { color: var(--muted); font-size: 11px; line-height: 16px; }
+.case-table .number { width: 48px; }
+.case-table .name { width: 226px; }
+.case-table .detector { width: 128px; }
+.case { height: 36px; font-size: 13px; line-height: 18px; }
+.case th { font-weight: 400; }
+.case .impact { font-size: 11px; color: var(--muted); }
 .case .index { font-size: 12px; color: var(--muted); }
+.case.missed { background: var(--card); color: var(--red); }
+.case.missed .index, .case.missed .impact { color: var(--red); }
+.catch-nu { color: var(--green); }
+.catch-axe { color: var(--text); }
+.catch-nothing { color: var(--red); }
+.cases footer { height: 36px; line-height: 18px; margin-top: 18px; }
 .terminal { border: 1px solid var(--line); border-radius: 18px;
-  background: var(--card); margin-top: 32px; padding: 28px; }
+  background: var(--card); padding: 28px; }
+.terminal h1.label { font: 400 12px/18px 'JetBrains Mono', monospace;
+  letter-spacing: .14em; margin-bottom: 24px; }
 .terminal .command { color: var(--text); font-size: 13px; white-space: pre-wrap;
   overflow-wrap: anywhere; }
 .terminal pre { font-size: 14px; line-height: 1.65; white-space: pre-wrap;

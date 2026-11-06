@@ -63,19 +63,35 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social .facts { font-size: 13px; }
 .social .facts .measured { margin-top: 8px; }
 .social footer { margin-top: 20px; }
-.case-head { margin: 24px 0 36px; }
-.case-head h1 { font-size: 152px; white-space: nowrap; }
-.case-head p { font: 700 34px/1.1 'Bricolage Grotesque', sans-serif;
-  margin-top: 12px; letter-spacing: -.035em; }
-.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.case { min-height: 206px; padding: 20px; background: var(--card);
-  border: 1px solid var(--line); border-radius: 14px; }
-.case h2 { min-height: 54px; font-size: 23px; margin: 18px 0; }
-.case .catch { font-size: 13px; }
-.case .impact { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.cases main { padding: 32px; }
+.cases .label { height: 18px; line-height: 18px; }
+.case-head { display: flex; align-items: center; gap: 24px;
+  height: 64px; margin: 16px 0; white-space: nowrap; }
+.case-head h1 { font-size: 64px; }
+.case-head p { font: 700 32px/1 'Bricolage Grotesque', sans-serif;
+  letter-spacing: -.035em; }
+.case-table { width: 100%; table-layout: fixed; border-spacing: 0; }
+.case-table th, .case-table td { padding: 0 12px; text-align: left;
+  white-space: nowrap; border-bottom: 1px solid var(--line); }
+.case-table thead tr { height: 28px; }
+.case-table thead th { color: var(--muted); font-size: 11px; line-height: 16px; }
+.case-table .number { width: 48px; }
+.case-table .name { width: 226px; }
+.case-table .detector { width: 128px; }
+.case { height: 36px; font-size: 13px; line-height: 18px; }
+.case th { font-weight: 400; }
+.case .impact { font-size: 11px; color: var(--muted); }
 .case .index { font-size: 12px; color: var(--muted); }
+.case.missed { background: var(--card); color: var(--red); }
+.case.missed .index, .case.missed .impact { color: var(--red); }
+.catch-nu { color: var(--green); }
+.catch-axe { color: var(--text); }
+.catch-nothing { color: var(--red); }
+.cases footer { height: 36px; line-height: 18px; margin-top: 18px; }
 .terminal { border: 1px solid var(--line); border-radius: 18px;
-  background: var(--card); margin-top: 32px; padding: 28px; }
+  background: var(--card); padding: 28px; }
+.terminal h1.label { font: 400 12px/18px 'JetBrains Mono', monospace;
+  letter-spacing: .14em; margin-bottom: 24px; }
 .terminal .command { color: var(--text); font-size: 13px; white-space: pre-wrap;
   overflow-wrap: anywhere; }
 .terminal pre { font-size: 14px; line-height: 1.65; white-space: pre-wrap;
@@ -113,7 +129,14 @@ def evidence(manifest, measured):
     return rows, caught, len(rows) - caught
 
 
-def document(title, body, kind=""):
+def document(title, body, kind="", theme=None):
+    themed_css = ""
+    if theme:
+        page, border = {"light": ("#ffffff", "#6e7681"),
+                        "dark": ("#0d1117", "#8b949e")}[theme]
+        themed_css = (f"html, body {{ background: {page}; }}\n"
+                      f"main {{ background: var(--bg); border: 1px solid {border}; "
+                      "border-radius: 24px; }\n")
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -123,7 +146,7 @@ def document(title, body, kind=""):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
-<style>{CSS}</style>
+<style>{CSS}{themed_css}</style>
 </head>
 <body class="{kind}">
 <main>
@@ -151,22 +174,25 @@ def comparison(case, measured):
     return '<div class="pair">' + "\n".join(panels) + '</div>'
 
 
-def hero(rows, caught, missed, measured, social=False):
+def hero(rows, caught, missed, measured, social=False, theme=None):
     hook = (f"Validators catch {caught} of these {len(rows)}. "
             f"The other {missed} look fine to every tool.")
     case = next(row for row in rows if row["id"] == "div-button")
     brand = f'<header class="brand">{MASCOT}<h1 class="wordmark">divorce</h1></header>'
-    intro = brand + f'<p class="hook">{escape(hook).replace(". ", ".<br>", 1)}</p>'
+    heading = escape(hook).replace(". ", ".<br>", 1)
+    intro = brand + f'<p class="hook">{heading}</p>' if social else f'<h1 class="hook">{heading}</h1>'
     source = '<footer>Nu + axe: recorded checks. Tab and role: native HTML behavior.</footer>'
     pair = comparison(case, measured)
     body = f'<div>{intro}{source}</div>\n{pair}' if social else intro + pair + source
-    return document("divorce — native HTML, measured evidence", body, "social" if social else "hero")
+    return document("divorce — native HTML, measured evidence", body, "social" if social else "hero", theme)
 
 
-def cases_card(rows, missed, measured):
+def cases_card(rows, missed, measured, theme=None):
     cells = []
-    for index, row in enumerate(rows, 1):
-        tools = " + ".join(row["tools"]) or "nothing"
+    ordered = sorted(rows, key=lambda row: (bool(row["tools"]), row["id"]))
+    for index, row in enumerate(ordered, 1):
+        tools = " + ".join(f'<span class="catch-{tool.lower()}">{tool}</span>'
+                           for tool in (row["tools"] or ["nothing"]))
         violations = row["violations"]
         impact = max((item["impact"] for item in violations), key=IMPACTS.index) if violations else None
         if impact:
@@ -174,22 +200,26 @@ def cases_card(rows, missed, measured):
             detail = f'axe: {impact} · {nodes} affected node' + ("s" if nodes != 1 else "")
         else:
             detail = "No axe violation recorded"
-        cells.append(f'''<article class="case">
-<p class="index">{index:02d} / {escape(row["id"])}</p>
-<h2>{escape(row["title"])}</h2>
-<p class="catch">Caught by: {escape(tools)}</p>
-<p class="impact">{escape(detail)}</p>
-</article>''')
+        kind = "case" if row["tools"] else "case missed"
+        cells.append(f'''<tr class="{kind}">
+<td class="index">{index:02d}</td>
+<th scope="row" title="{escape(row["title"])}">{escape(row["id"])}</th>
+<td class="catch">{tools}</td>
+<td class="impact">{escape(detail)}</td>
+</tr>''')
     body = f'''<p class="label">The evidence / before examples</p>
 <header class="case-head"><h1 class="red">{missed} of {len(rows)}</h1>
 <p>invisible to every tool</p></header>
-<div class="case-grid">{NEWLINE.join(cells)}</div>
+<table class="case-table" aria-label="Recorded detector findings by case">
+<thead><tr><th class="number" scope="col">No.</th><th class="name" scope="col">Case</th>
+<th class="detector" scope="col">Detector</th><th scope="col">Impact</th></tr></thead>
+<tbody>{NEWLINE.join(cells)}</tbody></table>
 <footer>{escape(measured["tool"])} · {escape(measured["browser"])}<br>
 “Every tool” here means Nu and axe. No finding is not proof of correct behavior.</footer>'''
-    return document("divorce — the evidence", body, "cases")
+    return document("divorce — the evidence", body, "cases", theme)
 
 
-def ruling_card(records):
+def ruling_card(records, theme=None):
     record = next((item for item in records if item["verdict"] == "fail"), records[0])
     verdict = record["verdict"]
     code = {"pass": 0, "fail": 1, "not_measured": 2}[verdict]
@@ -199,9 +229,8 @@ def ruling_card(records):
     command = "python3 skills/divorce/scripts/gate.py html " + " ".join(entry["input"] for entry in record["html"])
     output = escape(json.dumps(abbreviated, ensure_ascii=False, indent=2, sort_keys=True))
     color = "green" if verdict == "pass" else "red"
-    body = f'''<p class="label">Recorded output / HTML only</p>
-<h1>The ruling.</h1>
-<section class="terminal" aria-label="Recorded gate result">
+    body = f'''<section class="terminal" aria-label="Recorded gate result">
+<h1 class="label">RECORDED OUTPUT / HTML ONLY</h1>
 <p class="command"><code>$ {escape(command)}</code></p>
 <pre>{output}</pre>
 <div class="status"><p class="display {color}">{escape(verdict.upper())}</p>
@@ -209,7 +238,7 @@ def ruling_card(records):
 </section>
 <footer>Real gate output. Message details omitted.<br>
 Nu checks HTML. An HTML-only result says nothing about axe.</footer>'''
-    return document("divorce — the ruling", body, "ruling")
+    return document("divorce — recorded gate output", body, "ruling", theme)
 
 
 def validate_summary(data):
@@ -233,7 +262,7 @@ def validate_summary(data):
     return data
 
 
-def numbers_card(data):
+def numbers_card(data, theme=None):
     groups = []
     for metric, label, direction in METRICS:
         maximum = max(data["arms"][arm][metric] for arm in ("with", "without"))
@@ -251,7 +280,7 @@ def numbers_card(data):
 {NEWLINE.join(groups)}
 <footer>Model: {escape(data["model"])}<br>{escape(data["date"])} · {data["runs_per_case"]} runs per case · {data["cases"]} cases per arm.<br>
 Raw counts. Each metric has its own scale, shared by both arms.</footer>'''
-    return document("divorce — measured numbers", body, "benchmark")
+    return document("divorce — measured numbers", body, "benchmark", theme)
 
 
 def build(root=ROOT, out_dir=None):
@@ -261,16 +290,20 @@ def build(root=ROOT, out_dir=None):
     measured = read_json(root / "examples/axe-measured.json")
     records = read_json(root / "assets/data/gate-real.json")
     rows, caught, missed = evidence(manifest, measured)
-    pages = {"hero.html": hero(rows, caught, missed, measured),
-             "social.html": hero(rows, caught, missed, measured, social=True),
-             "cases.html": cases_card(rows, missed, measured),
-             "ruling.html": ruling_card(records)}
     summary = root / "evals/results/summary.json"
-    if summary.exists():
-        pages["numbers.html"] = numbers_card(validate_summary(read_json(summary)))
+    data = validate_summary(read_json(summary)) if summary.exists() else None
+    pages = {"social.html": hero(rows, caught, missed, measured, social=True)}
+    for theme in ("light", "dark"):
+        pages[f"hero-{theme}.html"] = hero(rows, caught, missed, measured, theme=theme)
+        pages[f"cases-{theme}.html"] = cases_card(rows, missed, measured, theme)
+        pages[f"ruling-{theme}.html"] = ruling_card(records, theme)
+        if data is not None:
+            pages[f"numbers-{theme}.html"] = numbers_card(data, theme)
     out_dir.mkdir(parents=True, exist_ok=True)
-    if "numbers.html" not in pages:
-        (out_dir / "numbers.html").unlink(missing_ok=True)
+    obsolete = {"hero.html", "cases.html", "ruling.html", "numbers.html",
+                "numbers-light.html", "numbers-dark.html"} - pages.keys()
+    for name in sorted(obsolete):
+        (out_dir / name).unlink(missing_ok=True)
     for name, content in sorted(pages.items()):
         (out_dir / name).write_bytes(content.encode("utf-8"))
     return sorted(pages)

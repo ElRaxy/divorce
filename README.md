@@ -7,7 +7,7 @@
 <p align="center"><em>End your agent's toxic relationship with div soup. Write native HTML. Let code deliver the verdict.</em></p>
 
 <p align="center">
-  <img src="assets/cards/hero.png" width="880" alt="Validators catch 4 of these 9. The other 5 look fine to every tool. A clickable div passes Nu and axe but has no button role. A native button brings keyboard behavior.">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/hero-dark.png"><img src="assets/cards/hero-light.png" width="880" alt="Validators catch 4 of these 9. The other 5 look fine to every tool. A clickable div passes Nu and axe but has no button role and is skipped by Tab. A native button has a button role and is reached by Tab."></picture>
 </p>
 
 ```text
@@ -24,7 +24,7 @@ Works with Claude Code and Codex · [other agents →](#install)
 ## The evidence
 
 <p align="center">
-  <img src="assets/cards/cases.png" width="880" alt="5 of 9 invisible to every tool. Nu and axe catch heading order and missing image alt; axe catches missing labels and positive tabindex. The other cases need the ladder and manual checks.">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/cases-dark.png"><img src="assets/cards/cases-light.png" width="880" alt="5 of 9 invisible to every tool. The first five rows, in red, show nothing detected for button-link, custom-disclosure, custom-modal, div-button and div-list. Nu and axe detect heading-order and image-alt; axe detects input-label and positive-tabindex. Each row lists its recorded axe impact."></picture>
 </p>
 
 [Case file](examples/manifest.json) · [Measured axe results](examples/axe-measured.json). A finding is evidence; its impact and the gate policy determine the ruling.
@@ -45,10 +45,10 @@ The [skill and element table](skills/divorce/SKILL.md#2-pick-the-element-by-what
 ## The ruling
 
 <p align="center">
-  <img src="assets/cards/ruling.png" width="880" alt="Real HTML-only gate output: missing image alt, 1 Nu error, 0 warnings. FAIL, reason html_errors, exit=1.">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/ruling-dark.png"><img src="assets/cards/ruling-light.png" width="880" alt="Recorded output / HTML only. Terminal result for the missing-image-alt example: 1 Nu error, 0 warnings. FAIL, reason html_errors, exit=1."></picture>
 </p>
 
-These cards are HTML. They pass divorce's own gate.
+These cards are HTML. Validate them with divorce's own HTML gate.
 
 [Recorded output](assets/data/gate-real.json), abbreviated on the card. Nu checks served HTML; axe checks the rendered DOM. Code issues the verdict. Missing evidence means `not_measured`, never a pass.
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>divorce — the evidence</title>
+<title>divorce — recorded gate output</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
@@ -52,19 +52,35 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .social .facts { font-size: 13px; }
 .social .facts .measured { margin-top: 8px; }
 .social footer { margin-top: 20px; }
-.case-head { margin: 24px 0 36px; }
-.case-head h1 { font-size: 152px; white-space: nowrap; }
-.case-head p { font: 700 34px/1.1 'Bricolage Grotesque', sans-serif;
-  margin-top: 12px; letter-spacing: -.035em; }
-.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.case { min-height: 206px; padding: 20px; background: var(--card);
-  border: 1px solid var(--line); border-radius: 14px; }
-.case h2 { min-height: 54px; font-size: 23px; margin: 18px 0; }
-.case .catch { font-size: 13px; }
-.case .impact { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.cases main { padding: 32px; }
+.cases .label { height: 18px; line-height: 18px; }
+.case-head { display: flex; align-items: center; gap: 24px;
+  height: 64px; margin: 16px 0; white-space: nowrap; }
+.case-head h1 { font-size: 64px; }
+.case-head p { font: 700 32px/1 'Bricolage Grotesque', sans-serif;
+  letter-spacing: -.035em; }
+.case-table { width: 100%; table-layout: fixed; border-spacing: 0; }
+.case-table th, .case-table td { padding: 0 12px; text-align: left;
+  white-space: nowrap; border-bottom: 1px solid var(--line); }
+.case-table thead tr { height: 28px; }
+.case-table thead th { color: var(--muted); font-size: 11px; line-height: 16px; }
+.case-table .number { width: 48px; }
+.case-table .name { width: 226px; }
+.case-table .detector { width: 128px; }
+.case { height: 36px; font-size: 13px; line-height: 18px; }
+.case th { font-weight: 400; }
+.case .impact { font-size: 11px; color: var(--muted); }
 .case .index { font-size: 12px; color: var(--muted); }
+.case.missed { background: var(--card); color: var(--red); }
+.case.missed .index, .case.missed .impact { color: var(--red); }
+.catch-nu { color: var(--green); }
+.catch-axe { color: var(--text); }
+.catch-nothing { color: var(--red); }
+.cases footer { height: 36px; line-height: 18px; margin-top: 18px; }
 .terminal { border: 1px solid var(--line); border-radius: 18px;
-  background: var(--card); margin-top: 32px; padding: 28px; }
+  background: var(--card); padding: 28px; }
+.terminal h1.label { font: 400 12px/18px 'JetBrains Mono', monospace;
+  letter-spacing: .14em; margin-bottom: 24px; }
 .terminal .command { color: var(--text); font-size: 13px; white-space: pre-wrap;
   overflow-wrap: anywhere; }
 .terminal pre { font-size: 14px; line-height: 1.65; white-space: pre-wrap;
@@ -83,69 +99,33 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .bar { display: block; height: 100%; background: var(--muted); }
 .bar.with { background: var(--green); }
 .value { font: 800 24px/1 'Bricolage Grotesque', sans-serif; text-align: right; }
+html, body { background: #ffffff; }
+main { background: var(--bg); border: 1px solid #6e7681; border-radius: 24px; }
 </style>
 </head>
-<body class="cases">
+<body class="ruling">
 <main>
-<p class="label">The evidence / before examples</p>
-<header class="case-head"><h1 class="red">5 of 9</h1>
-<p>invisible to every tool</p></header>
-<div class="case-grid"><article class="case">
-<p class="index">01 / button-link</p>
-<h2>Use a link for navigation</h2>
-<p class="catch">Caught by: nothing</p>
-<p class="impact">No axe violation recorded</p>
-</article>
-<article class="case">
-<p class="index">02 / custom-disclosure</p>
-<h2>Use details for a disclosure</h2>
-<p class="catch">Caught by: nothing</p>
-<p class="impact">No axe violation recorded</p>
-</article>
-<article class="case">
-<p class="index">03 / custom-modal</p>
-<h2>Use dialog for a modal task</h2>
-<p class="catch">Caught by: nothing</p>
-<p class="impact">No axe violation recorded</p>
-</article>
-<article class="case">
-<p class="index">04 / div-button</p>
-<h2>Use a button for an action</h2>
-<p class="catch">Caught by: nothing</p>
-<p class="impact">No axe violation recorded</p>
-</article>
-<article class="case">
-<p class="index">05 / div-list</p>
-<h2>Represent a list with ul and li</h2>
-<p class="catch">Caught by: nothing</p>
-<p class="impact">No axe violation recorded</p>
-</article>
-<article class="case">
-<p class="index">06 / heading-order</p>
-<h2>Keep heading levels in order</h2>
-<p class="catch">Caught by: Nu + axe</p>
-<p class="impact">axe: moderate · 1 affected node</p>
-</article>
-<article class="case">
-<p class="index">07 / image-alt</p>
-<h2>Provide an image text alternative</h2>
-<p class="catch">Caught by: Nu + axe</p>
-<p class="impact">axe: critical · 1 affected node</p>
-</article>
-<article class="case">
-<p class="index">08 / input-label</p>
-<h2>Associate a label with its control</h2>
-<p class="catch">Caught by: axe</p>
-<p class="impact">axe: critical · 1 affected node</p>
-</article>
-<article class="case">
-<p class="index">09 / positive-tabindex</p>
-<h2>Follow document order for focus</h2>
-<p class="catch">Caught by: axe</p>
-<p class="impact">axe: serious · 2 affected nodes</p>
-</article></div>
-<footer>axe-core 4.10.2 · Chrome/156.0.0.0<br>
-“Every tool” here means Nu and axe. No finding is not proof of correct behavior.</footer>
+<section class="terminal" aria-label="Recorded gate result">
+<h1 class="label">RECORDED OUTPUT / HTML ONLY</h1>
+<p class="command"><code>$ python3 skills/divorce/scripts/gate.py html examples/image-alt/before.html</code></p>
+<pre>{
+  &quot;html&quot;: [
+    {
+      &quot;errors&quot;: 1,
+      &quot;input&quot;: &quot;examples/image-alt/before.html&quot;,
+      &quot;warnings&quot;: 0
+    }
+  ],
+  &quot;reasons&quot;: [
+    &quot;html_errors&quot;
+  ],
+  &quot;verdict&quot;: &quot;fail&quot;
+}</pre>
+<div class="status"><p class="display red">FAIL</p>
+<code>exit=1</code></div>
+</section>
+<footer>Real gate output. Message details omitted.<br>
+Nu checks HTML. An HTML-only result says nothing about axe.</footer>
 </main>
 </body>
 </html>
