@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560" role="img" aria-labelledby="title desc">
+  <title id="title">In the matter of div v. the spec: heading-order</title>
+  <desc id="desc">Nu HTML Checker evidence. Before: examples/heading-order/before.html, error at line 10, column 6. The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level. Verdict fail, exit=1. After: examples/heading-order/after.html, errors 0, verdict pass, exit=0. This exhibit covers HTML only.</desc>
+  <rect x="4" y="4" width="792" height="552" rx="3" fill="#F4EEDC" stroke="#292824" stroke-width="2"/>
+  <rect x="13" y="13" width="774" height="534" rx="1" fill="none" stroke="#746B5C"/>
+  <g fill="#292824" font-family="'Courier New', Courier, 'Nimbus Mono PS', monospace">
+    <text x="400" y="37" text-anchor="middle" font-size="12" letter-spacing="2">IN THE MATTER OF</text>
+    <text x="400" y="71" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30">&lt;div&gt; v. THE SPEC</text>
+    <text x="400" y="96" text-anchor="middle" font-size="14">Case No. heading-order</text>
+    <path d="M30 111H770M400 126V486M30 501H770" fill="none" stroke="#746B5C"/>
+    <text x="34" y="144" font-size="16" font-weight="bold" letter-spacing="2">BEFORE</text>
+    <text x="424" y="144" font-size="16" font-weight="bold" letter-spacing="2">AFTER</text>
+    <text x="34" y="170" font-size="14">examples/heading-order/before.html</text>
+    <text x="424" y="170" font-size="14">examples/heading-order/after.html</text>
+    <text x="34" y="208" font-size="16">"type": "error"</text>
+    <text x="34" y="234" font-size="16">line 10, column 6</text>
+    <text x="34" y="273" font-size="17"><tspan x="34">The heading “h3” (with </tspan><tspan x="34" dy="24">computed level 3) follows the </tspan><tspan x="34" dy="24">heading “h1” (with computed </tspan><tspan x="34" dy="24">level 1), skipping 1 heading </tspan><tspan x="34" dy="24">level.</tspan></text>
+    <text x="34" y="407" font-size="16">"verdict": "fail"</text>
+    <text x="34" y="466" font-size="19" font-weight="bold">exit=1</text>
+    <text x="424" y="208" font-size="16">"errors": 0</text>
+    <text x="586" y="325" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="104">0</text>
+    <text x="586" y="353" text-anchor="middle" font-size="16" letter-spacing="3">HTML ERRORS</text>
+    <text x="424" y="407" font-size="16">"verdict": "pass"</text>
+    <text x="424" y="466" font-size="19" font-weight="bold">exit=0</text>
+    <text x="400" y="524" text-anchor="middle" font-size="13">Nu HTML Checker · HTML evidence only · Verdict by code</text>
+  </g>
+  <g transform="rotate(-8 302 452)" fill="none" stroke="#963D32">
+    <rect x="243" y="425" width="118" height="54" rx="2" stroke-width="3"/>
+    <rect x="248" y="430" width="108" height="44" rx="1" stroke-width="1"/>
+    <text x="302" y="464" text-anchor="middle" fill="#963D32" stroke="none" font-family="'Courier New', Courier, 'Nimbus Mono PS', monospace" font-size="35" font-weight="bold" letter-spacing="3">FAIL</text>
+  </g>
+  <g transform="rotate(-8 692 452)" fill="none" stroke="#285B43">
+    <rect x="633" y="425" width="118" height="54" rx="2" stroke-width="3"/>
+    <rect x="638" y="430" width="108" height="44" rx="1" stroke-width="1"/>
+    <text x="692" y="464" text-anchor="middle" fill="#285B43" stroke="none" font-family="'Courier New', Courier, 'Nimbus Mono PS', monospace" font-size="35" font-weight="bold" letter-spacing="3">PASS</text>
+  </g>
+</svg>

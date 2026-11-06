@@ -1,104 +1,42 @@
-# divorce
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+  <img src="assets/logo.svg" width="300" alt="divorce — divorcing div soup">
+</picture></p>
+<h1 align="center">divorce</h1>
+<p align="center"><em>Your agent is in a toxic relationship with &lt;div&gt;. It's not you, it's the spec.</em></p>
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-292720?style=flat-square" alt="License: MIT"></a>
+  <img src="https://img.shields.io/badge/works_with-Claude_Code_%C2%B7_Codex-292720?style=flat-square" alt="Works with Claude Code and Codex">
+  <img src="https://img.shields.io/badge/HTML-Nu_HTML_Checker-292720?style=flat-square" alt="HTML: Nu HTML Checker">
+  <img src="https://img.shields.io/badge/axe_tags-WCAG_2.2_AA-292720?style=flat-square" alt="axe tags: WCAG 2.2 AA; automated coverage is partial">
+  <img src="https://img.shields.io/badge/verdict-by_code-285A42?style=flat-square" alt="Verdict by code">
+</p>
+<p align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero.svg">
+  <img src="assets/hero.svg" width="800" alt="Case heading-order. Before: h1 to h3 skips a level, line 10, column 6; Nu error, fail, exit 1. After: zero HTML errors, pass, exit 0. HTML evidence only.">
+</picture></p>
 
-> Your agent is in a toxic relationship with `<div>`. It's not you, it's the spec.
-
-A skill for web developers using coding agents such as Claude Code and Codex. Before writing, it guides the agent toward the smallest native HTML/CSS/JS/ARIA solution that follows web standards. Before calling the work done, a deterministic gate checks served HTML with Nu HTML Checker and the rendered DOM with axe-core. Exit 0: pass. Exit 1: fail. Exit 2: not measured. Missing evidence never counts as a pass.
-
-## A 30-second before / after
-
-Start with [heading-order](examples/heading-order/before.html). An `<h3>` follows an `<h1>`. The [fix](examples/heading-order/after.html) changes it to `<h2>`.
-
-Real `gate.py` output with Nu HTML Checker 26.11.4 is shown below. `input` preserves the supplied relative path.
-
-```sh
-python3 skills/divorce/scripts/gate.py html examples/heading-order/before.html
+```bash
+/plugin marketplace add ElRaxy/divorce
+/plugin install divorce@divorce
 ```
 
-```json
-{
-  "html": [
-    {
-      "input": "examples/heading-order/before.html",
-      "errors": 1,
-      "warnings": 0,
-      "messages": [
-        {
-          "type": "error",
-          "message": "The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.",
-          "line": 10,
-          "column": 6,
-          "extract": "de</h1>\n  <h3>Delive"
-        }
-      ]
-    }
-  ],
-  "verdict": "fail",
-  "reasons": [
-    "html_errors"
-  ]
-}
-```
+Run these in Claude Code. [Codex and other installation routes](#install) are below; validator setup is separate.
 
-Exit: 1.
+A skill for web developers using Claude Code and Codex. It guides the smallest native HTML/CSS/JS/ARIA solution against web standards, then checks served HTML with Nu HTML Checker and the rendered DOM with axe-core. Exit **0: pass · 1: fail · 2: not measured**. Missing evidence never counts as a pass.
 
-```sh
-python3 skills/divorce/scripts/gate.py html examples/heading-order/after.html
-```
+| Without divorce | With divorce |
+| --- | --- |
+| A generic container gets every job. | Native elements chosen by behavior. |
+| More code before checking what exists. | Reuse the project; try HTML and CSS first. |
+| “Looks fine” is the verdict. | Validator evidence, JSON reasons and exit codes. |
+| Missing evidence leaves room for a guess. | `not_measured` blocks a pass. |
 
-```json
-{
-  "html": [
-    {
-      "input": "examples/heading-order/after.html",
-      "errors": 0,
-      "warnings": 0,
-      "messages": []
-    }
-  ],
-  "verdict": "pass",
-  "reasons": []
-}
-```
+## How it works
 
-Exit: 0.
-
-The second example saves a draft and displays its status. These lines come from [before.html](examples/div-button/before.html) and [after.html](examples/div-button/after.html).
-
-Before:
-
-```html
-<div onclick="document.getElementById('result').textContent = 'Saved'">Save</div>
-```
-
-After:
-
-```html
-<button type="button" onclick="document.getElementById('result').textContent = 'Saved'">Save</button>
-```
-
-The HTML validator passes both documents. Their difference appears in accessibility checks with axe and manual keyboard tests. The button supplies native semantics and keyboard activation; the plain div does not. Automated checks do not reliably infer that this div should be a button.
-
-Actual `gate.py` output with the fake `vnu` in [test_gate.py](tests/test_gate.py), selected through `VNU`, is shown below in compact form. The fake returns no messages for these files. This checks the output contract, not HTML validity.
-
-```sh
-python3 skills/divorce/scripts/gate.py html examples/div-button/before.html
-```
-
-```json
-{"html": [{"input": "examples/div-button/before.html", "errors": 0, "warnings": 0, "messages": []}], "verdict": "pass", "reasons": []}
-```
-
-Exit: 0.
-
-```sh
-python3 skills/divorce/scripts/gate.py html examples/div-button/after.html
-```
-
-```json
-{"html": [{"input": "examples/div-button/after.html", "errors": 0, "warnings": 0, "messages": []}], "verdict": "pass", "reasons": []}
-```
-
-Exit: 0. No axe, keyboard or visual check was run for this demonstration. No axe output is claimed. See the [example notes](examples/README.md).
+1. 📝 **File the case.** Check whether the feature is needed and whether the project already has it.
+2. ⚖️ **Apply the spec.** Choose native elements and CSS before adding JavaScript; preserve safeguards.
+3. 🔎 **Read the ruling.** Run Nu and collect axe evidence. Code decides the verdict; check keyboard, focus and visuals separately.
 
 ## What it does
 
@@ -129,46 +67,90 @@ ARIA refines native semantics. Accessibility, boundary validation and handling e
 
 It is not a component library, a CSS validator, a JavaScript correctness check, a performance audit or a design review. It does not prove full WCAG conformance. Manual keyboard, focus and visual checks remain necessary. The gate cannot enforce every decision in the writing ladder.
 
+## A 30-second before / after
+
+Start with [heading-order](examples/heading-order/before.html). An `<h3>` follows an `<h1>`. The [fix](examples/heading-order/after.html) changes it to `<h2>`.
+
+Real `gate.py` output with Nu HTML Checker 26.11.4 is shown below. The before input is displayed as a relative path; the original capture used a machine-local file URL.
+
+```sh
+python3 skills/divorce/scripts/gate.py html examples/heading-order/before.html
+```
+
+<details><summary>Before: Nu HTML Checker — exit 1</summary>
+
+```json
+{"html": [{"input": "examples/heading-order/before.html", "errors": 1, "warnings": 0, "messages": [{"type": "error", "message": "The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.", "line": 10, "column": 6, "extract": "de</h1>\n  <h3>Delive"}]}], "verdict": "fail", "reasons": ["html_errors"]}
+```
+</details>
+
+```sh
+python3 skills/divorce/scripts/gate.py html examples/heading-order/after.html
+```
+
+<details><summary>After: Nu HTML Checker — exit 0</summary>
+
+```json
+{"html": [{"input": "examples/heading-order/after.html", "errors": 0, "warnings": 0, "messages": []}], "verdict": "pass", "reasons": []}
+```
+</details>
+
+The second example saves a draft and displays its status. These lines come from [before.html](examples/div-button/before.html) and [after.html](examples/div-button/after.html).
+
+Before:
+
+```html
+<div onclick="document.getElementById('result').textContent = 'Saved'">Save</div>
+```
+
+After:
+
+```html
+<button type="button" onclick="document.getElementById('result').textContent = 'Saved'">Save</button>
+```
+
+The HTML validator passes both documents. Their difference appears in accessibility checks with axe and manual keyboard tests. The button supplies native semantics and keyboard activation; the plain div does not. Automated checks do not reliably infer that this div should be a button.
+
+Actual `gate.py` output with the fake `vnu` in [test_gate.py](tests/test_gate.py), selected through `VNU`, is shown below in compact form. The fake returns no messages for these files. This checks the output contract, not HTML validity.
+
+```sh
+python3 skills/divorce/scripts/gate.py html examples/div-button/before.html
+```
+
+<details><summary>Before: simulated validator — exit 0</summary>
+
+```json
+{"html": [{"input": "examples/div-button/before.html", "errors": 0, "warnings": 0, "messages": []}], "verdict": "pass", "reasons": []}
+```
+</details>
+
+```sh
+python3 skills/divorce/scripts/gate.py html examples/div-button/after.html
+```
+
+<details><summary>After: simulated validator — exit 0</summary>
+
+```json
+{"html": [{"input": "examples/div-button/after.html", "errors": 0, "warnings": 0, "messages": []}], "verdict": "pass", "reasons": []}
+```
+</details>
+
+No axe, keyboard or visual check was run for this demonstration. No axe output is claimed. See the [example notes](examples/README.md).
+
 ## Install
 
 Choose one route. Shell commands below run from the root of an existing divorce checkout.
 
-### Claude Code plugin
+**Claude Code plugin:** use the two commands at the top. Names come from the [plugin manifest](.claude-plugin/plugin.json) and [marketplace manifest](.claude-plugin/marketplace.json). Validator setup is separate.
 
-```text
-/plugin marketplace add ElRaxy/divorce
-/plugin install divorce@divorce
-```
+| Route | Command | Destination or effect |
+| --- | --- | --- |
+| Claude, user-wide | `sh install.sh --claude` | Copies the entire `skills/divorce/` directory and its scripts to `~/.claude/skills/divorce/`, recording the installation. |
+| Claude, one project | `sh install.sh --claude --project DIR` | Copies to `DIR/.claude/skills/divorce/`. |
+| Codex | `sh install.sh --codex` | Copies to `~/.codex/skills/divorce/`. `--project` is Claude-only. |
+| Other agents | `sh install.sh --agents-md AGENTS.md` | Appends or replaces a marked block in the instruction file your agent reads. |
 
-Those names come from the [plugin manifest](.claude-plugin/plugin.json) and [marketplace manifest](.claude-plugin/marketplace.json). Validator setup is separate.
-
-### Manual copy or standalone installer
-
-Copy the entire `skills/divorce/` directory, including its scripts, to `~/.claude/skills/divorce/`. The standalone installer performs that copy and records the installation:
-
-```sh
-sh install.sh --claude
-```
-
-For a single Claude project, use `--project DIR` with `--claude`. Its destination is `DIR/.claude/skills/divorce/`.
-
-### Codex
-
-```sh
-sh install.sh --codex
-```
-
-This copies the skill to `~/.codex/skills/divorce/`. `--project` is supported only for Claude.
-
-### Other agents
-
-Pass the path to the instruction file your agent reads:
-
-```sh
-sh install.sh --agents-md AGENTS.md
-```
-
-This appends or replaces a marked instruction block. It points to the gate by its absolute path in the checkout. Keep the checkout in place. See the [FAQ](docs/faq.md#does-installing-it-make-the-gate-run-itself) for update and removal behavior.
+For a manual copy, copy the entire `skills/divorce/` directory, including its scripts, to `~/.claude/skills/divorce/`. An instruction block points to the gate by its absolute path in the checkout: keep the checkout in place. See the [FAQ](docs/faq.md#does-installing-it-make-the-gate-run-itself) for update and removal behavior.
 
 The standalone installer does not register a plugin, install validators or add an automatic gate hook.
 
@@ -223,7 +205,14 @@ A benchmark is planned. It will compare the same tasks with and without the skil
 
 ## FAQ
 
-[Read the FAQ](docs/faq.md) for framework support, automated coverage, source versus served HTML, and spec versus convention. See [CONTRIBUTING.md](CONTRIBUTING.md) for changes and [CHANGELOG.md](CHANGELOG.md) for version history.
+- [Framework support](docs/faq.md#can-react-vue-wordpresselementor-and-php-keep-the-house): check served HTML and the rendered DOM.
+- [Automated coverage](docs/faq.md#does-a-green-result-mean-wcag-and-i-are-married-forever): a passing gate is not full WCAG conformance.
+- [Source versus served HTML](docs/faq.md#why-check-the-served-html-instead-of-the-family-source-tree): validate the output, not an unrendered template.
+- [Spec versus convention](docs/faq.md#spec-or-convention-who-gets-the-cursor): cite the spec and preserve project conventions.
+- [Installation and maintenance](docs/faq.md#does-installing-it-make-the-gate-run-itself): installation does not add an automatic hook.
+- [Not measured](docs/faq.md#can-not-measured-sign-the-pass-papers): exit 2 never means pass.
+
+[Read the full FAQ](docs/faq.md). See [CONTRIBUTING.md](CONTRIBUTING.md) for changes and [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## Credits
 
