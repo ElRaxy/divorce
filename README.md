@@ -1,30 +1,59 @@
-<p align="center"><img src="assets/mascot.png" width="200" alt="A weary div with glasses signing separation papers with a red pen."></p>
+<p align="center"><img src="assets/cards/banner.png" width="880" alt="divorce. Native first. Then proven. A skill for Claude Code and Codex."></p>
+<p align="center"><a href="#install">Install</a> · <a href="#numbers">Numbers</a> · <a href="#what-validators-miss">What validators miss</a> · <a href="#how-it-works">How it works</a> · <a href="evals/README.md">Evaluation</a></p>
 
-<h1 align="center">divorce</h1>
-<p align="center"><em>End your agent's toxic relationship with div soup.</em><br>A skill for Claude Code and Codex: native HTML first, then proof.</p>
-
-<p align="center"><img src="assets/cards/hero.png" width="880" alt="Validators catch 4 of these 9. The other 5 look fine to every tool. A clickable div passes Nu and axe but has no button role and is skipped by Tab; a native button has a button role and is reached by Tab."></p>
-
-<p align="center">Your agent writes <code>&lt;div onclick&gt;</code>. Every validator says it's fine. Someone using a keyboard can't reach it. divorce makes the agent pick the native element first, then proves it with Nu and axe.</p>
-
-<p align="center"><img src="assets/demo/replay.gif" width="880" alt="Two recorded runs of the same modal task, same prompt and model. Without divorce, one Write creates index.html and a node check confirms only that the script parses; no validator runs. With divorce, the agent invokes the skill, writes index.html, runs `gate.py html`, and Nu returns pass with 0 errors and exit 0. Neither run opens a browser or runs axe; only HTML was measured."></p>
-
+> Your agent writes `<div onclick>`. Every validator says it's fine. Someone using a keyboard can't reach it.
+>
+> **divorce** makes the agent pick the native element first, then proves it with Nu and axe.
 ## Install
 
 ```text
 /plugin marketplace add ElRaxy/divorce
 /plugin install divorce@divorce
 ```
+Other agents and install routes: [Details](#details).
+## Numbers
 
-<p align="center"><sub>Other agents and routes: <a href="#details">Details</a></sub></p>
+|  | HTML | JavaScript | ARIA | axe violations |
+| --- | :---: | :---: | :---: | :---: |
+| **With divorce** | −29% | −41% | −33% | −76% |
 
-<p align="center"><img src="assets/cards/numbers.png" width="880" alt="HTML: −29%; JavaScript: −41%; ARIA: −33%; axe violation nodes: −76%, over 5 runs of 8 tasks. Nu errors: 3 of 40 pages with divorce, 0 of 40 without."></p>
+Over 5 runs of 8 tasks. Nu errors: 3 of 40 pages with divorce, 0 of 40 without. Method and limits in [evals](evals/README.md).
+## What validators miss
 
-<p align="center"><img src="assets/cards/cases.png" width="880" alt="5 of 9 invisible to Nu and axe: button-link, custom-disclosure, custom-modal, div-button and div-list. Nu and axe detect heading-order and image-alt; axe detects input-label and positive-tabindex, with recorded impacts."></p>
+Both of these pass the Nu HTML Checker and axe. Only one can be reached with Tab.
 
-<p align="center"><img src="assets/cards/ladder.png" width="880" alt="Stop at the first rung that holds. 01 Does it need to exist? If not, omit it. 02 Does the project already have it? Reuse it. 03 Is there a native HTML element for it? Use it. 04 Can CSS do it without JavaScript? 05 Does an installed dependency cover it? 06 Only then: the smallest code that works, plus a small test for logic."></p>
+Without divorce:
+```html
+<div onclick="document.getElementById('result').textContent = 'Saved'">Save</div>
+```
+With divorce:
+```html
+<button type="button" onclick="document.getElementById('result').textContent = 'Saved'">Save</button>
+```
 
-<p align="center"><img src="assets/cards/ruling.png" width="880" alt="Recorded output, HTML only: the missing-image-alt example has 1 Nu error and 0 warnings; FAIL, reason html_errors, exit=1."></p>
+| Case | Nu | axe |
+| --- | --- | --- |
+| [Use a link for navigation](examples/button-link/) | — | — |
+| [Use details for a disclosure](examples/custom-disclosure/) | — | — |
+| [Use dialog for a modal task](examples/custom-modal/) | — | — |
+| [Use a button for an action](examples/div-button/) | — | — |
+| [Represent a list with ul and li](examples/div-list/) | — | — |
+| [Keep heading levels in order](examples/heading-order/) | flags it | flags it (moderate) |
+| [Provide an image text alternative](examples/image-alt/) | flags it | flags it (critical) |
+| [Associate a label with its control](examples/input-label/) | — | flags it (critical) |
+| [Follow document order for focus](examples/positive-tabindex/) | — | flags it (serious) |
+
+5 of 9 pass both checkers. divorce picks the element before anything is checked.
+## How it works
+
+1. Does it need to exist? If not, omit it.
+2. Does the project already have it? Reuse it.
+3. Is there a native HTML element for it? Use it.
+4. Can CSS do it without JavaScript?
+5. Does an installed dependency cover it?
+6. Only then: the smallest code that works, plus a small test for logic.
+
+Then the gate checks the result: Nu on the HTML, axe on the rendered page. Code, not the model, delivers the verdict: `pass`, `fail` or `not_measured` ([exit codes](#details)).
 
 ## Details
 
@@ -36,6 +65,7 @@
 - See the <a href="evals/README.md">with/without evaluation</a> for the measurements and limits.
 - <a href="examples/manifest.json">Case file</a> · <a href="examples/axe-measured.json">Measured axe results</a>: findings and the gate policy determine the ruling.
 - <a href="assets/data/gate-real.json">Recorded output</a>: Nu checks HTML, axe checks the rendered DOM, and missing evidence means <code>not_measured</code>, never a pass.
+- <a href="assets/demo/replay.gif">Two recorded runs</a> of the same modal task, same prompt and model.
 
 <h3>Install</h3>
 

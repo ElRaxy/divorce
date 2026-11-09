@@ -3,87 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>divorce — native HTML, measured evidence</title>
-<style>@font-face { font-family: 'Geist'; font-weight: 400;
+<title>divorce — Native first. Then proven.</title>
+<style>@font-face { font-family: 'Instrument Serif'; font-weight: 400;
   font-style: normal; font-display: block;
-  src: url("../../fonts/geist-sans-latin-400-normal.woff2") format("woff2"); }
+  src: url("../../fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Instrument Serif'; font-weight: 400;
+  font-style: italic; font-display: block;
+  src: url("../../fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); }
 @font-face { font-family: 'Geist'; font-weight: 500;
   font-style: normal; font-display: block;
   src: url("../../fonts/geist-sans-latin-500-normal.woff2") format("woff2"); }
-@font-face { font-family: 'Geist'; font-weight: 600;
-  font-style: normal; font-display: block;
-  src: url("../../fonts/geist-sans-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: 'Geist'; font-weight: 700;
-  font-style: normal; font-display: block;
-  src: url("../../fonts/geist-sans-latin-700-normal.woff2") format("woff2"); }
-@font-face { font-family: 'Geist Mono'; font-weight: 400;
-  font-style: normal; font-display: block;
-  src: url("../../fonts/geist-mono-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: 'Geist Mono'; font-weight: 500;
-  font-style: normal; font-display: block;
-  src: url("../../fonts/geist-mono-latin-500-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0d1117; --surface: #161b22; --surface-2: #1c2128;
-  --hairline: rgba(240,246,252,0.08); --text: #f5f5f7; --text-2: #a1a1a6;
-  --text-3: #86868b; --green: #30d158; --red: #ff453a;
-  --red-tint: rgba(255,69,58,0.12); --green-tint: rgba(48,209,88,0.12); }
-* { box-sizing: border-box; }
-html { background: var(--bg); }
-body { width: 880px; margin: 0; background: var(--bg); color: var(--text);
-  font: 400 17px/1.45 'Geist', sans-serif; letter-spacing: 0; text-align: center; }
-main { padding: 72px 64px; background: var(--bg); display: grid; gap: 40px; }
-h1, h2, p { margin: 0; }
-h1 { font-size: 40px; line-height: 1.08; letter-spacing: -0.03em; font-weight: 700; }
-h2, .subtitle { font-size: 20px; line-height: 1.35; letter-spacing: -0.01em; font-weight: 500; }
-code { font: 400 15px/1.5 'Geist Mono', monospace; letter-spacing: 0; }
-.display { font-size: 56px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 700; }
-.figure { font-size: 64px; line-height: 1; letter-spacing: -0.045em; font-weight: 700;
-  font-variant-numeric: tabular-nums; }
-.label { color: #86868b; font-size: 13px; line-height: 1.2; letter-spacing: 0.08em;
-  font-weight: 600; text-transform: uppercase; }
-header { display: grid; gap: 16px; }
-.secondary { color: var(--text-2); }
-.quiet, footer { color: var(--text-3); }
-.red { color: var(--red); }
-.green { color: var(--green); }
-.surface { background: var(--surface); border: 1px solid var(--hairline); border-radius: 20px; }
-.pair { display: grid; grid-template-columns: repeat(2, 340px); gap: 16px; justify-content: center; }
-.sample { padding: 32px; display: grid; gap: 16px; }
-.sample code { font-size: 26px; }
-.sample p { color: var(--text-2); }
-.metric-grid { display: grid; grid-template-columns: repeat(2, 360px); gap: 16px; justify-content: center; }
-.metric { height: 180px; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; gap: 16px; }
-.metric code { color: #86868b; }
-.nu-line { color: var(--text-2); }
-.nu-line::before { content: ''; display: inline-block; width: 8px; height: 8px;
-  margin-right: 8px; border-radius: 50%; background: var(--red); vertical-align: middle; }
-.case-grid { display: grid; grid-template-columns: repeat(3, 240px); gap: 12px;
-  justify-content: center; margin: 0; padding: 0; list-style: none; }
-.case { height: 88px; border-radius: 16px; display: flex; flex-direction: column;
-  justify-content: center; gap: 16px; background: var(--surface); border: 1px solid var(--hairline); }
-.case.missed { background: var(--red-tint); border: 0; }
-.detector { color: #86868b; font-size: 13px; line-height: 1.2; }
-.missed .detector { color: var(--red); }
-.terminal { width: 640px; margin-inline: auto; padding: 32px; display: grid; gap: 40px; }
-.command { color: var(--text-2); }
-.status { display: flex; justify-content: center; align-items: baseline; gap: 16px; }
-.status code { color: #86868b; }
-.gate-facts { display: flex; justify-content: center; gap: 40px; margin: 0; }
-.gate-facts div { display: grid; gap: 16px; }
-.gate-facts dd { margin: 0; }
-.social { width: 1280px; height: 640px; text-align: left; }
-.social main { height: 640px; grid-template-columns: 360px 1fr; align-items: center; }
-.social .mascot { display: block; width: 360px; height: 360px; object-fit: contain; }
-.social-copy { display: grid; gap: 40px; }
-.wordmark { font-size: 72px; line-height: 1.04; letter-spacing: -0.035em; }
+body { margin: 0; width: 880px; height: 400px; background: #f6f3ec; }
+.b { display: grid; grid-template-columns: 300px 1fr; align-items: center;
+  gap: 8px; padding: 44px 64px 44px 40px; height: 312px; }
+img { width: 300px; display: block; }
+h1 { font: 400 76px/0.95 "Instrument Serif", serif; letter-spacing: -0.02em;
+  color: #1b1a17; margin: 0 0 22px; text-wrap: balance; }
+h1 em { color: #d8432f; }
+p { font: 500 15px/1.5 Geist, sans-serif; color: #6b665c; margin: 0; }
+p b { color: #1b1a17; font-weight: 500; }
+body { width: 1280px; height: 640px; }
+.b { grid-template-columns: 420px 1fr; gap: 12px;
+  padding: 62px 90px 62px 56px; height: 516px; }
+img { width: 420px; }
+h1 { font-size: 108px; margin-bottom: 31px; }
+p { font-size: 21px; }
 </style>
 </head>
-<body class="social">
-<main>
-<img class="mascot" src="../../mascot.png" width="160" height="160" alt="A weary div character in round glasses signs separation papers with a red pen.">
-<div class="social-copy"><header><h1 class="wordmark">divorce</h1>
-<p class="subtitle secondary">End your agent's toxic relationship with div soup.</p></header>
-<p class="quiet">Validators catch 4 of 9. The other 5 look fine.</p></div>
-</main>
+<body>
+<main class="b"><img src="../../mascot.png" alt=""><div>
+<h1>Native first.<br><em>Then proven.</em></h1>
+<p><b>divorce</b> &nbsp;·&nbsp; a skill for Claude Code and Codex</p>
+</div></main>
 </body>
 </html>
