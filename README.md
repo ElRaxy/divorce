@@ -5,7 +5,9 @@
 
 <p align="center"><img src="assets/cards/hero.png" width="880" alt="Validators catch 4 of these 9. The other 5 look fine to every tool. A clickable div passes Nu and axe but has no button role and is skipped by Tab; a native button has a button role and is reached by Tab."></p>
 
-<p align="center"><img src="assets/demo/replay.gif" width="880" alt="same task and model. Without divorce, one Write creates index.html and a node check confirms only that the script parses; no validator runs. With divorce, the agent invokes the skill, writes index.html, runs `gate.py html`, and Nu returns pass with 0 errors and exit 0. Neither run opens a browser or runs axe; only HTML was measured."></p>
+<p align="center">Your agent writes <code>&lt;div onclick&gt;</code>. Every validator says it's fine. Someone using a keyboard can't reach it. divorce makes the agent pick the native element first, then proves it with Nu and axe.</p>
+
+<p align="center"><img src="assets/demo/replay.gif" width="880" alt="Two recorded runs of the same modal task, same prompt and model. Without divorce, one Write creates index.html and a node check confirms only that the script parses; no validator runs. With divorce, the agent invokes the skill, writes index.html, runs `gate.py html`, and Nu returns pass with 0 errors and exit 0. Neither run opens a browser or runs axe; only HTML was measured."></p>
 
 ## Install
 
@@ -14,50 +16,35 @@
 /plugin install divorce@divorce
 ```
 
-<sub>For other installation routes, see <a href="#details">Details</a>.</sub>
-
-## Numbers
+<p align="center"><sub>Other agents and routes: <a href="#details">Details</a></sub></p>
 
 <p align="center"><img src="assets/cards/numbers.png" width="880" alt="HTML: −29%; JavaScript: −41%; ARIA: −33%; axe violation nodes: −76%, over 5 runs of 8 tasks. Nu errors: 3 of 40 pages with divorce, 0 of 40 without."></p>
 
-<p align="center"><sub>See the <a href="evals/README.md">with/without evaluation</a> for the measurements and limits.</sub></p>
-
-## The evidence
-
 <p align="center"><img src="assets/cards/cases.png" width="880" alt="5 of 9 invisible to Nu and axe: button-link, custom-disclosure, custom-modal, div-button and div-list. Nu and axe detect heading-order and image-alt; axe detects input-label and positive-tabindex, with recorded impacts."></p>
 
-<p align="center"><sub><a href="examples/manifest.json">Case file</a> · <a href="examples/axe-measured.json">Measured axe results</a>: findings and the gate policy determine the ruling.</sub></p>
-
-## The ruling
+<p align="center"><img src="assets/cards/ladder.png" width="880" alt="Stop at the first rung that holds. 01 Does it need to exist? If not, omit it. 02 Does the project already have it? Reuse it. 03 Is there a native HTML element for it? Use it. 04 Can CSS do it without JavaScript? 05 Does an installed dependency cover it? 06 Only then: the smallest code that works, plus a small test for logic."></p>
 
 <p align="center"><img src="assets/cards/ruling.png" width="880" alt="Recorded output, HTML only: the missing-image-alt example has 1 Nu error and 0 warnings; FAIL, reason html_errors, exit=1."></p>
-
-<p align="center"><sub><a href="assets/data/gate-real.json">Recorded output</a>: Nu checks HTML, axe checks the rendered DOM, and missing evidence means <code>not_measured</code>, never a pass.</sub></p>
-
-## How it works
-
-1. Does it need to exist? If not, omit it.
-2. Does the project already have it? Reuse it.
-3. Is there a native HTML element for it? Use it.
-4. Can CSS do it without JavaScript?
-5. Does an installed dependency cover it?
-6. Only then: the smallest code that works, plus a small test for logic.
 
 ## Details
 
 <details>
 <summary>All agents, installation routes and gate commands</summary>
 
+<h3>Evidence</h3>
+
+- See the <a href="evals/README.md">with/without evaluation</a> for the measurements and limits.
+- <a href="examples/manifest.json">Case file</a> · <a href="examples/axe-measured.json">Measured axe results</a>: findings and the gate policy determine the ruling.
+- <a href="assets/data/gate-real.json">Recorded output</a>: Nu checks HTML, axe checks the rendered DOM, and missing evidence means <code>not_measured</code>, never a pass.
+
 <h3>Install</h3>
 
 Use the plugin commands above in Claude Code, or run one standalone route from an existing checkout's root; validator setup is separate.
 
-| Route | Command | Destination or effect |
-| --- | --- | --- |
-| Claude, user-wide | `sh install.sh --claude` | Copies the skill and scripts to `~/.claude/skills/divorce/`, recording the installation. |
-| Claude, one project | `sh install.sh --claude --project DIR` | Copies to `DIR/.claude/skills/divorce/`. |
-| Codex | `sh install.sh --codex` | Copies to `~/.codex/skills/divorce/`; `--project` is Claude-only. |
-| Other agents | `sh install.sh --agents-md AGENTS.md` | Appends or replaces a marked block in the instruction file. |
+- Claude, user-wide: `sh install.sh --claude` — Copies the skill and scripts to `~/.claude/skills/divorce/`, recording the installation.
+- Claude, one project: `sh install.sh --claude --project DIR` — Copies to `DIR/.claude/skills/divorce/`.
+- Codex: `sh install.sh --codex` — Copies to `~/.codex/skills/divorce/`; `--project` is Claude-only.
+- Other agents: `sh install.sh --agents-md AGENTS.md` — Appends or replaces a marked block in the instruction file.
 
 For a manual copy, copy the entire `skills/divorce/` directory, including scripts, to `~/.claude/skills/divorce/`. Instruction blocks point to the gate's absolute path: keep the checkout in place. The standalone installer does not register a plugin, install validators or add an automatic gate hook; copies do not update themselves ([maintenance](docs/faq.md#does-installing-it-make-the-gate-run-itself)).
 
@@ -87,11 +74,9 @@ A passing gate is not full WCAG conformance, a CSS or JavaScript correctness che
 
 What the verdict covers
 
-| Exit | JSON verdict | Meaning |
-| --- | --- | --- |
-| 0 | `pass` | The invoked check passed its configured policy. |
-| 1 | `fail` | HTML errors or axe violations at or above the impact threshold. |
-| 2 | `not_measured` | Missing tools, unavailable input or unusable evidence; never a pass. |
+- 0: `pass` — The invoked check passed its configured policy.
+- 1: `fail` — HTML errors or axe violations at or above the impact threshold.
+- 2: `not_measured` — Missing tools, unavailable input or unusable evidence; never a pass.
 
 Missing or invalid measurement takes priority over observed failures. Otherwise, blocking findings fail; with neither condition, the check passes. Serious and critical axe violations fail by default; lower impacts remain visible. HTML warnings do not fail. axe totals count violated rules and each rule records affected nodes.
 

@@ -5,43 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>divorce — two recorded runs</title>
 <style>
-@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
+@font-face { font-family: 'Geist'; font-weight: 400;
   font-style: normal; font-display: block;
-  src: url("../fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
-@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800;
+  src: url("../fonts/geist-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 500;
   font-style: normal; font-display: block;
-  src: url("../fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); }
-@font-face { font-family: 'JetBrains Mono'; font-weight: 400;
+  src: url("../fonts/geist-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 600;
   font-style: normal; font-display: block;
-  src: url("../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: 'JetBrains Mono'; font-weight: 700;
+  src: url("../fonts/geist-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 700;
   font-style: normal; font-display: block;
-  src: url("../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0d1117; --card: #141416; --line: #26262a;
-  --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
+  src: url("../fonts/geist-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist Mono'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist Mono'; font-weight: 500;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-mono-latin-500-normal.woff2") format("woff2"); }
+:root { color-scheme: dark; --bg: #0d1117; --surface: #161b22;
+  --surface-2: #1c2128; --hairline: rgba(240,246,252,0.08);
+  --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+  --green: #30d158; --red: #ff453a;
+  --red-tint: rgba(255,69,58,0.12); --green-tint: rgba(48,209,88,0.12); }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body { width: 880px; height: 500px; margin: 0; background: var(--bg);
-  color: var(--text); font: 12px/1.4 'JetBrains Mono', monospace; }
-main { height: 500px; padding: 22px 24px 16px; background: var(--bg); }
-h1 { margin: 0 0 14px; font: 800 22px/1 'Bricolage Grotesque', sans-serif;
-  letter-spacing: -.045em; }
-.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.terminal { height: 397px; background: var(--card); border: 1px solid var(--line);
-  border-radius: 12px; padding: 14px; display: flex; flex-direction: column; }
-h2 { margin: 0 0 12px; font: 700 12px/18px 'JetBrains Mono', monospace;
-  letter-spacing: .08em; }
+  color: var(--text); font: 400 17px/1.45 'Geist', sans-serif;
+  letter-spacing: 0; text-align: center; }
+main { height: 500px; padding: 24px 64px 16px; background: var(--bg); }
+h1 { margin: 0 0 24px; font-size: 28px; line-height: 1.08;
+  font-weight: 700; letter-spacing: -0.025em; }
+.split { display: grid; grid-template-columns: repeat(2, 368px); gap: 16px;
+  justify-content: center; }
+.terminal { height: 374px; background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 20px; padding: 24px; display: flex; flex-direction: column;
+  min-width: 0; }
+h2 { margin: 0 0 16px; color: #86868b; font-size: 13px; line-height: 1.2;
+  font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .steps { margin: 0; padding: 0; list-style: none; }
-.steps li { margin-bottom: 8px; display: grid;
-  grid-template-columns: 42px minmax(0, 1fr); gap: 8px; }
-.tool { color: var(--muted); font-weight: 700; }
-pre { margin: 1px 0 0; white-space: pre-wrap; overflow-wrap: anywhere;
-  font: 11px/14px 'JetBrains Mono', monospace; }
-.final { font-size: 11px; line-height: 15px; margin: 6px 0 0; }
-.status { margin: auto 0 0; border-top: 1px solid var(--line); padding-top: 10px;
-  font-size: 11px; font-weight: 700; }
-.status-fail { color: var(--red); } .status-pass { color: var(--green); }
-footer { color: var(--muted); font-size: 10px; margin-top: 14px; text-align: center; }
+.steps li { display: grid; grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center; gap: 8px; }
+.steps li + li { margin-top: 16px; }
+.tool { color: var(--text); background: var(--surface-2); border-radius: 6px;
+  padding: 2px 8px; font: 400 13px/1.5 'Geist Mono', monospace; letter-spacing: 0; }
+pre { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--text-2); font: 400 14px/1.45 'Geist', sans-serif; letter-spacing: 0; }
+.final { font-size: 15px; line-height: 1.45; margin: 16px 0 0; color: var(--text);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden; }
+.status { margin: auto 0 0; padding: 8px; border-radius: 16px;
+  font-size: 13px; line-height: 1.45; font-weight: 400; }
+.status:empty { display: none; }
+.status-fail { color: var(--red); background: var(--red-tint); }
+.status-pass { color: var(--green); background: var(--green-tint); }
+footer { color: #86868b; font-size: 13px; line-height: 1.2;
+  margin-top: 16px; text-align: center; }
 </style>
 </head>
 <body>

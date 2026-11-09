@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,6 +88,10 @@ class ReplayTest(unittest.TestCase):
         cases = [
             ('{"verdict":"pass","html":[{"errors":0}]}\nexit: 0', False,
              ("pass", 0, 0), "gate: pass · Nu errors: 0 · exit 0 · axe: not run", True),
+            ('{"verdict":"pass","html":[{"errors":0}]}\nexit: 1', False,
+             ("pass", 0, 1), "gate: pass · Nu errors: 0 · exit 1 · axe: not run", False),
+            ('{"verdict":"fail","html":[{"errors":1}]}\nexit: 0', False,
+             ("fail", 1, 0), "gate: fail · Nu errors: 1 · exit 0 · axe: not run", False),
             ('{"verdict":"fail","html":[{"errors":1},{"errors":1}]}\nexit=1', False,
              ("fail", 2, 1), "gate: fail · Nu errors: 2 · exit 1 · axe: not run", False),
             ('{"verdict":"not_measured"}\nexit: 2', False,
@@ -181,18 +186,55 @@ class ReplayTest(unittest.TestCase):
 
     def test_status_palette_meets_aa_contrast(self):
         html = (ROOT / "replay.html").read_text()
-        colors = dict(re.findall(r"--(card|red|green):\s*(#[0-9a-f]{6})", html))
+        colors = dict(re.findall(r"--(surface|red|green):\s*(#[0-9a-f]{6})", html))
 
-        def luminance(color):
-            channels = [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
-            linear = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in channels]
+        def channels(color):
+            return [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+
+        def luminance(rgb):
+            linear = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in rgb]
             return sum(c * weight for c, weight in zip(linear, (0.2126, 0.7152, 0.0722)))
 
-        background = luminance(colors["card"])
+        surface = channels(colors["surface"])
         for status, color in (("pass", "green"), ("fail", "red")):
-            self.assertIn(f".status-{status} {{ color: var(--{color}); }}", html)
-            contrast = (luminance(colors[color]) + 0.05) / (background + 0.05)
+            self.assertIn(f".status-{status} {{ color: var(--{color}); background: var(--{color}-tint); }}", html)
+            tint = re.search(rf"--{color}-tint: rgba\(([^)]+)\)", html).group(1)
+            red, green, blue, alpha = map(float, tint.split(","))
+            background = [alpha * c / 255 + (1 - alpha) * b
+                          for c, b in zip((red, green, blue), surface)]
+            contrast = (luminance(channels(colors[color])) + 0.05) / (luminance(background) + 0.05)
             self.assertGreaterEqual(contrast, 4.5, f"{status} contrast: {contrast:.2f}:1")
+        muted = channels("#86868b")
+        self.assertGreaterEqual((luminance(muted) + 0.05) / (luminance(surface) + 0.05), 4.5)
+
+    def test_default_rebuild_preserves_recorded_data_and_derives_status(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "output"
+            result = subprocess.run([sys.executable, str(ROOT / "build_replay.py"),
+                                     "--out-dir", str(output)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for arm in ("with", "without"):
+                self.assertEqual((output / f"data/modal-{arm}.json").read_bytes(),
+                                 (ROOT / f"data/modal-{arm}.json").read_bytes())
+            page = (output / "replay.html").read_bytes()
+            replay.build(out_dir=output)
+            self.assertEqual((output / "replay.html").read_bytes(), page)
+            path = output / "data/modal-with.json"
+            run = json.loads(path.read_text())
+            run["facts"]["gate_exit"] = 1
+            path.write_text(json.dumps(run))
+            with patch.object(replay, "ROOT", output):
+                replay.build(out_dir=output)
+            rebuilt = json.loads(path.read_text())
+            self.assertFalse(rebuilt["footer"]["ok"])
+            self.assertEqual(rebuilt["footer"]["text"], replay.footer(run["facts"])[0])
+            before = (output / "replay.html").read_bytes()
+            result = subprocess.run([sys.executable, str(ROOT / "build_replay.py"),
+                                     str(root / "only-one-trace.jsonl"), "--out-dir", str(output)],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 2)
+            self.assertEqual((output / "replay.html").read_bytes(), before)
 
     def assert_font_paths(self, urls):
         for url in urls:
@@ -201,7 +243,7 @@ class ReplayTest(unittest.TestCase):
 
     def assert_local_fonts(self, html):
         blocks = re.findall(r"@font-face\s*\{([^}]*)\}", html, re.I)
-        self.assertEqual(len(blocks), 4)
+        self.assertEqual(len(blocks), 6)
         faces, urls = [], []
         for block in blocks:
             family = re.search(r'''font-family:\s*['"]([^'"]+)['"]\s*;''', block).group(1)
@@ -212,8 +254,8 @@ class ReplayTest(unittest.TestCase):
             self.assertRegex(url, r"^\.\./fonts/[\w-]+\.woff2$")
             faces.append((family, weight))
             urls.append(url)
-        self.assertCountEqual(faces, [("Bricolage Grotesque", "700"), ("Bricolage Grotesque", "800"),
-                                      ("JetBrains Mono", "400"), ("JetBrains Mono", "700")])
+        self.assertCountEqual(faces, [("Geist", "400"), ("Geist", "500"), ("Geist", "600"), ("Geist", "700"),
+                                      ("Geist Mono", "400"), ("Geist Mono", "500")])
         self.assert_font_paths(urls)
         active_html = re.sub(r'<script id="replay-data" type="application/json">.*?</script>', '', html, flags=re.S)
         self.assertNotRegex(active_html, r'''(?i)(?:\b(?:href|src)\s*=\s*["']?\s*|url\s*\(\s*["']?\s*)(?:https?:|//|data:)|@import\b''')

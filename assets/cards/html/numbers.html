@@ -4,168 +4,108 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>divorce — measured numbers</title>
-<style>@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
+<style>@font-face { font-family: 'Geist'; font-weight: 400;
   font-style: normal; font-display: block;
-  src: url("../../fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
-@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800;
+  src: url("../../fonts/geist-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 500;
   font-style: normal; font-display: block;
-  src: url("../../fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); }
-@font-face { font-family: 'JetBrains Mono'; font-weight: 400;
+  src: url("../../fonts/geist-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 600;
   font-style: normal; font-display: block;
-  src: url("../../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: 'JetBrains Mono'; font-weight: 700;
+  src: url("../../fonts/geist-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 700;
   font-style: normal; font-display: block;
-  src: url("../../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0d1117; --card: #141416; --line: #26262a;
-  --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
+  src: url("../../fonts/geist-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist Mono'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/geist-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist Mono'; font-weight: 500;
+  font-style: normal; font-display: block;
+  src: url("../../fonts/geist-mono-latin-500-normal.woff2") format("woff2"); }
+:root { color-scheme: dark; --bg: #0d1117; --surface: #161b22; --surface-2: #1c2128;
+  --hairline: rgba(240,246,252,0.08); --text: #f5f5f7; --text-2: #a1a1a6;
+  --text-3: #86868b; --green: #30d158; --red: #ff453a;
+  --red-tint: rgba(255,69,58,0.12); --green-tint: rgba(48,209,88,0.12); }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body { width: 880px; margin: 0; background: var(--bg); color: var(--text);
-  font: 16px/1.5 'JetBrains Mono', monospace; }
-main { padding: 48px; background: var(--bg); }
-h1, h2, .display, .wordmark { font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 800; line-height: 1; letter-spacing: -.045em; }
+  font: 400 17px/1.45 'Geist', sans-serif; letter-spacing: 0; text-align: center; }
+main { padding: 72px 64px; background: var(--bg); display: grid; gap: 40px; }
 h1, h2, p { margin: 0; }
-h1 { font-size: 60px; }
-h2 { font-size: 24px; line-height: 1.1; }
-code, pre { font-family: 'JetBrains Mono', monospace; }
-.label { color: var(--muted); text-transform: uppercase; font-size: 12px;
-  letter-spacing: .14em; }
-.muted, footer { color: var(--muted); }
+h1 { font-size: 40px; line-height: 1.08; letter-spacing: -0.03em; font-weight: 700; }
+h2, .subtitle { font-size: 20px; line-height: 1.35; letter-spacing: -0.01em; font-weight: 500; }
+code { font: 400 15px/1.5 'Geist Mono', monospace; letter-spacing: 0; }
+.display { font-size: 56px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 700; }
+.figure { font-size: 64px; line-height: 1; letter-spacing: -0.045em; font-weight: 700;
+  font-variant-numeric: tabular-nums; }
+.label { color: #86868b; font-size: 13px; line-height: 1.2; letter-spacing: 0.08em;
+  font-weight: 600; text-transform: uppercase; }
+header { display: grid; gap: 16px; }
+.secondary { color: var(--text-2); }
+.quiet, footer { color: var(--text-3); }
 .red { color: var(--red); }
 .green { color: var(--green); }
-.brand { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
-.mascot { display: block; object-fit: contain; flex: none; }
-.wordmark { font-size: 118px; }
-.hook { font: 800 42px/1.1 'Bricolage Grotesque', sans-serif; letter-spacing: -.035em;
-  max-width: 740px; margin: 0 0 32px; }
-.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.sample { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-  padding: 24px; }
-.sample h2 { margin: 14px 0 20px; font-size: 28px; letter-spacing: -.045em; }
-.sample h2 code { font-size: inherit; }
-.facts { margin: 0; padding: 0; list-style: none; font-size: 14px; }
-.facts li + li { margin-top: 5px; }
-.facts .measured { color: var(--muted); margin-top: 16px; font-size: 12px; }
-footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
-.social { width: 1280px; height: 640px; }
-.social main { height: 640px; padding: 40px 48px; display: grid; position: relative;
-  grid-template-columns: 1.12fr 1fr; gap: 40px; align-items: center; }
-.social .brand { gap: 16px; margin-bottom: 30px; }
-.social .mascot { width: 120px; height: 120px; }
-.social .wordmark { font-size: 88px; }
-.social .hook { font-size: 44px; margin: 0; }
-.social .pair { gap: 12px; grid-template-columns: 1fr; }
-.social .sample { padding: 18px 24px; }
-.social .sample h2 { margin: 8px 0 12px; }
-.social .facts { font-size: 13px; }
-.social .facts .measured { margin-top: 8px; }
-.social footer { margin-top: 20px; }
-.social .benchmark-summary { position: absolute; bottom: 22px; left: 48px;
-  color: var(--muted); font-size: 12px; }
-.cases main { padding: 32px; }
-.cases .label { height: 18px; line-height: 18px; }
-.case-head { display: flex; align-items: center; gap: 24px;
-  height: 64px; margin: 16px 0; white-space: nowrap; }
-.case-head h1 { font-size: 64px; }
-.case-head p { font: 700 32px/1 'Bricolage Grotesque', sans-serif;
-  letter-spacing: -.035em; }
-.case-table { width: 100%; table-layout: fixed; border-spacing: 0; }
-.case-table th, .case-table td { padding: 0 12px; text-align: left;
-  white-space: nowrap; border-bottom: 1px solid var(--line); }
-.case-table thead tr { height: 28px; }
-.case-table thead th { color: var(--muted); font-size: 11px; line-height: 16px; }
-.case-table .number { width: 48px; }
-.case-table .name { width: 226px; }
-.case-table .detector { width: 128px; }
-.case { height: 36px; font-size: 13px; line-height: 18px; }
-.case th { font-weight: 400; }
-.case .impact { font-size: 11px; color: var(--muted); }
-.case .index { font-size: 12px; color: var(--muted); }
-.case.missed { background: var(--card); color: var(--red); }
-.case.missed .index, .case.missed .impact { color: var(--red); }
-.catch-nu { color: var(--green); }
-.catch-axe { color: var(--text); }
-.catch-nothing { color: var(--red); }
-.cases footer { height: 36px; line-height: 18px; margin-top: 18px; }
-.terminal { border: 1px solid var(--line); border-radius: 18px;
-  background: var(--card); padding: 28px; }
-.terminal h1.label { font: 400 12px/18px 'JetBrains Mono', monospace;
-  letter-spacing: .14em; margin-bottom: 24px; }
-.terminal .command { color: var(--text); font-size: 13px; white-space: pre-wrap;
-  overflow-wrap: anywhere; }
-.terminal pre { font-size: 14px; line-height: 1.65; white-space: pre-wrap;
-  overflow-wrap: anywhere; margin: 24px 0 0; }
-.status { display: flex; justify-content: space-between; align-items: end;
-  border-top: 1px solid var(--line); margin-top: 24px; padding-top: 24px; }
-.status .display { font-size: 110px; }
-.status code { font-size: 24px; font-weight: 700; padding-bottom: 6px; }
-.benchmark main { padding: 28px; }
-.benchmark .label { height: 18px; line-height: 18px; }
-.benchmark h1 { height: 40px; margin: 12px 0 20px; font-size: 32px; line-height: 40px; }
-.metric { height: 80px; display: grid; grid-template-columns: 90px minmax(0, 1fr) 140px;
-  grid-template-rows: 40px 28px; gap: 4px 16px; padding: 4px 0;
-  border-bottom: 1px solid var(--line); }
-.metric h2 { grid-column: 1; grid-row: 1; align-self: center; font-size: 24px; }
-.metric-bars { grid-column: 2; grid-row: 1; }
-.metric .display { grid-column: 3; grid-row: 1; align-self: center;
-  text-align: right; font-size: 48px; white-space: nowrap; }
-.metric .unavailable { grid-column: 3; grid-row: 1; font-size: 10px; line-height: 13px; }
-.metric-ranges { grid-column: 2 / 4; grid-row: 2; }
-.metric .direction { color: var(--muted); font-size: 10px; line-height: 14px; white-space: nowrap; }
-.bar-row { display: grid; grid-template-columns: 110px 1fr 42px;
-  align-items: center; gap: 8px; height: 20px; font-size: 11px; }
-.track { height: 12px; background: var(--card); border-radius: 4px; overflow: hidden; }
-.bar { display: block; height: 100%; background: var(--muted); }
-.bar.with { background: var(--green); }
-.value { font: 700 12px/20px 'JetBrains Mono', monospace; text-align: right; }
-.benchmark .nu-line { margin-top: 14px; height: 18px; font-size: 12px; line-height: 18px; }
-.benchmark footer { margin-top: 14px; height: 48px; line-height: 16px; }
+.surface { background: var(--surface); border: 1px solid var(--hairline); border-radius: 20px; }
+.pair { display: grid; grid-template-columns: repeat(2, 340px); gap: 16px; justify-content: center; }
+.sample { padding: 32px; display: grid; gap: 16px; }
+.sample code { font-size: 26px; }
+.sample p { color: var(--text-2); }
+.metric-grid { display: grid; grid-template-columns: repeat(2, 360px); gap: 16px; justify-content: center; }
+.metric { height: 180px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 16px; }
+.metric code { color: #86868b; }
+.nu-line { color: var(--text-2); }
+.nu-line::before { content: ''; display: inline-block; width: 8px; height: 8px;
+  margin-right: 8px; border-radius: 50%; background: var(--red); vertical-align: middle; }
+.case-grid { display: grid; grid-template-columns: repeat(3, 240px); gap: 12px;
+  justify-content: center; margin: 0; padding: 0; list-style: none; }
+.case { height: 88px; border-radius: 16px; display: flex; flex-direction: column;
+  justify-content: center; gap: 16px; background: var(--surface); border: 1px solid var(--hairline); }
+.case.missed { background: var(--red-tint); border: 0; }
+.detector { color: #86868b; font-size: 13px; line-height: 1.2; }
+.missed .detector { color: var(--red); }
+.terminal { width: 640px; margin-inline: auto; padding: 32px; display: grid; gap: 40px; }
+.command { color: var(--text-2); }
+.status { display: flex; justify-content: center; align-items: baseline; gap: 16px; }
+.status code { color: #86868b; }
+.gate-facts { display: flex; justify-content: center; gap: 40px; margin: 0; }
+.gate-facts div { display: grid; gap: 16px; }
+.gate-facts dd { margin: 0; }
+.social { width: 1280px; height: 640px; text-align: left; }
+.social main { height: 640px; grid-template-columns: 360px 1fr; align-items: center; }
+.social .mascot { display: block; width: 360px; height: 360px; object-fit: contain; }
+.social-copy { display: grid; gap: 40px; }
+.wordmark { font-size: 72px; line-height: 1.04; letter-spacing: -0.035em; }
+main { padding: 56px 64px; }
+.sample code { justify-self: center; border-radius: 10px; outline-offset: 8px; }
+.sample code.red { outline: 1.5px dashed var(--text-3); }
+.sample code.green { outline: 2px solid var(--green); }
+.sample p { color: var(--text-3); }
+.sample p.green { color: var(--green); }
+kbd { font: 400 13px/1.5 'Geist Mono', monospace; color: var(--text-3);
+  background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 6px; padding: 2px 8px; }
+.ladder-list { width: 600px; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
+.ladder-list li { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 24px 0; }
+.ladder-list li + li { border-top: 1px solid var(--hairline); }
+.rung-number { font: 400 15px/1.5 'Geist Mono', monospace; color: var(--text-3); }
+.rung-copy { display: grid; gap: 8px; }
+.rung-copy h2 { color: var(--text); }
+.rung-copy p { color: var(--text-2); }
 </style>
 </head>
 <body class="benchmark">
 <main>
-<p class="label">With / without the skill</p>
-<h1>Same agent, same 8 tasks, 5 runs each.</h1>
-<section class="metric" id="html_lines"><h2>HTML</h2>
-<div class="metric-bars"><div class="bar-row"><span>without divorce</span>
-<div class="track" aria-hidden="true"><span class="bar without" style="width: 100.00%"></span></div>
-<span class="value">100 %</span></div>
-<div class="bar-row"><span>with divorce</span>
-<div class="track" aria-hidden="true"><span class="bar with" style="width: 71.16%"></span></div>
-<span class="value">71 %</span></div></div><p class="display">−29 %</p>
-<div class="metric-ranges"><p class="direction">without divorce: mean 1202; range 1132–1314</p>
-<p class="direction">with divorce: mean 855.4; range 816–896</p></div></section>
-<section class="metric" id="js_lines"><h2>JS</h2>
-<div class="metric-bars"><div class="bar-row"><span>without divorce</span>
-<div class="track" aria-hidden="true"><span class="bar without" style="width: 100.00%"></span></div>
-<span class="value">100 %</span></div>
-<div class="bar-row"><span>with divorce</span>
-<div class="track" aria-hidden="true"><span class="bar with" style="width: 59.26%"></span></div>
-<span class="value">59 %</span></div></div><p class="display">−41 %</p>
-<div class="metric-ranges"><p class="direction">without divorce: mean 334.8; range 303–362</p>
-<p class="direction">with divorce: mean 198.4; range 186–218</p></div></section>
-<section class="metric" id="aria_attributes"><h2>ARIA</h2>
-<div class="metric-bars"><div class="bar-row"><span>without divorce</span>
-<div class="track" aria-hidden="true"><span class="bar without" style="width: 100.00%"></span></div>
-<span class="value">100 %</span></div>
-<div class="bar-row"><span>with divorce</span>
-<div class="track" aria-hidden="true"><span class="bar with" style="width: 67.45%"></span></div>
-<span class="value">67 %</span></div></div><p class="display">−33 %</p>
-<div class="metric-ranges"><p class="direction">without divorce: mean 42.4; range 40–45</p>
-<p class="direction">with divorce: mean 28.6; range 23–34</p></div></section>
-<section class="metric" id="axe_violation_nodes"><h2>axe</h2>
-<div class="metric-bars"><div class="bar-row"><span>without divorce</span>
-<div class="track" aria-hidden="true"><span class="bar without" style="width: 100.00%"></span></div>
-<span class="value">100 %</span></div>
-<div class="bar-row"><span>with divorce</span>
-<div class="track" aria-hidden="true"><span class="bar with" style="width: 24.39%"></span></div>
-<span class="value">24 %</span></div></div><p class="display">−76 %</p>
-<div class="metric-ranges"><p class="direction">without divorce: mean 8.2; range 8–9</p>
-<p class="direction">with divorce: mean 2; range 0–5</p></div></section>
-<p class="nu-line">Nu errors: 3 of 40 pages with divorce, 0 of 40 without</p>
-<footer>8 synthetic tasks, one model, one machine; lines measure size, not quality.<br>
-Model: Claude Code 2.1.318, account default model<br>2026-11-06</footer>
+<header><p class="label">WITH VS. WITHOUT DIVORCE</p>
+<h1>Same agent. Same 8 tasks. 5 runs each.</h1></header>
+<div class="metric-grid"><section class="surface metric" id="html_lines"><p class="figure green">−29%</p>
+<h2>HTML lines</h2><code>1202 → 855</code></section>
+<section class="surface metric" id="js_lines"><p class="figure green">−41%</p>
+<h2>JavaScript lines</h2><code>335 → 198</code></section>
+<section class="surface metric" id="aria_attributes"><p class="figure green">−33%</p>
+<h2>ARIA attributes</h2><code>42 → 29</code></section>
+<section class="surface metric" id="axe_violation_nodes"><p class="figure green">−76%</p>
+<h2>axe violations</h2><code>8 → 2</code></section></div>
+<p class="nu-line">Nu errors: 3 of 40 pages with divorce, 0 of 40 without.</p>
 </main>
 </body>
 </html>

@@ -4,9 +4,7 @@ Licensed under the MIT License; see LICENSE.
 
 Acknowledgments and third-party components:
 
-- Bricolage Grotesque and JetBrains Mono (SIL Open Font License 1.1)
-  Local woff2 files from @fontsource 5.2.8.
-  Licenses: assets/fonts/OFL-BricolageGrotesque.txt and assets/fonts/OFL-JetBrainsMono.txt.
+- Geist and Geist Mono (SIL Open Font License 1.1), © Vercel. License: assets/fonts/OFL-Geist.txt.
 
 - DietrichGebert/ponytail (MIT)
   https://github.com/DietrichGebert/ponytail
