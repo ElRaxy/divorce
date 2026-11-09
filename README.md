@@ -1,16 +1,37 @@
 <p align="center"><img src="assets/cards/banner.png" width="880" alt="divorce. Native first. Then proven. A skill for Claude Code and Codex."></p>
-<p align="center"><a href="#install">Install</a> · <a href="#numbers">Numbers</a> · <a href="#what-validators-miss">What validators miss</a> · <a href="#how-it-works">How it works</a> · <a href="evals/README.md">Evaluation</a></p>
+
+<p align="center"><em>End your agent's toxic relationship with div soup.</em></p>
+
+<p align="center">
+  <a href="https://github.com/ElRaxy/divorce/releases"><img src="https://img.shields.io/github/v/release/ElRaxy/divorce?style=flat-square&color=1b1a17&label=release" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/works%20with-20%2B%20agents-1b1a17?style=flat-square" alt="Works with 20+ agents">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-1b1a17?style=flat-square" alt="MIT license"></a>
+</p>
+
+<p align="center"><b>5 of 9 accessibility bugs pass both Nu and axe.</b> divorce stops your agent from writing them.<br>
+<b>−29% HTML · −41% JavaScript · −76% axe violations</b>, same agent with and without divorce. <a href="#numbers">Numbers</a>.</p>
+
+<p align="center"><img src="assets/demo/tab.gif" width="880" alt="Recorded in Chrome from examples/div-button. Two pages with one Save control. Press Tab: on the div page nothing is focused; on the button page Save is focused. Press Enter: the div page does nothing; the button page shows Saved. Both pages pass the Nu HTML Checker and axe."></p>
 
 > Your agent writes `<div onclick>`. Every validator says it's fine. Someone using a keyboard can't reach it.
 >
 > **divorce** makes the agent pick the native element first, then proves it with Nu and axe.
+
 ## Install
+
+```sh
+npx skills add ElRaxy/divorce
+```
+
+One line for Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode and more agents, via [skills.sh](https://skills.sh). As a Claude Code plugin:
 
 ```text
 /plugin marketplace add ElRaxy/divorce
 /plugin install divorce@divorce
 ```
+
 Other agents and install routes: [Details](#details).
+
 ## Numbers
 
 |  | HTML | JavaScript | ARIA | axe violations |
@@ -128,11 +149,9 @@ sh skills/divorce/scripts/install-vnu.sh
 The installer verifies the download's SHA-1 and the validator's version command. Set `VNU` to its printed binary path or add `vnu` to `PATH`; for `--jar`, set `VNU_JAR` to the printed JAR path. The axe snippet selects WCAG 2.2 A/AA, including earlier versions, and best-practice rules.
 </details>
 
-<!-- Star History: star-history.com cannot read a private repo and renders a broken image. Uncomment when the repo goes public.
 ## Star History
 
 <a href="https://star-history.com/#ElRaxy/divorce&Date"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ElRaxy/divorce&amp;type=Date&amp;theme=dark"><img src="https://api.star-history.com/svg?repos=ElRaxy/divorce&amp;type=Date" alt="Star history of ElRaxy/divorce"></picture></a>
--->
 
 ## License
 
