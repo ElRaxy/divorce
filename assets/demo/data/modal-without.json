@@ -1,0 +1,24 @@
+{
+  "facts": {
+    "axe_ran": false,
+    "gate_exit": null,
+    "gate_ran": false,
+    "gate_verdict": null,
+    "nu_errors": null
+  },
+  "final": "I've written the document manager to `index.html`. The inline script parses and the file has no external references, but as you asked, I didn't open it in a browser, so the behavior hasn't been tested live.\n\n- **Page:** it shows the title \"Document Manager\" and one saved document, `Quarterly budget review.pdf`, with a Delete button.\n- **Modal:** Delete opens a confirmation modal with Cancel and Delete. Focus stays inside the modal and the page behind it can't be used while it's open.\n- **Keyboard:** Tab moves between the choices, and Enter or Space activates them. Escape cancels.\n- **Focus:** it starts on Cancel so a stray Enter can't delete the document. After Cancel or Escape it returns to the Delete button.\n- **After deleting:** the document is removed, the count drops to 0, and \"No saved documents.\" appears. A short confirmation is shown and announced to screen readers, and focus moves to the \"Saved documents\" heading because the Delete button no longer exists.\n\nThe deletion only lasts until the page is reloaded, since nothing is stored. Clicking outside the modal does nothing, so it closes only through one of its buttons or Escape.",
+  "footer": {
+    "ok": false,
+    "text": "gate: not run · axe: not run"
+  },
+  "steps": [
+    {
+      "summary": "index.html\n<button id=\"delete-button\" class=\"btn-delete\" type=\"button\">\n<dialog id=\"confirm-dialog\" aria-labelledby=\"dialog-title\" aria-describedby=\"dialog-description\">",
+      "tool": "Write"
+    },
+    {
+      "summary": "Check inline script syntax and scan for external references\nnode -e 'const h=require(\"fs\").readFileSync(\"index.html\",\"utf8\");new Function(h.match(~/project<script>([\\s\\S]*?)<\\~/project>~/project)[1]);console.log(\"script parses; external refs:\",(h.match(~/project|src=|<link|@import|url\\(~/project)||[]).length)'",
+      "tool": "Bash"
+    }
+  ]
+}

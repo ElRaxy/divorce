@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>divorce — two recorded runs</title>
+<style>
+@font-face { font-family: 'Geist'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 500;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 600;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist'; font-weight: 700;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist Mono'; font-weight: 400;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: 'Geist Mono'; font-weight: 500;
+  font-style: normal; font-display: block;
+  src: url("../fonts/geist-mono-latin-500-normal.woff2") format("woff2"); }
+:root { color-scheme: dark; --bg: #0d1117; --surface: #161b22;
+  --surface-2: #1c2128; --hairline: rgba(240,246,252,0.08);
+  --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+  --green: #30d158; --red: #ff453a;
+  --red-tint: rgba(255,69,58,0.12); --green-tint: rgba(48,209,88,0.12); }
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { width: 880px; height: 500px; margin: 0; background: var(--bg);
+  color: var(--text); font: 400 17px/1.45 'Geist', sans-serif;
+  letter-spacing: 0; text-align: center; }
+main { height: 500px; padding: 24px 64px 16px; background: var(--bg); }
+h1 { margin: 0 0 24px; font-size: 28px; line-height: 1.08;
+  font-weight: 700; letter-spacing: -0.025em; }
+.split { display: grid; grid-template-columns: repeat(2, 368px); gap: 16px;
+  justify-content: center; }
+.terminal { height: 374px; background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 20px; padding: 24px; display: flex; flex-direction: column;
+  min-width: 0; }
+h2 { margin: 0 0 16px; color: #86868b; font-size: 13px; line-height: 1.2;
+  font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.steps { margin: 0; padding: 0; list-style: none; }
+.steps li { display: grid; grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center; gap: 8px; }
+.steps li + li { margin-top: 16px; }
+.tool { color: var(--text); background: var(--surface-2); border-radius: 6px;
+  padding: 2px 8px; font: 400 13px/1.5 'Geist Mono', monospace; letter-spacing: 0; }
+pre { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--text-2); font: 400 14px/1.45 'Geist', sans-serif; letter-spacing: 0; }
+.final { font-size: 15px; line-height: 1.45; margin: 16px 0 0; color: var(--text);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden; }
+.status { margin: auto 0 0; padding: 8px; border-radius: 16px;
+  font-size: 13px; line-height: 1.45; font-weight: 400; }
+.status:empty { display: none; }
+.status-fail { color: var(--red); background: var(--red-tint); }
+.status-pass { color: var(--green); background: var(--green-tint); }
+footer { color: #86868b; font-size: 13px; line-height: 1.2;
+  margin-top: 16px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+<h1>Same task. Two recorded runs.</h1>
+<div class="split">
+<section class="terminal" aria-labelledby="without-title">
+<h2 id="without-title">WITHOUT DIVORCE</h2>
+<ol class="steps" id="without-steps"></ol>
+<p class="final" id="without-final"></p>
+<p class="status" id="without-status"></p>
+</section>
+<section class="terminal" aria-labelledby="with-title">
+<h2 id="with-title">WITH DIVORCE</h2>
+<ol class="steps" id="with-steps"></ol>
+<p class="final" id="with-final"></p>
+<p class="status" id="with-status"></p>
+</section>
+</div>
+<footer>Two recorded runs of the modal task, same prompt and model, no browser.</footer>
+</main>
+<script id="replay-data" type="application/json">{"with": {"facts": {"axe_ran": false, "gate_exit": 0, "gate_ran": true, "gate_verdict": "pass", "nu_errors": 0}, "final": "I wrote `index.html` and it passes HTML validation, but I haven't run it, since you asked me not to open a browser. That means neither the behaviour nor the look has been tested.\n\n**How it works**\n- **Modal:** it uses the native `\u003cdialog>` element with `showModal()`, so the browser handles trapping focus, making the page behind inert, and closing on Escape.\n- **Focus on open:** focus lands on Cancel, the safe choice, so pressing Enter by accident can't delete anything.\n- **Cancel or Escape:** the document stays and focus returns to the Delete button.\n- **Confirming Delete:** the document is removed, \"“Lease agreement.pdf” was deleted.\" appears and is announced to screen readers, and a \"No saved documents.\" message shows. The original Delete button no longer exists, so focus moves to the \"Saved documents\" heading.\n\n**Check results**\n- **HTML validation (Nu HTML Checker):** passed with exit code 0, 0 errors and 0 warnings.\n- **Accessibility scan (axe-core):** not run, because it needs a rendered page, so the skill's full pass/fail check is incomplete.\n- **By hand:** I reviewed the code for tab order, the Escape path and when focus is restored, but that is reading rather than testing.\n\n**Not checked**\n- Actual keyboard use and screen reader announcements.\n- Visual appearance in light and dark modes, including measured colour contrast. I chose the colours to have strong contrast but didn't measure them.\n\n**Limitations**\n- Nothing is saved between visits, so reloading the page brings the document back.\n- Clicking outside the modal does nothing; only Cancel, Delete or Escape close it.", "footer": {"ok": true, "text": "gate: pass · Nu errors: 0 · exit 0 · axe: not run"}, "steps": [{"summary": "divorce:divorce\nBuild a standalone index.html for a small document manager in ~/project page title, one saved document, Delete action opening a confirmation modal (Cancel/Delete), Escape cancels, sensible focus on open/close, short confirmation after removal. Inline CSS/JS only, no external resources, do not open a browser.", "tool": "Skill"}, {"summary": "index.html\n\u003cbutton type=\"button\" class=\"delete\" id=\"delete\">Delete\u003c/button>\n\u003cdialog id=\"confirm-dialog\" aria-labelledby=\"confirm-title\" aria-describedby=\"confirm-text\">", "tool": "Write"}, {"summary": "Validate index.html with the Nu HTML Checker gate\npython3 gate.py html index.html; echo \"exit: $?\"", "tool": "Bash"}]}, "without": {"facts": {"axe_ran": false, "gate_exit": null, "gate_ran": false, "gate_verdict": null, "nu_errors": null}, "final": "I've written the document manager to `index.html`. The inline script parses and the file has no external references, but as you asked, I didn't open it in a browser, so the behavior hasn't been tested live.\n\n- **Page:** it shows the title \"Document Manager\" and one saved document, `Quarterly budget review.pdf`, with a Delete button.\n- **Modal:** Delete opens a confirmation modal with Cancel and Delete. Focus stays inside the modal and the page behind it can't be used while it's open.\n- **Keyboard:** Tab moves between the choices, and Enter or Space activates them. Escape cancels.\n- **Focus:** it starts on Cancel so a stray Enter can't delete the document. After Cancel or Escape it returns to the Delete button.\n- **After deleting:** the document is removed, the count drops to 0, and \"No saved documents.\" appears. A short confirmation is shown and announced to screen readers, and focus moves to the \"Saved documents\" heading because the Delete button no longer exists.\n\nThe deletion only lasts until the page is reloaded, since nothing is stored. Clicking outside the modal does nothing, so it closes only through one of its buttons or Escape.", "footer": {"ok": false, "text": "gate: not run · axe: not run"}, "steps": [{"summary": "index.html\n\u003cbutton id=\"delete-button\" class=\"btn-delete\" type=\"button\">\n\u003cdialog id=\"confirm-dialog\" aria-labelledby=\"dialog-title\" aria-describedby=\"dialog-description\">", "tool": "Write"}, {"summary": "Check inline script syntax and scan for external references\nnode -e 'const h=require(\"fs\").readFileSync(\"index.html\",\"utf8\");new Function(h.match(~/project\u003cscript>([\\s\\S]*?)\u003c\\~/project>~/project)[1]);console.log(\"script parses; external refs:\",(h.match(~/project|src=|\u003clink|@import|url\\(~/project)||[]).length)'", "tool": "Bash"}]}}</script>
+<script>
+const runs = JSON.parse(document.getElementById('replay-data').textContent);
+window.FRAMES = 75;
+window.setFrame = function (n) {
+  const frame = Math.max(0, Math.min(window.FRAMES - 1, Math.floor(Number(n) || 0)));
+  for (const arm of ['without', 'with']) {
+    const run = runs[arm];
+    const list = document.getElementById(arm + '-steps');
+    list.replaceChildren();
+    run.steps.forEach(function (step, index) {
+      if (frame < 6 + index * 8) return;
+      const row = document.createElement('li');
+      const label = document.createElement('span');
+      label.className = 'tool';
+      label.textContent = '$ ' + step.tool;
+      const input = document.createElement('pre');
+      const lines = step.summary.split('\n');
+      if (step.tool === 'Write') {
+        input.textContent = lines[0] + '\n' + lines.slice(1).map(line =>
+          line.length > 47 ? line.slice(0, 46) + '…' : line).join('\n');
+      } else if (step.tool === 'Bash') {
+        input.textContent = lines[0] + '\n' + (lines[1].length > 47 ? lines[1].slice(0, 46) + '…' : lines[1]);
+      } else {
+        input.textContent = lines[0];
+      }
+      row.append(label, input);
+      list.append(row);
+    });
+    const complete = frame >= 52;
+    const firstSentence = run.final.match(/^.*?[.!?](?:\s|$)/s);
+    document.getElementById(arm + '-final').textContent = complete
+      ? (firstSentence ? firstSentence[0].trim() : run.final) : '';
+    const status = document.getElementById(arm + '-status');
+    status.textContent = complete ? run.footer.text : '';
+    status.className = 'status ' + (run.footer.ok ? 'status-pass' : 'status-fail');
+  }
+};
+window.setFrame(0);
+</script>
+</body>
+</html>

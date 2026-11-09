@@ -1,0 +1,28 @@
+{
+  "facts": {
+    "axe_ran": false,
+    "gate_exit": 0,
+    "gate_ran": true,
+    "gate_verdict": "pass",
+    "nu_errors": 0
+  },
+  "final": "I wrote `index.html` and it passes HTML validation, but I haven't run it, since you asked me not to open a browser. That means neither the behaviour nor the look has been tested.\n\n**How it works**\n- **Modal:** it uses the native `<dialog>` element with `showModal()`, so the browser handles trapping focus, making the page behind inert, and closing on Escape.\n- **Focus on open:** focus lands on Cancel, the safe choice, so pressing Enter by accident can't delete anything.\n- **Cancel or Escape:** the document stays and focus returns to the Delete button.\n- **Confirming Delete:** the document is removed, \"“Lease agreement.pdf” was deleted.\" appears and is announced to screen readers, and a \"No saved documents.\" message shows. The original Delete button no longer exists, so focus moves to the \"Saved documents\" heading.\n\n**Check results**\n- **HTML validation (Nu HTML Checker):** passed with exit code 0, 0 errors and 0 warnings.\n- **Accessibility scan (axe-core):** not run, because it needs a rendered page, so the skill's full pass/fail check is incomplete.\n- **By hand:** I reviewed the code for tab order, the Escape path and when focus is restored, but that is reading rather than testing.\n\n**Not checked**\n- Actual keyboard use and screen reader announcements.\n- Visual appearance in light and dark modes, including measured colour contrast. I chose the colours to have strong contrast but didn't measure them.\n\n**Limitations**\n- Nothing is saved between visits, so reloading the page brings the document back.\n- Clicking outside the modal does nothing; only Cancel, Delete or Escape close it.",
+  "footer": {
+    "ok": true,
+    "text": "gate: pass · Nu errors: 0 · exit 0 · axe: not run"
+  },
+  "steps": [
+    {
+      "summary": "divorce:divorce\nBuild a standalone index.html for a small document manager in ~/project page title, one saved document, Delete action opening a confirmation modal (Cancel/Delete), Escape cancels, sensible focus on open/close, short confirmation after removal. Inline CSS/JS only, no external resources, do not open a browser.",
+      "tool": "Skill"
+    },
+    {
+      "summary": "index.html\n<button type=\"button\" class=\"delete\" id=\"delete\">Delete</button>\n<dialog id=\"confirm-dialog\" aria-labelledby=\"confirm-title\" aria-describedby=\"confirm-text\">",
+      "tool": "Write"
+    },
+    {
+      "summary": "Validate index.html with the Nu HTML Checker gate\npython3 gate.py html index.html; echo \"exit: $?\"",
+      "tool": "Bash"
+    }
+  ]
+}
