@@ -11,7 +11,9 @@
 <p align="center"><b>5 of 9 accessibility bugs pass both Nu and axe.</b> divorce stops your agent from writing them.<br>
 <b>−29% HTML · −41% JavaScript · −76% axe violations</b>, same agent with and without divorce. <a href="#numbers">Numbers</a>.</p>
 
-<p align="center"><img src="assets/demo/tab.gif" width="880" alt="Recorded in Chrome from examples/div-button. Two pages with one Save control. Press Tab: on the div page nothing is focused; on the button page Save is focused. Press Enter: the div page does nothing; the button page shows Saved. Both pages pass the Nu HTML Checker and axe."></p>
+<p align="center"><a href="assets/demo/divorce-demo-v8.mp4"><img src="assets/demo/native.webp" width="880" alt="36-second animated demo, Native does the work. The same coding agent builds the same confirmation modal twice, once without divorce and once with it. Without divorce: 58 lines of JavaScript. The lines the browser already handles are struck out: autofocus, form method dialog, the native Escape of a dialog element, and a click-outside handler nobody asked for. The code shrinks from 58 to 20 lines. Across 8 tasks and 5 runs each: 41 percent less JavaScript, 29 percent less HTML, 33 percent fewer ARIA attributes and 76 percent fewer axe violations. Install with npx skills add ElRaxy/divorce."></a></p>
+
+<p align="center"><sub><a href="assets/demo/divorce-demo-v8.mp4">Watch with sound (MP4)</a> · music: Bach, Prelude in C major BWV 846, Kimiko Ishizaka, CC0</sub></p>
 
 > Your agent writes `<div onclick>`. Every validator says it's fine. Someone using a keyboard can't reach it.
 >
@@ -42,6 +44,8 @@ Over 5 runs of 8 tasks. Nu errors: 3 of 40 pages with divorce, 0 of 40 without. 
 ## What validators miss
 
 Both of these pass the Nu HTML Checker and axe. Only one can be reached with Tab.
+
+<p align="center"><img src="assets/demo/tab.gif" width="880" alt="Recorded in Chrome from examples/div-button. Two pages with one Save control. Press Tab: on the div page nothing is focused; on the button page Save is focused. Press Enter: the div page does nothing; the button page shows Saved. Both pages pass the Nu HTML Checker and axe."></p>
 
 Without divorce:
 ```html

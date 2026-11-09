@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>divorce · demo v8 · Native does the work</title>
+<meta name="description" content="Storyboard B animated: the same coding agent builds the same modal with and without divorce; the lines the browser already does are struck, 58 lines fold into 20, then the measured results of 8 tasks × 5 runs.">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<style>
+/* Static instances of Archivo[wdth,wght] (OFL), so the condensed width is in the file, not in a variation setting. */
+@font-face{font-family:"Archivo D";src:url("assets/fonts/archivo-w62-800.ttf") format("truetype")}
+@font-face{font-family:"Archivo D4";src:url("assets/fonts/archivo-w62-400.ttf") format("truetype")}
+@font-face{font-family:"Archivo H";src:url("assets/fonts/archivo-w78-750.ttf") format("truetype")}
+@font-face{font-family:"Archivo H8";src:url("assets/fonts/archivo-w78-800.ttf") format("truetype")}
+@font-face{font-family:"Archivo N";src:url("assets/fonts/archivo-w90-650.ttf") format("truetype")}
+@font-face{font-family:"Archivo B";src:url("assets/fonts/archivo-w100-450.ttf") format("truetype")}
+@font-face{font-family:"Plex Mono";src:url("assets/fonts/plexmono-regular.ttf") format("truetype");font-weight:400}
+@font-face{font-family:"Plex Mono";src:url("assets/fonts/plexmono-medium.ttf") format("truetype");font-weight:500}
+@font-face{font-family:"Plex Mono";src:url("assets/fonts/plexmono-semibold.ttf") format("truetype");font-weight:600}
+:root{--bg:#ECEDE8;--ink:#121412;--mute:#686C65;--rule:#C8CBC2;--ghost:#D6D9D1;--red:#DA4529;--tint:#EADAD3}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+body{color:var(--ink);font-family:"Archivo B",sans-serif;font-synthesis:none;-webkit-font-smoothing:antialiased}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden}
+#paper{position:absolute;inset:0;background:var(--bg)}
+.shot{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.abs{position:absolute}
+.disp{font-family:"Archivo D";white-space:nowrap;line-height:.82;letter-spacing:-.01em;font-variant-numeric:lining-nums}
+.h{font-family:"Archivo H";font-size:150px;line-height:.9;letter-spacing:-.015em}
+.lead{font-size:38px;line-height:1.3}
+.small{font-size:28px;line-height:1.4;color:var(--mute)}
+.foot{font-family:"Plex Mono";font-size:28px;color:var(--mute);letter-spacing:.01em}
+.mono{font-family:"Plex Mono"}
+.red{color:var(--red)}
+.mask{display:block;clip-path:inset(-.16em -.6em -.26em -.6em)}
+.mask>span{display:block}
+/* code column (B2, B3) */
+.code{position:absolute;left:96px;top:58px;font-family:"Plex Mono";font-size:14.5px;line-height:16.6px;white-space:pre;color:var(--ink)}
+.code .ln{display:block;position:relative;padding-left:48px;height:16.6px}
+.code .ln::before{content:attr(data-n);position:absolute;left:0;width:32px;text-align:right;color:var(--mute);opacity:.7}
+.code .cm{color:var(--mute)}
+#codex .ln{visibility:hidden}
+#codex .ln.x{visibility:visible;background:var(--tint);color:rgba(18,20,18,.45);clip-path:inset(0 100% 0 0)}
+#codex .ln.x::before{color:var(--mute)}
+#codex .ln.x .t{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+/* notes (B3) */
+.note{position:absolute;left:1060px;display:grid;grid-template-columns:28px 1fr;column-gap:22px}
+.note i{grid-row:1/3;width:28px;height:3px;background:var(--red);margin-top:22px}
+.note b{font-family:"Archivo N";font-weight:400;font-size:38px;line-height:1.15}
+.note span{font-family:"Plex Mono";font-size:28px;color:var(--red);margin-top:6px}
+/* bars (B4) */
+.bar{position:absolute;height:10px;border-radius:2px;background:var(--ghost);transform-origin:0 50%}
+.bar>i{position:absolute;inset:0;border-radius:2px;background:var(--ink)}
+.bar.x>i{background:var(--red)}
+.wbar{position:absolute;height:10px;border-radius:2px;background:var(--ink);transform-origin:0 50%}
+/* dots (B7) */
+.dot{position:absolute;width:30px;height:30px;border-radius:50%;background:var(--red)}
+.dot.k{background:var(--ink)}
+.dot.k>i{position:absolute;inset:0;border-radius:50%;background:var(--red)}
+.side{position:absolute;top:0;height:1080px;overflow:hidden}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="36.44" data-fps="60" data-width="1920" data-height="1080">
+  <div id="paper"></div>
+  <!-- Music: J. S. Bach, Prelude No. 1 in C major BWV 846, performed by Kimiko Ishizaka (Open Well-Tempered Clavier), CC0. -->
+  <audio id="music" class="clip" data-start="0" data-duration="36.44" data-volume="1" src="assets/audio/bach-prelude-c-ishizaka-bed.m4a"></audio>
+
+  <!-- B1 · Same prompt. Two runs. -->
+  <section id="b1" class="shot clip" data-start="0" data-duration="5.38" data-track-index="1" data-track-kind="graphics">
+    <div class="abs" style="left:110px;top:170px;width:900px" data-layout-allow-overflow>
+      <h1 class="h" style="font-size:210px">
+        <span class="mask"><span id="b1-l1">Same</span></span>
+        <span class="mask"><span id="b1-l2">prompt.</span></span>
+        <span class="mask"><span id="b1-l3" class="red">Two runs.</span></span>
+      </h1>
+      <p id="b1-lead" class="lead" style="margin-top:56px;width:760px">Same coding agent, same modal: once without divorce, once with it.</p>
+    </div>
+    <div id="b1-rule" class="abs" style="left:1080px;top:170px;width:3px;height:700px;background:var(--ink)"></div>
+    <div id="b1-prompt" class="abs" style="left:1130px;top:170px;width:690px">
+      <p class="foot">THE PROMPT · evals/modal</p>
+      <p class="mono" style="font-size:31px;line-height:1.55;margin-top:28px">“Activating Delete should open a confirmation modal […]. Include working keyboard operation, Escape to cancel, and sensible focus […].”</p>
+    </div>
+  </section>
+
+  <!-- B2-B3 · the 58 real lines (modal-without-3.html) and the struck layer -->
+  <section id="code" class="shot clip" data-start="5.38" data-duration="9.86" data-track-index="2" data-track-kind="graphics">
+    <div id="codew" class="code" data-src="without" data-layout-ignore></div>
+    <div id="codex" class="code" data-src="without" data-layout-ignore></div>
+  </section>
+
+  <!-- B2 · 58 lines of JavaScript. -->
+  <section id="b2" class="shot clip" data-start="5.38" data-duration="3.18" data-track-index="3" data-track-kind="graphics">
+    <div id="b2-block" class="abs" style="left:1080px;top:150px">
+      <p id="b2-n" class="disp" style="font-size:520px">58</p>
+      <p id="b2-h" class="h" style="font-size:84px;margin-top:20px">lines of JavaScript.</p>
+      <p id="b2-s" class="small" style="margin-top:22px;font-size:30px">Without divorce. The run closest to the average.</p>
+    </div>
+  </section>
+
+  <!-- B3 · The browser already does this. -->
+  <section id="b3" class="shot clip" data-start="8.56" data-duration="6.48" data-track-index="3" data-track-kind="graphics">
+    <p class="abs h" style="left:1060px;top:76px;font-size:64px;width:820px" data-layout-allow-overflow><span class="mask"><span id="b3-h">The browser already does this.</span></span></p>
+    <div id="n1" class="note" style="top:300px"><i></i><b>Focus the safe choice</b><span>→ autofocus</span></div>
+    <div id="n2" class="note" style="top:440px"><i></i><b>Cancel and Delete close it</b><span>→ &lt;form method="dialog"&gt;</span></div>
+    <div id="n3" class="note" style="top:580px"><i></i><b>Escape closes it</b><span>→ &lt;dialog&gt; does it natively</span></div>
+    <div id="n4" class="note" style="top:720px"><i></i><b>Click outside closes it</b><span>→ not in the prompt</span></div>
+  </section>
+
+  <!-- B4 · 58 → 20 -->
+  <section id="b4" class="shot clip" data-start="15.04" data-duration="5.38" data-track-index="4" data-track-kind="graphics">
+    <div id="bars"></div>
+    <div id="wbars"></div>
+    <p id="b4-l1" class="abs foot" style="left:120px;bottom:96px">WITHOUT · 58 LINES</p>
+    <p id="b4-l2" class="abs foot" style="left:560px;bottom:96px">WITH DIVORCE · 20 LINES</p>
+    <div class="abs" style="left:1060px;top:180px;width:780px">
+      <p class="disp" style="font-size:250px"><span id="b4-a" style="display:inline-block">58</span><span id="b4-b" style="display:inline-block"><span style="font-family:'Archivo D4';color:var(--mute)">&nbsp;→&nbsp;</span>20</span></p>
+      <p id="b4-h" class="h" style="font-size:74px;margin-top:40px">The platform did the rest.</p>
+    </div>
+  </section>
+
+  <!-- B5 · −41% JavaScript -->
+  <section id="b5" class="shot clip" data-start="20.42" data-duration="4.27" data-track-index="5" data-track-kind="graphics">
+    <div id="b5-cur" class="abs" style="left:60px;top:150px;width:1200px;height:640px" data-layout-allow-overflow>
+      <p id="b5-n" class="abs disp" style="left:36px;top:50px;font-size:600px;letter-spacing:-.02em">−41%</p>
+    </div>
+    <div class="abs" style="left:1300px;top:250px;width:520px">
+      <p id="b5-h" class="h" style="font-size:96px">JavaScript</p>
+      <p id="b5-s" class="small" style="margin-top:28px">Average lines per run, 8 tasks × 5 runs:</p>
+      <div style="margin-top:44px;display:grid;gap:22px">
+        <div><div id="b5-g" style="height:26px;width:500px;background:var(--ghost)"></div><p id="b5-gl" class="foot" style="margin-top:8px">WITHOUT · 335</p></div>
+        <div><div id="b5-k" style="height:26px;width:296px;background:var(--ink)"></div><p id="b5-kl" class="foot" style="margin-top:8px">WITH DIVORCE · 198</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B6 · −29% HTML · −33% ARIA -->
+  <section id="b6" class="shot clip" data-start="24.69" data-duration="3.21" data-track-index="6" data-track-kind="graphics">
+    <div class="side" style="left:0;width:958px" data-layout-allow-overflow>
+      <div class="abs" style="left:110px;top:200px;width:800px">
+        <p id="b6-n1" class="disp" style="font-size:400px">−29%</p>
+        <p id="b6-h1" class="h" style="font-size:80px;margin-top:30px">HTML</p>
+        <p id="b6-s1" class="small" style="margin-top:14px">1,202 → 855 lines per run</p>
+      </div>
+    </div>
+    <div id="b6-rule" class="abs" style="left:958px;top:200px;width:3px;height:680px;background:var(--ink)"></div>
+    <div class="side" style="left:961px;width:959px" data-layout-allow-overflow>
+      <div class="abs" style="left:69px;top:200px;width:800px">
+        <p id="b6-n2" class="disp" style="font-size:400px">−33%</p>
+        <p id="b6-h2" class="h" style="font-size:80px;margin-top:30px">ARIA attributes</p>
+        <p id="b6-s2" class="small" style="margin-top:14px">42 → 29 per run</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- B7 · −76% axe violations -->
+  <section id="b7" class="shot clip" data-start="27.90" data-duration="4.25" data-track-index="7" data-track-kind="graphics">
+    <div id="dots"></div>
+    <p id="b7-l1" class="abs foot" style="left:110px;top:136px">WITHOUT · 41 VIOLATIONS</p>
+    <p id="b7-l2" class="abs foot" style="left:110px;top:506px">WITH DIVORCE · 10</p>
+    <div class="abs" style="left:900px;top:150px;width:920px">
+      <div id="b7-w" data-layout-allow-overflow><p id="b7-n" class="disp red" style="font-size:440px">−76%</p></div>
+      <p id="b7-h" class="h" style="font-size:84px;margin-top:30px">axe violations</p>
+      <p id="b7-s" class="small" style="margin-top:20px">Violation nodes, summed over 5 runs of 8 tasks.</p>
+    </div>
+    <p id="b7-f" class="abs foot" style="left:110px;bottom:70px;width:1700px">Nu flagged 3 of 40 pages with divorce, 0 without · evals/README.md</p>
+  </section>
+
+  <!-- B8 · end card -->
+  <section id="b8" class="shot clip" data-start="32.15" data-duration="4.29" data-track-index="8" data-track-kind="graphics">
+    <h1 class="abs h" style="left:110px;top:150px;font-size:250px;width:1700px"><span class="w">Let</span> <span class="w">HTML</span> <span class="w">do</span><br><span class="w">the</span> <span class="w">work.</span></h1>
+    <div id="b8-rule" class="abs" style="left:110px;top:760px;width:1700px;height:3px;background:var(--ink)"></div>
+    <div id="b8-brand">
+      <img class="abs" src="assets/mascot.png" alt="" style="left:96px;top:800px;width:190px">
+      <p class="abs" style="left:310px;top:842px;font-family:'Archivo H8';font-size:76px">divorce</p>
+      <p class="abs" style="left:310px;top:935px;font-size:28px;color:var(--mute)">A skill for coding agents. Native first, then proven.</p>
+    </div>
+    <p id="b8-cmd" class="abs mono" style="right:110px;top:862px;font-size:40px;border:3px solid var(--ink);padding:22px 34px;border-radius:12px">npx skills add ElRaxy/divorce</p>
+  </section>
+</div>
+
+<script>
+// Real code from progress/divorce-2026-11-06/bench5/html (modal task): without divorce run 3 (58 lines), with divorce run 1 (20 lines).
+const WITHOUT = String.raw`  (function () {
+    var trigger = document.getElementById('delete-trigger');
+    var dialog = document.getElementById('confirm-dialog');
+    var cancelBtn = document.getElementById('cancel-btn');
+    var confirmBtn = document.getElementById('confirm-btn');
+    var doc = document.getElementById('doc-1');
+    var docList = document.getElementById('doc-list');
+    var emptyState = document.getElementById('empty-state');
+    var status = document.getElementById('status');
+    var heading = document.getElementById('docs-heading');
+
+    trigger.addEventListener('click', function () {
+      status.textContent = '';
+      dialog.showModal();
+      // Default focus to the non-destructive choice.
+      cancelBtn.focus();
+    });
+
+    cancelBtn.addEventListener('click', function () {
+      dialog.close('cancel');
+    });
+
+    confirmBtn.addEventListener('click', function () {
+      dialog.close('confirm');
+    });
+
+    // Escape key: the native dialog fires "cancel"; route it through the same close path.
+    dialog.addEventListener('cancel', function (event) {
+      event.preventDefault();
+      dialog.close('cancel');
+    });
+
+    // Clicking the backdrop also cancels.
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) {
+        var r = dialog.getBoundingClientRect();
+        var inside = event.clientX >= r.left && event.clientX <= r.right &&
+                     event.clientY >= r.top && event.clientY <= r.bottom;
+        if (!inside) dialog.close('cancel');
+      }
+    });
+
+    dialog.addEventListener('close', function () {
+      if (dialog.returnValue === 'confirm') {
+        doc.remove();
+        docList.hidden = true;
+        emptyState.hidden = false;
+        // The trigger no longer exists; move focus to the section heading.
+        heading.focus();
+        status.textContent = '“Quarterly Report.pdf” was deleted.';
+      } else {
+        // Document kept; return focus to the control that opened the dialog.
+        trigger.focus();
+      }
+      dialog.returnValue = '';
+    });
+  })();
+`.split('\n');
+const WITH = String.raw`  const dialog = document.getElementById('confirm');
+  const deleteBtn = document.getElementById('delete-btn');
+  const status = document.getElementById('status');
+
+  deleteBtn.addEventListener('click', () => {
+    dialog.returnValue = '';
+    dialog.showModal(); // Escape closes it natively via the cancel event
+  });
+
+  dialog.addEventListener('close', () => {
+    if (dialog.returnValue === 'delete') {
+      document.getElementById('doc-1').remove();
+      document.getElementById('empty').hidden = false;
+      status.textContent = 'Document deleted.';
+      status.focus();
+    } else {
+      deleteBtn.focus();
+    }
+  });
+`.split('\n');
+// Struck lines, grouped by the note that explains them (line numbers of modal-without-3.html's script).
+const NOTES = [[15,16],[4,5,19,20,21,23,24,25],[27,28,29,30,31],[33,34,35,36,37,38,39,40,41]];
+const STRUCK = new Set(NOTES.flat());
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const lead = l => l.match(/^\s*/)[0].length;
+const len = l => l.trimEnd().length;
+
+document.querySelectorAll('.code').forEach(el => {
+  el.innerHTML = WITHOUT.map((l, i) => {
+    const n = i + 1, txt = l.slice(lead(l));
+    const body = l.slice(0, lead(l)) + `<span class="t${txt.startsWith('//') ? ' cm' : ''}">${esc(txt) || ' '}</span>`;
+    return `<span class="ln${STRUCK.has(n) ? ' x' : ''}" id="${el.id}-${n}" data-n="${n}">${body}</span>`;
+  }).join('');
+});
+
+// Geometry, all from fixed metrics (no layout reads): Plex Mono advance 0.6 em at 14.5 px; bars 4.2 px per char, 10 px tall, 4 px apart.
+const CH = 14.5 * .6, LH = 16.6, GW = n => Math.max(6, n * 4.2);
+const G_TOP = 1080 - 150 - (58 * 14 - 4), W_TOP = 1080 - 150 - (20 * 14 - 4);
+const bars = document.getElementById('bars');
+bars.innerHTML = WITHOUT.map((l, i) => len(l) ? `<div class="bar${STRUCK.has(i + 1) ? ' x' : ''}" id="g${i + 1}" style="left:120px;top:${G_TOP + i * 14}px;width:${GW(len(l))}px"><i></i></div>` : '').join('');
+document.getElementById('wbars').innerHTML = WITH.map((l, i) => len(l) ? `<div class="wbar" id="w${i + 1}" style="left:560px;top:${W_TOP + i * 14}px;width:${GW(len(l))}px"></div>` : '').join('');
+document.getElementById('dots').innerHTML =
+  Array.from({length: 41}, (_, i) => `<div class="dot" id="d${i}" style="left:${110 + (i % 10) * 46}px;top:${190 + Math.floor(i / 10) * 46}px"></div>`).join('') +
+  Array.from({length: 10}, (_, j) => `<div class="dot k" id="k${j}" style="left:${110 + j * 46}px;top:560px"><i></i></div>`).join('');
+
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({paused: true});
+// Eases: arrivals land on a long tail, moves on screen ease both ways, exits accelerate (motion.md).
+const IN = "expo.out", SOFT = "power3.out", MOVE = "power3.inOut", OUT = "power2.in";
+// Moving things get their own layer, so a slow tail glides on sub-pixels instead of stepping a whole pixel every other frame.
+const layer = sel => gsap.set(sel, {willChange: "transform, opacity"});
+const rise = (sel, at, d = .9) => layer(sel) && tl.fromTo(sel, {yPercent: 135}, {yPercent: 0, duration: d, ease: IN}, at);
+const fadeUp = (sel, at, y = 18, d = .6) => layer(sel) && tl.fromTo(sel, {opacity: 0, y}, {opacity: 1, y: 0, duration: d, ease: IN}, at);
+const leave = (sel, at, to = {}, d = .24) => tl.to(sel, {opacity: 0, duration: d, ease: OUT, ...to}, at);
+
+// Beat grid measured from the recording (hyperframes audio, spectral-flux onsets), film time = source time − 1.40 s.
+// Quarter notes ≈ 1.07 s; Q[n] is the n-th quarter in film time. Bar lines are Q0, Q4, Q8 … Q32.
+const Q = [0.04, 1.12, 2.20, 3.29, 4.33, 5.38, 6.43, 7.49, 8.56, 9.65, 10.70, 11.79, 12.88, 13.97, 15.04, 16.12, 17.20,
+           18.29, 19.33, 20.42, 21.44, 22.53, 23.59, 24.69, 25.72, 26.83, 27.90, 28.98, 30.02, 31.11, 32.15, 33.23, 34.30, 35.37, 36.44];
+// Shots (v8.1): B1 Q0-Q5 · B2 Q5-Q8 · B3 Q8-Q14 · B4 Q14-Q19 · B5 Q19-Q23 · B6 Q23-Q26 · B7 Q26-Q30 · B8 Q30-Q34.
+
+// B1 · Q0 → Q5
+// Frame 0 is the thumbnail: "Same prompt." is already set; "Two runs." lands on the second beat.
+rise("#b1-l3", Q[1]);
+tl.fromTo("#b1-rule", {clipPath: "inset(0 0 100% 0)"}, {clipPath: "inset(0 0 0% 0)", duration: .9, ease: SOFT}, .06);
+fadeUp("#b1-prompt", .12, 14, .7);
+fadeUp("#b1-lead", 1.5, 14, .6);
+tl.to("#b1-prompt", {x: -80, opacity: 0, duration: .3, ease: "power3.in"}, Q[5] - .34);
+tl.to(["#b1-l1", "#b1-l2", "#b1-l3"], {yPercent: -135, duration: .28, ease: "power3.in", stagger: .03}, Q[5] - .3);
+leave("#b1-lead", Q[5] - .3, {}, .22);
+tl.to("#b1-rule", {clipPath: "inset(100% 0 0% 0)", duration: .28, ease: "power3.in"}, Q[5] - .3);
+
+// B2 · Q5 → Q8: the code drops in and settles; the count lands on Q6.
+tl.fromTo("#codew", {y: -170, opacity: 0}, {y: 0, opacity: 1, duration: 1.0, ease: IN}, Q[5]);
+const cnt = {v: 0}, nEl = document.getElementById("b2-n");
+tl.fromTo(cnt, {v: 0}, {v: 58, duration: Q[6] - Q[5] - .04, ease: "power2.out", onUpdate: () => { nEl.textContent = Math.round(cnt.v); }}, Q[5] + .04);
+tl.fromTo("#b2-n", {opacity: 0}, {opacity: 1, duration: .2, ease: "none"}, Q[5] + .04);
+fadeUp("#b2-h", Q[5] + .42, 22);
+fadeUp("#b2-s", Q[5] + .52, 14);
+tl.to("#b2-block", {x: 40, opacity: 0, duration: .24, ease: OUT}, Q[8] - .24);
+
+// B3 · Q8 → Q14: one strike per beat (Q9-Q12), each with its note; the last note holds 1.8 s.
+rise("#b3-h", Q[8], .8);
+[Q[9], Q[10], Q[11], Q[12]].forEach((t, k) => {
+  const n = `#n${k + 1}`;
+  tl.fromTo(`${n} i`, {clipPath: "inset(0 100% 0 0)"}, {clipPath: "inset(0 0% 0 0)", duration: .35, ease: SOFT}, t);
+  tl.fromTo(`${n} b`, {opacity: 0, x: -14}, {opacity: 1, x: 0, duration: .55, ease: IN}, t + .04);
+  tl.fromTo(`${n} span`, {opacity: 0, x: -14}, {opacity: 1, x: 0, duration: .55, ease: IN}, t + .16);
+  NOTES[k].forEach((line, j) => tl.fromTo(`#codex-${line}`, {clipPath: "inset(0 100% 0 0)"}, {clipPath: "inset(0 0% 0 0)", duration: .45, ease: "power2.inOut"}, t + j * .035));
+});
+leave(["#b3-h", "#n1", "#n2", "#n3", "#n4"], Q[14] - .24, {x: 30}, .22);
+
+// B4 · Q14 → Q19, one move at a time: code out, then bars in (never both on screen), the fold into the WITHOUT
+// column, then the 20 WITH bars on Q16, then "→ 20" and the line on Q17.
+layer(["#b1-l1", "#b1-l2", "#codew", ".bar", ".wbar", ".dot", "#b5-n", "#b6-n1", "#b6-n2", "#b4-b", "#n1 b", "#n2 b", "#n3 b", "#n4 b", "#n1 span", "#n2 span", "#n3 span", "#n4 span", "#b5-h"]);
+const B4 = Q[14];
+tl.to(["#codew", "#codex"], {opacity: 0, duration: .15, ease: "power1.in"}, B4);
+const KEEP = [];
+WITHOUT.forEach((l, i) => {
+  if (!len(l)) return;
+  const n = i + 1, id = `#g${n}`, w = GW(len(l));
+  const fx = 144 + lead(l) * CH - 120, fy = 58 + i * LH + 3.3 - (G_TOP + i * 14), fs = Math.max(1, len(l) - lead(l)) * CH / w;
+  tl.fromTo(id, {x: fx, y: fy, scaleX: fs, opacity: 0}, {x: fx, y: fy, scaleX: fs, opacity: 1, duration: .15, ease: "power1.out"}, B4 + .15);
+  tl.to(id, {x: 0, y: 0, scaleX: 1, duration: .9, ease: MOVE}, B4 + .42 + i * .003);
+  tl.to(`${id} > i`, {opacity: 0, duration: .5, ease: "power2.inOut"}, B4 + (STRUCK.has(n) ? .62 : .5));
+  if (!STRUCK.has(n)) KEEP.push(n);
+});
+const WN = WITH.map((l, i) => len(l) ? i + 1 : 0).filter(Boolean);
+WN.forEach((n, j) => {
+  const src = KEEP[Math.round(j * (KEEP.length - 1) / (WN.length - 1))], s = WITHOUT[src - 1];
+  const fy = (G_TOP + (src - 1) * 14) - (W_TOP + (n - 1) * 14), fs = GW(len(s)) / GW(len(WITH[n - 1]));
+  tl.fromTo(`#w${n}`, {x: -440, y: fy, scaleX: fs, opacity: 0}, {x: 0, y: 0, scaleX: 1, opacity: 1, duration: .9, ease: MOVE}, Q[16] + j * .015);
+});
+fadeUp(["#b4-a", "#b4-l1"], Q[15], 16, .7);
+tl.fromTo("#b4-b", {opacity: 0, x: -24}, {opacity: 1, x: 0, duration: .7, ease: IN}, Q[17]);
+fadeUp("#b4-l2", Q[17], 10, .5);
+fadeUp("#b4-h", Q[17] + .16, 18);
+
+// B5 · Q19 → Q23: the figure rises behind a curtain; the bars draw on the bar line Q20 and the black one stops short.
+tl.fromTo("#b5-cur", {clipPath: "inset(100% 0 0 0)"}, {clipPath: "inset(0% 0 0 0)", duration: 1.0, ease: IN}, Q[19]);
+tl.fromTo("#b5-n", {y: 90}, {y: 0, duration: 1.0, ease: IN}, Q[19]);
+tl.fromTo("#b5-h", {opacity: 0, x: -16}, {opacity: 1, x: 0, duration: .6, ease: IN}, Q[19] + .43);
+fadeUp("#b5-s", Q[19] + .58, 12);
+tl.fromTo("#b5-g", {clipPath: "inset(0 100% 0 0)"}, {clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: SOFT}, Q[20]);
+tl.fromTo("#b5-k", {clipPath: "inset(0 100% 0 0)"}, {clipPath: "inset(0 0% 0 0)", duration: .59, ease: SOFT}, Q[20]);
+fadeUp(["#b5-gl", "#b5-kl"], Q[20] + .1, 8, .5);
+
+// B6 · Q23 → Q26: the rule draws from its middle; both figures slide in from the outside toward it, so they never meet.
+tl.fromTo("#b6-rule", {clipPath: "inset(50% 0 50% 0)"}, {clipPath: "inset(0% 0 0% 0)", duration: .6, ease: SOFT}, Q[23]);
+tl.fromTo("#b6-n1", {x: -90, opacity: 0}, {x: 0, opacity: 1, duration: 1.0, ease: IN}, Q[23] + .06);
+tl.fromTo("#b6-n2", {x: 90, opacity: 0}, {x: 0, opacity: 1, duration: 1.0, ease: IN}, Q[23] + .06);
+fadeUp(["#b6-h1", "#b6-h2"], Q[24], 16);
+fadeUp(["#b6-s1", "#b6-s2"], Q[24] + .18, 10);
+
+// B7 · Q26 → Q30: 41 dots, 31 go out on Q27, the 10 left drop to their row (the labels sit above the rows, out of the way).
+const DOTS = Array.from({length: 41}, (_, i) => `#d${i}`);
+tl.fromTo(DOTS, {opacity: 0, scale: .82}, {opacity: 1, scale: 1, duration: .4, ease: IN, stagger: .012}, Q[26]);
+fadeUp("#b7-l1", Q[26] + .1, 8, .5);
+tl.fromTo("#b7-w", {clipPath: "inset(0 100% 0 0)"}, {clipPath: "inset(0 0% 0 0)", duration: .8, ease: IN}, Q[26] + .07);
+fadeUp("#b7-h", Q[26] + .4, 16);
+fadeUp(["#b7-s", "#b7-f"], Q[26] + .55, 10);
+const OFF = DOTS.filter((_, i) => i < 30 || i === 40);
+tl.to(OFF, {opacity: .16, duration: .45, ease: "power2.inOut", stagger: .01}, Q[27]);
+const DROP = Array.from({length: 10}, (_, j) => `#k${j}`);
+tl.fromTo(DROP, {y: -232, opacity: 0}, {y: 0, opacity: 1, duration: .75, ease: MOVE, stagger: .03}, Q[27] + .42);
+tl.to(DROP.map(s => `${s} > i`), {opacity: 0, duration: .6, ease: "power2.inOut", stagger: .03}, Q[27] + .52);
+fadeUp("#b7-l2", Q[28] + .42, 8, .5);
+
+// B8 · Q30 → Q34: words from pale to ink, then the rule, the brand and the command; held from ~33.95.
+tl.fromTo("#b8 .w", {opacity: .1}, {opacity: 1, duration: .4, ease: "power2.out", stagger: .09}, Q[30] + .02);
+tl.fromTo("#b8-rule", {clipPath: "inset(0 100% 0 0)"}, {clipPath: "inset(0 0% 0 0)", duration: .7, ease: SOFT}, Q[30] + .55);
+fadeUp("#b8-brand", Q[30] + .8, 12, .7);
+fadeUp("#b8-cmd", Q[31], 12, .7);
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

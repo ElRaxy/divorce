@@ -1,0 +1,10 @@
+bach-prelude-c-ishizaka-bed.m4a
+
+J. S. Bach, Prelude No. 1 in C major, BWV 846 (Well-Tempered Clavier, Book 1),
+performed by Kimiko Ishizaka, from the Open Well-Tempered Clavier (http://welltemperedclavier.org).
+License: CC0 1.0 Universal (public domain dedication), https://creativecommons.org/publicdomain/zero/1.0/
+Source file: https://commons.wikimedia.org/wiki/File:Kimiko_Ishizaka_-_Bach_-_Well-Tempered_Clavier,_Book_1_-_01_Prelude_No._1_in_C_major,_BWV_846.ogg
+Original sha256: abce13d492fbc909db3a00b27c66774220441bb31903f93cf2aef2d4084d93d2
+
+Edit (v8.1): from 1.40 s of the original, 36.44 s long, +15.5 dB, 20 ms fade-in, 2.1 s fade-out from 34.34 s,
+48 kHz stereo AAC 192 kb/s. Measured on the v8.1 render: see progress/divorce-2026-11-06/ship_video-v8.md.
