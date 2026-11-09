@@ -115,9 +115,11 @@ sh skills/divorce/scripts/install-vnu.sh
 The installer verifies the download's SHA-1 and the validator's version command. Set `VNU` to its printed binary path or add `vnu` to `PATH`; for `--jar`, set `VNU_JAR` to the printed JAR path. The axe snippet selects WCAG 2.2 A/AA, including earlier versions, and best-practice rules.
 </details>
 
+<!-- Star History: star-history.com cannot read a private repo and renders a broken image. Uncomment when the repo goes public.
 ## Star History
 
 <a href="https://star-history.com/#ElRaxy/divorce&Date"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ElRaxy/divorce&amp;type=Date&amp;theme=dark"><img src="https://api.star-history.com/svg?repos=ElRaxy/divorce&amp;type=Date" alt="Star history of ElRaxy/divorce"></picture></a>
+-->
 
 ## License
 
