@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>divorce — the evidence</title>
+<title>divorce — recorded gate output</title>
 <style>@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
   font-style: normal; font-display: block;
   src: url("../../fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
@@ -16,13 +16,13 @@
 @font-face { font-family: 'JetBrains Mono'; font-weight: 700;
   font-style: normal; font-display: block;
   src: url("../../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+:root { color-scheme: dark; --bg: #0d1117; --card: #141416; --line: #26262a;
   --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body { width: 880px; margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.5 'JetBrains Mono', monospace; }
-main { padding: 48px; }
+main { padding: 48px; background: var(--bg); }
 h1, h2, .display, .wordmark { font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 800; line-height: 1; letter-spacing: -.045em; }
 h1, h2, p { margin: 0; }
@@ -121,74 +121,31 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .value { font: 700 12px/20px 'JetBrains Mono', monospace; text-align: right; }
 .benchmark .nu-line { margin-top: 14px; height: 18px; font-size: 12px; line-height: 18px; }
 .benchmark footer { margin-top: 14px; height: 48px; line-height: 16px; }
-html, body { background: #0d1117; }
-main { background: var(--bg); border: 1px solid #8b949e; border-radius: 24px; }
 </style>
 </head>
-<body class="cases">
+<body class="ruling">
 <main>
-<p class="label">The evidence / before examples</p>
-<header class="case-head"><h1 class="red">5 of 9</h1>
-<p>invisible to every tool</p></header>
-<table class="case-table" aria-label="Recorded detector findings by case">
-<thead><tr><th class="number" scope="col">No.</th><th class="name" scope="col">Case</th>
-<th class="detector" scope="col">Detector</th><th scope="col">Impact</th></tr></thead>
-<tbody><tr class="case missed">
-<td class="index">01</td>
-<th scope="row" title="Use a link for navigation">button-link</th>
-<td class="catch"><span class="catch-nothing">nothing</span></td>
-<td class="impact">No axe violation recorded</td>
-</tr>
-<tr class="case missed">
-<td class="index">02</td>
-<th scope="row" title="Use details for a disclosure">custom-disclosure</th>
-<td class="catch"><span class="catch-nothing">nothing</span></td>
-<td class="impact">No axe violation recorded</td>
-</tr>
-<tr class="case missed">
-<td class="index">03</td>
-<th scope="row" title="Use dialog for a modal task">custom-modal</th>
-<td class="catch"><span class="catch-nothing">nothing</span></td>
-<td class="impact">No axe violation recorded</td>
-</tr>
-<tr class="case missed">
-<td class="index">04</td>
-<th scope="row" title="Use a button for an action">div-button</th>
-<td class="catch"><span class="catch-nothing">nothing</span></td>
-<td class="impact">No axe violation recorded</td>
-</tr>
-<tr class="case missed">
-<td class="index">05</td>
-<th scope="row" title="Represent a list with ul and li">div-list</th>
-<td class="catch"><span class="catch-nothing">nothing</span></td>
-<td class="impact">No axe violation recorded</td>
-</tr>
-<tr class="case">
-<td class="index">06</td>
-<th scope="row" title="Keep heading levels in order">heading-order</th>
-<td class="catch"><span class="catch-nu">Nu</span> + <span class="catch-axe">axe</span></td>
-<td class="impact">axe: moderate · 1 affected node</td>
-</tr>
-<tr class="case">
-<td class="index">07</td>
-<th scope="row" title="Provide an image text alternative">image-alt</th>
-<td class="catch"><span class="catch-nu">Nu</span> + <span class="catch-axe">axe</span></td>
-<td class="impact">axe: critical · 1 affected node</td>
-</tr>
-<tr class="case">
-<td class="index">08</td>
-<th scope="row" title="Associate a label with its control">input-label</th>
-<td class="catch"><span class="catch-axe">axe</span></td>
-<td class="impact">axe: critical · 1 affected node</td>
-</tr>
-<tr class="case">
-<td class="index">09</td>
-<th scope="row" title="Follow document order for focus">positive-tabindex</th>
-<td class="catch"><span class="catch-axe">axe</span></td>
-<td class="impact">axe: serious · 2 affected nodes</td>
-</tr></tbody></table>
-<footer>axe-core 4.10.2 · Chrome/156.0.0.0<br>
-“Every tool” here means Nu and axe. No finding is not proof of correct behavior.</footer>
+<section class="terminal" aria-label="Recorded gate result">
+<h1 class="label">RECORDED OUTPUT / HTML ONLY</h1>
+<p class="command"><code>$ python3 skills/divorce/scripts/gate.py html examples/image-alt/before.html</code></p>
+<pre>{
+  &quot;html&quot;: [
+    {
+      &quot;errors&quot;: 1,
+      &quot;input&quot;: &quot;examples/image-alt/before.html&quot;,
+      &quot;warnings&quot;: 0
+    }
+  ],
+  &quot;reasons&quot;: [
+    &quot;html_errors&quot;
+  ],
+  &quot;verdict&quot;: &quot;fail&quot;
+}</pre>
+<div class="status"><p class="display red">FAIL</p>
+<code>exit=1</code></div>
+</section>
+<footer>Real gate output. Message details omitted.<br>
+Nu checks HTML. An HTML-only result says nothing about axe.</footer>
 </main>
 </body>
 </html>

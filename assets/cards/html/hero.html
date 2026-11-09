@@ -16,13 +16,13 @@
 @font-face { font-family: 'JetBrains Mono'; font-weight: 700;
   font-style: normal; font-display: block;
   src: url("../../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+:root { color-scheme: dark; --bg: #0d1117; --card: #141416; --line: #26262a;
   --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body { width: 880px; margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.5 'JetBrains Mono', monospace; }
-main { padding: 48px; }
+main { padding: 48px; background: var(--bg); }
 h1, h2, .display, .wordmark { font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 800; line-height: 1; letter-spacing: -.045em; }
 h1, h2, p { margin: 0; }
@@ -121,8 +121,6 @@ footer { margin-top: 26px; font-size: 11px; line-height: 1.6; }
 .value { font: 700 12px/20px 'JetBrains Mono', monospace; text-align: right; }
 .benchmark .nu-line { margin-top: 14px; height: 18px; font-size: 12px; line-height: 18px; }
 .benchmark footer { margin-top: 14px; height: 48px; line-height: 16px; }
-html, body { background: #ffffff; }
-main { background: var(--bg); border: 1px solid #6e7681; border-radius: 24px; }
 </style>
 </head>
 <body class="hero">

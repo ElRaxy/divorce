@@ -31,13 +31,13 @@ CSS = """@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700;
 @font-face { font-family: 'JetBrains Mono'; font-weight: 700;
   font-style: normal; font-display: block;
   src: url("../../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+:root { color-scheme: dark; --bg: #0d1117; --card: #141416; --line: #26262a;
   --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body { width: 880px; margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.5 'JetBrains Mono', monospace; }
-main { padding: 48px; }
+main { padding: 48px; background: var(--bg); }
 h1, h2, .display, .wordmark { font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 800; line-height: 1; letter-spacing: -.045em; }
 h1, h2, p { margin: 0; }
@@ -155,21 +155,14 @@ def evidence(manifest, measured):
     return rows, caught, len(rows) - caught
 
 
-def document(title, body, kind="", theme=None):
-    themed_css = ""
-    if theme:
-        page, border = {"light": ("#ffffff", "#6e7681"),
-                        "dark": ("#0d1117", "#8b949e")}[theme]
-        themed_css = (f"html, body {{ background: {page}; }}\n"
-                      f"main {{ background: var(--bg); border: 1px solid {border}; "
-                      "border-radius: 24px; }\n")
+def document(title, body, kind=""):
     return f'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)}</title>
-<style>{CSS}{themed_css}</style>
+<style>{CSS}</style>
 </head>
 <body class="{kind}">
 <main>
@@ -197,7 +190,7 @@ def comparison(case, measured):
     return '<div class="pair">' + "\n".join(panels) + '</div>'
 
 
-def hero(rows, caught, missed, measured, social=False, theme=None, summary=None):
+def hero(rows, caught, missed, measured, social=False, summary=None):
     hook = (f"Validators catch {caught} of these {len(rows)}. "
             f"The other {missed} look fine to every tool.")
     case = next(row for row in rows if row["id"] == "div-button")
@@ -211,10 +204,10 @@ def hero(rows, caught, missed, measured, social=False, theme=None, summary=None)
         body += (f'<p class="benchmark-summary">{percentage_change(summary, "js_lines")} JavaScript · '
                  f'{percentage_change(summary, "axe_violation_nodes")} axe violations · '
                  f'{summary["runs_per_case"]} runs</p>')
-    return document("divorce — native HTML, measured evidence", body, "social" if social else "hero", theme)
+    return document("divorce — native HTML, measured evidence", body, "social" if social else "hero")
 
 
-def cases_card(rows, missed, measured, theme=None):
+def cases_card(rows, missed, measured):
     cells = []
     ordered = sorted(rows, key=lambda row: (bool(row["tools"]), row["id"]))
     for index, row in enumerate(ordered, 1):
@@ -243,10 +236,10 @@ def cases_card(rows, missed, measured, theme=None):
 <tbody>{NEWLINE.join(cells)}</tbody></table>
 <footer>{escape(measured["tool"])} · {escape(measured["browser"])}<br>
 “Every tool” here means Nu and axe. No finding is not proof of correct behavior.</footer>'''
-    return document("divorce — the evidence", body, "cases", theme)
+    return document("divorce — the evidence", body, "cases")
 
 
-def ruling_card(records, theme=None):
+def ruling_card(records):
     record = next((item for item in records if item["verdict"] == "fail"), records[0])
     verdict = record["verdict"]
     code = {"pass": 0, "fail": 1, "not_measured": 2}[verdict]
@@ -265,7 +258,7 @@ def ruling_card(records, theme=None):
 </section>
 <footer>Real gate output. Message details omitted.<br>
 Nu checks HTML. An HTML-only result says nothing about axe.</footer>'''
-    return document("divorce — recorded gate output", body, "ruling", theme)
+    return document("divorce — recorded gate output", body, "ruling")
 
 
 def validate_summary(data):
@@ -313,7 +306,7 @@ def percentage_change(data, metric):
     return (f"{change:+d}".replace("-", "−") if change else "0") + "%"
 
 
-def numbers_card(data, theme=None):
+def numbers_card(data):
     groups = []
     for metric, label in METRICS:
         if metric == "nu_errors":
@@ -347,7 +340,7 @@ def numbers_card(data, theme=None):
 <p class="nu-line">Nu errors: {with_arm["pages_with_nu_errors"]} of {with_arm["pages"]} pages with divorce, {without_arm["pages_with_nu_errors"]} of {without_arm["pages"]} without</p>
 <footer>{data["cases"]} synthetic tasks, one model, one machine; lines measure size, not quality.<br>
 Model: {escape(data["model"])}<br>{escape(data["date"])}</footer>'''
-    return document("divorce — measured numbers", body, "benchmark", theme)
+    return document("divorce — measured numbers", body, "benchmark")
 
 
 def build(root=ROOT, out_dir=None):
@@ -359,16 +352,15 @@ def build(root=ROOT, out_dir=None):
     rows, caught, missed = evidence(manifest, measured)
     summary = root / "evals/results/summary.json"
     data = validate_summary(read_json(summary)) if summary.exists() else None
-    pages = {"social.html": hero(rows, caught, missed, measured, social=True, summary=data)}
-    for theme in ("light", "dark"):
-        pages[f"hero-{theme}.html"] = hero(rows, caught, missed, measured, theme=theme)
-        pages[f"cases-{theme}.html"] = cases_card(rows, missed, measured, theme)
-        pages[f"ruling-{theme}.html"] = ruling_card(records, theme)
-        if data is not None:
-            pages[f"numbers-{theme}.html"] = numbers_card(data, theme)
+    pages = {"hero.html": hero(rows, caught, missed, measured),
+             "cases.html": cases_card(rows, missed, measured),
+             "ruling.html": ruling_card(records),
+             "social.html": hero(rows, caught, missed, measured, social=True, summary=data)}
+    if data is not None:
+        pages["numbers.html"] = numbers_card(data)
     out_dir.mkdir(parents=True, exist_ok=True)
-    obsolete = {"hero.html", "cases.html", "ruling.html", "numbers.html",
-                "numbers-light.html", "numbers-dark.html"} - pages.keys()
+    obsolete = {f"{name}-{theme}.html" for name in ("hero", "cases", "ruling", "numbers", "social")
+                for theme in ("light", "dark")} | ({"numbers.html"} - pages.keys())
     for name in sorted(obsolete):
         (out_dir / name).unlink(missing_ok=True)
     for name, content in sorted(pages.items()):

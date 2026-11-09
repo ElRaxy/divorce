@@ -15,8 +15,7 @@ SCRIPT = ROOT / "assets/cards/build_cards.py"
 SPEC = importlib.util.spec_from_file_location("build_cards", SCRIPT)
 cards = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(cards)
-THEMES = ("light", "dark")
-CARD_NAMES = {f"{name}-{theme}.html" for name in ("hero", "cases", "ruling") for theme in THEMES}
+CARD_NAMES = {f"{name}.html" for name in ("hero", "cases", "ruling")}
 
 INPUTS = ("examples/manifest.json", "examples/axe-measured.json", "assets/data/gate-real.json")
 
@@ -84,13 +83,7 @@ class BuildCardsTest(unittest.TestCase):
         return result
 
     def content(self, name):
-        if name == "social.html":
-            return (self.output / name).read_text(encoding="utf-8")
-        variants = [(self.output / name.replace(".html", f"-{theme}.html")).read_text(encoding="utf-8")
-                    for theme in THEMES]
-        # Every content assertion also covers the dark variant's identical evidence.
-        self.assertEqual(variants[0].replace("#ffffff", "#0d1117").replace("#6e7681", "#8b949e"), variants[1])
-        return variants[0]
+        return (self.output / name).read_text(encoding="utf-8")
 
     def test_counts_are_union_of_recorded_nu_and_axe_findings(self):
         manifest = cards.read_json(self.root / INPUTS[0])
@@ -147,8 +140,7 @@ class BuildCardsTest(unittest.TestCase):
             self.assertNotIn("Gate passes", " ".join(parsed.text))
         self.write("evals/results/summary.json", self.fixture())
         self.run_builder()
-        for theme in THEMES:
-            self.assertTrue((self.output / f"numbers-{theme}.html").exists())
+        self.assertTrue((self.output / "numbers.html").exists())
         (self.root / "evals/results/summary.json").unlink()
         self.run_builder()
         self.assertFalse(list(self.output.glob("numbers*.html")))
@@ -199,7 +191,7 @@ class BuildCardsTest(unittest.TestCase):
         self.run_builder()
         published = sorted((ROOT / "assets/cards/html").glob("*.html"))
         self.assertEqual({p.name for p in published},
-                         CARD_NAMES | {"social.html", "numbers-light.html", "numbers-dark.html"})
+                         CARD_NAMES | {"social.html", "numbers.html"})
         for path in [*self.output.glob("*.html"), *published]:
             with self.subTest(card=str(path)):
                 self.assert_local_fonts(path.read_text(encoding="utf-8"))
@@ -224,23 +216,34 @@ class BuildCardsTest(unittest.TestCase):
         self.assertIn(cards.MASCOT, social)
         self.assertIn('<h1 class="wordmark">divorce</h1>', social)
 
-    def test_variant_surfaces_and_obsolete_html_cleanup(self):
+    def test_frameless_surfaces_and_obsolete_html_cleanup(self):
         self.write("evals/results/summary.json", self.fixture())
         self.output.mkdir(parents=True)
-        for name in ("hero", "cases", "ruling", "numbers"):
-            (self.output / f"{name}.html").write_text("obsolete", encoding="utf-8")
+        names = ("hero", "cases", "ruling", "numbers", "social")
+        for name in names:
+            for theme in ("light", "dark"):
+                (self.output / f"{name}-{theme}.html").write_text("obsolete", encoding="utf-8")
         unrelated = self.output / "unrelated.txt"
         unrelated.write_text("keep", encoding="utf-8")
         self.run_builder()
-        for name in ("hero", "cases", "ruling", "numbers"):
-            self.assertFalse((self.output / f"{name}.html").exists())
-            for theme, page, border in (("light", "#ffffff", "#6e7681"),
-                                        ("dark", "#0d1117", "#8b949e")):
-                html = (self.output / f"{name}-{theme}.html").read_text(encoding="utf-8")
-                self.assertIn(f"html, body {{ background: {page}; }}", html)
-                self.assertIn(f"main {{ background: var(--bg); border: 1px solid {border}; border-radius: 24px; }}", html)
-                self.assertRegex(html, r"body \{[^}]*margin: 0;")
-                self.assertNotEqual(page, border)
+        self.assertEqual({path.name for path in self.output.glob("*.html")},
+                         {f"{name}.html" for name in names})
+        for name in names:
+            html = self.content(f"{name}.html")
+            css = re.search(r"<style>(.*?)</style>", html, re.S).group(1)
+            self.assertIn("--bg: #0d1117", css)
+            for element in ("html", "body", "main"):
+                rules = [body for selectors, body in re.findall(r"([^{}]+)\{([^{}]*)\}", css)
+                         if element in [selector.strip() for selector in selectors.split(",")]]
+                self.assertTrue(any("background: var(--bg);" in rule for rule in rules), element)
+            for selectors, body in re.findall(r"([^{}]+)\{([^{}]*)\}", css):
+                if any(re.search(r"(?:^|\s)(?:html|body|main)(?:[.#][\w-]+)*$", selector.strip())
+                       or selector.strip() in ("*", ".social", ".hero", ".cases", ".ruling", ".benchmark")
+                       for selector in selectors.split(",")):
+                    self.assertNotRegex(body, r"(?:^|;)\s*border(?:-[\w-]+)?\s*:")
+            for panel in ("sample", "terminal"):
+                self.assertRegex(css, r"\." + panel + r"\s*\{[^}]*border: 1px solid var\(--line\);")
+            self.assertRegex(html, r"body \{[^}]*margin: 0;")
         self.assertEqual(unrelated.read_text(encoding="utf-8"), "keep")
 
     def test_cases_height_and_row_content_are_derived_from_css_and_data(self):
@@ -261,11 +264,10 @@ class BuildCardsTest(unittest.TestCase):
             return int(value[:-2])
 
         row_count = len(re.findall(r'<tr class="case(?: missed)?">', html))
-        border = int(declaration("main", "border").split("px", 1)[0])
         head_margin = declaration(".case-head", "margin").split()
         self.assertEqual(len(head_margin), 2)
         self.assertEqual(head_margin[1], "0")
-        height = (2 * pixels(".cases main", "padding") + 2 * border
+        height = (2 * pixels(".cases main", "padding")
                   + pixels(".cases .label", "height")
                   + pixels(".case-head", "height") + 2 * int(head_margin[0][:-2])
                   + pixels(".case-table thead tr", "height")
@@ -288,7 +290,7 @@ class BuildCardsTest(unittest.TestCase):
         self.assert_cases_rows(html, rows, missed)
         # Change a previously missed row so alphabetical order cannot mimic grouping.
         rows[0]["tools"] = ["Nu"]
-        changed = cards.cases_card(list(reversed(rows)), missed - 1, measured, "light")
+        changed = cards.cases_card(list(reversed(rows)), missed - 1, measured)
         self.assert_cases_rows(changed, rows, missed - 1)
 
     def assert_cases_rows(self, html, rows, missed):
@@ -310,22 +312,28 @@ class BuildCardsTest(unittest.TestCase):
             else:
                 self.assertIn("No axe violation recorded", cell)
 
-    def test_readme_keeps_header_and_selects_card_variants(self):
+    def test_readme_keeps_centered_header_and_single_cards(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        top = readme.split("<picture>", 1)[0]
-        self.assertIn('src="assets/mascot.png"', top)
+        visible = re.sub(r"<!--.*?-->", "", readme, flags=re.S)
+        top = visible.split("## Install", 1)[0]
+        self.assertIn('<p align="center"><img src="assets/mascot.png" width="200"', top)
         self.assertIn('<h1 align="center">divorce</h1>', top)
-        self.assertIn("End your agent's toxic relationship with div soup. Write native HTML. Let code deliver the verdict.", top)
-        pictures = re.findall(r"<picture>(.*?)</picture>", readme, re.S)
-        self.assertEqual(len(pictures), 5)
-        for name, picture in zip(("hero", "numbers", "cases", "ruling"), pictures[:4]):
-            parsed = Structure(picture)
-            sources = [attrs for tag, attrs in parsed.elements if tag == "source"]
-            images = [attrs for tag, attrs in parsed.elements if tag == "img"]
-            self.assertEqual(sources, [{"media": "(prefers-color-scheme: dark)", "srcset": f"assets/cards/{name}-dark.png"}])
-            self.assertEqual(len(images), 1)
-            self.assertEqual(images[0]["src"], f"assets/cards/{name}-light.png")
-            self.assertTrue(images[0].get("alt", "").strip())
+        self.assertIn('<p align="center"><em>End your agent\'s toxic relationship with div soup.</em>'
+                      '<br>A skill for Claude Code and Codex: native HTML first, then proof.</p>', top)
+        self.assertNotIn("<picture", visible)
+        parsed = Structure(visible)
+        images = [attrs for tag, attrs in parsed.elements if tag == "img"]
+        expected = ["assets/mascot.png", "assets/cards/hero.png", "assets/demo/replay.gif",
+                    "assets/cards/numbers.png", "assets/cards/cases.png", "assets/cards/ruling.png"]
+        self.assertEqual([attrs["src"] for attrs in images], expected)
+        self.assertEqual([attrs["width"] for attrs in images], ["200"] + ["880"] * 5)
+        self.assertTrue(all(attrs.get("alt", "").strip() for attrs in images))
+        centered = re.findall(r'<p align="center"><img\b[^>]*></p>', visible)
+        self.assertEqual(len(centered), len(images))
+        self.assertEqual(re.findall(r"^## (.+)$", visible, re.M),
+                         ["Install", "Numbers", "The evidence", "The ruling", "How it works", "Details", "License"])
+        self.assertEqual(sum(tag == "details" for tag, _ in parsed.elements), 1)
+        self.assertLess(len(readme.splitlines()), 130)
 
     def test_ruling_is_recorded_result_not_a_fixed_verdict(self):
         records = cards.read_json(self.root / INPUTS[2])
@@ -379,59 +387,56 @@ class BuildCardsTest(unittest.TestCase):
         data = cards.read_json(ROOT / "evals/results/summary.json")
         self.write("evals/results/summary.json", data)
         self.run_builder()
-        for theme in THEMES:
-            html = (self.output / f"numbers-{theme}.html").read_text(encoding="utf-8")
-            visible = " ".join(Structure(html).text)
-            self.assertNotRegex(visible, r"\d+\.\d+\s*%")
-            self.assertEqual(len(re.findall(r"[−+]?\d+\s*%", visible)), 12)
-            self.assertIn("59\u2009%", visible)
-            self.assertIn("−41\u2009%", visible)
+        html = self.content("numbers.html")
+        visible = " ".join(Structure(html).text)
+        self.assertNotRegex(visible, r"\d+\.\d+\s*%")
+        self.assertEqual(len(re.findall(r"[−+]?\d+\s*%", visible)), 12)
+        self.assertIn("59\u2009%", visible)
+        self.assertIn("−41\u2009%", visible)
 
     def test_numbers_height_is_below_620_from_layout_budget(self):
         self.write("evals/results/summary.json", self.fixture())
         self.run_builder()
-        for theme in THEMES:
-            html = (self.output / f"numbers-{theme}.html").read_text(encoding="utf-8")
-            css = re.search(r"<style>(.*?)</style>", html, re.S).group(1)
+        html = self.content("numbers.html")
+        css = re.search(r"<style>(.*?)</style>", html, re.S).group(1)
 
-            def declaration(selector, name):
-                rules = re.findall(re.escape(selector) + r"\s*\{([^}]*)\}", css)
-                values = [match.group(1).strip() for rule in rules
-                          if (match := re.search(r"(?:^|;)\s*" + re.escape(name) + r":\s*([^;]+)", rule))]
-                self.assertTrue(values, (selector, name))
-                return values[-1]
+        def declaration(selector, name):
+            rules = re.findall(re.escape(selector) + r"\s*\{([^}]*)\}", css)
+            values = [match.group(1).strip() for rule in rules
+                      if (match := re.search(r"(?:^|;)\s*" + re.escape(name) + r":\s*([^;]+)", rule))]
+            self.assertTrue(values, (selector, name))
+            return values[-1]
 
-            def pixels(selector, name):
-                value = declaration(selector, name)
-                self.assertRegex(value, r"^\d+px$")
-                return int(value[:-2])
+        def pixels(selector, name):
+            value = declaration(selector, name)
+            self.assertRegex(value, r"^\d+px$")
+            return int(value[:-2])
 
-            metric_count = len(re.findall(r'<section class="metric"', html))
-            self.assertEqual(metric_count, 4)
-            margin = declaration(".benchmark h1", "margin").split()
-            self.assertEqual(margin[1], "0")
-            border = int(declaration("main", "border").split("px", 1)[0])
-            height = (2 * pixels(".benchmark main", "padding") + 2 * border
-                      + pixels(".benchmark .label", "height")
-                      + pixels(".benchmark h1", "height")
-                      + int(margin[0][:-2]) + int(margin[2][:-2])
-                      + metric_count * pixels(".metric", "height")
-                      + pixels(".benchmark .nu-line", "margin-top")
-                      + pixels(".benchmark .nu-line", "height")
-                      + pixels(".benchmark footer", "margin-top")
-                      + pixels(".benchmark footer", "height"))
-            self.assertLess(height, 620, f"numbers CSS height: {height}px")
-            self.assertEqual(declaration(".metric", "display"), "grid")
-            self.assertEqual(declaration(".metric h2", "grid-row"), "1")
-            self.assertEqual(declaration(".metric-bars", "grid-row"), "1")
-            self.assertEqual(declaration(".metric .display", "grid-column"), "3")
-            self.assertEqual(declaration(".metric-ranges", "grid-row"), "2")
-            self.assertGreaterEqual(pixels(".metric", "height"),
-                                    2 * pixels(".bar-row", "height")
-                                    + 2 * pixels(".metric .direction", "line-height") + 4)
-            self.assertGreaterEqual(pixels(".benchmark footer", "height"),
-                                    3 * pixels(".benchmark footer", "line-height"))
-            self.assertNotRegex(css, r"(?:\.benchmark[^{}]*|\.metric[^{}]*)\{[^}]*overflow\s*:\s*(?:hidden|clip)")
+        metric_count = len(re.findall(r'<section class="metric"', html))
+        self.assertEqual(metric_count, 4)
+        margin = declaration(".benchmark h1", "margin").split()
+        self.assertEqual(margin[1], "0")
+        height = (2 * pixels(".benchmark main", "padding")
+                  + pixels(".benchmark .label", "height")
+                  + pixels(".benchmark h1", "height")
+                  + int(margin[0][:-2]) + int(margin[2][:-2])
+                  + metric_count * pixels(".metric", "height")
+                  + pixels(".benchmark .nu-line", "margin-top")
+                  + pixels(".benchmark .nu-line", "height")
+                  + pixels(".benchmark footer", "margin-top")
+                  + pixels(".benchmark footer", "height"))
+        self.assertLess(height, 620, f"numbers CSS height: {height}px")
+        self.assertEqual(declaration(".metric", "display"), "grid")
+        self.assertEqual(declaration(".metric h2", "grid-row"), "1")
+        self.assertEqual(declaration(".metric-bars", "grid-row"), "1")
+        self.assertEqual(declaration(".metric .display", "grid-column"), "3")
+        self.assertEqual(declaration(".metric-ranges", "grid-row"), "2")
+        self.assertGreaterEqual(pixels(".metric", "height"),
+                                2 * pixels(".bar-row", "height")
+                                + 2 * pixels(".metric .direction", "line-height") + 4)
+        self.assertGreaterEqual(pixels(".benchmark footer", "height"),
+                                3 * pixels(".benchmark footer", "line-height"))
+        self.assertNotRegex(css, r"(?:\.benchmark[^{}]*|\.metric[^{}]*)\{[^}]*overflow\s*:\s*(?:hidden|clip)")
 
     def test_social_benchmark_summary_is_computed_from_supplied_data(self):
         self.write("evals/results/summary.json", self.fixture())
@@ -555,7 +560,7 @@ class BuildCardsTest(unittest.TestCase):
 
     def test_palette_text_contrast(self):
         self.assertTrue(re.sub(r"@font-face\s*\{[^}]*\}", "", cards.CSS).lstrip().startswith(":root {"))
-        self.assertIn("--bg: #0b0b0c", cards.CSS)
+        self.assertIn("--bg: #0d1117", cards.CSS)
         self.assertIn("--red: #ff4d4d", cards.CSS)
         self.assertIn("--green: #3ddc84", cards.CSS)
 
@@ -568,7 +573,7 @@ class BuildCardsTest(unittest.TestCase):
             light, dark = sorted((luminance(foreground), luminance(background)), reverse=True)
             return (light + .05) / (dark + .05)
 
-        for background in ("#0b0b0c", "#141416"):
+        for background in ("#0d1117", "#141416"):
             for foreground in ("#f4f4f5", "#9a9aa2", "#3ddc84"):
                 self.assertGreaterEqual(ratio(foreground, background), 4.5)
             self.assertGreaterEqual(ratio("#ff4d4d", background), 4.5)

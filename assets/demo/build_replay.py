@@ -149,13 +149,13 @@ TEMPLATE = '''<!doctype html>
 @font-face { font-family: 'JetBrains Mono'; font-weight: 700;
   font-style: normal; font-display: block;
   src: url("../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-:root { color-scheme: dark; --bg: #0b0b0c; --card: #141416; --line: #26262a;
+:root { color-scheme: dark; --bg: #0d1117; --card: #141416; --line: #26262a;
   --text: #f4f4f5; --muted: #9a9aa2; --red: #ff4d4d; --green: #3ddc84; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body { width: 880px; height: 500px; margin: 0; background: var(--bg);
   color: var(--text); font: 12px/1.4 'JetBrains Mono', monospace; }
-main { height: 500px; padding: 22px 24px 16px; }
+main { height: 500px; padding: 22px 24px 16px; background: var(--bg); }
 h1 { margin: 0 0 14px; font: 800 22px/1 'Bricolage Grotesque', sans-serif;
   letter-spacing: -.045em; }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
