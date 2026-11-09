@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0
+
+### Added
+
+- One-line install for Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode and other agents with `npx skills add ElRaxy/divorce`.
+- A recorded Tab and Enter demo of `examples/div-button` in Chrome.
+
+### Changed
+
+- README rewritten: one editorial banner, numbers and the nine example cases as tables derived from the repository's data.
+- Social preview in the same editorial style, with Instrument Serif (SIL OFL 1.1).
+
 ## 0.1.0
 
 ### Added

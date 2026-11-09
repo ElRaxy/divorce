@@ -198,23 +198,27 @@ class ReadmeTest(unittest.TestCase):
                       "Code, not the model, delivers the verdict: `pass`, `fail` or `not_measured` ([exit codes](#details)).", section)
 
     def test_readme_order_limits_header_quote_install_and_evidence(self):
-        self.assertLess(len(self.raw.splitlines()), 140)
+        self.assertLess(len(self.raw.splitlines()), 170)
         self.assertEqual(re.findall(r"^## (.*)$", self.readme, re.M),
-                         ["Install", "Numbers", "What validators miss", "How it works", "Details", "License"])
+                         ["Install", "Numbers", "What validators miss", "How it works", "Details", "Star History", "License"])
         self.assertTrue(self.readme.startswith('<p align="center"><img src="assets/cards/banner.png" width="880" '
                                               'alt="divorce. Native first. Then proven. A skill for Claude Code and Codex."></p>\n'))
-        nav = ('<p align="center"><a href="#install">Install</a> · <a href="#numbers">Numbers</a> · '
-               '<a href="#what-validators-miss">What validators miss</a> · <a href="#how-it-works">How it works</a> · '
-               '<a href="evals/README.md">Evaluation</a></p>')
-        self.assertEqual([line for line in self.readme.splitlines() if line.strip()][1], nav)
+        self.assertIn("<em>End your agent's toxic relationship with div soup.</em>", self.readme)
+        self.assertIn("<b>5 of 9 accessibility bugs pass both Nu and axe.</b>", self.readme)
+        rows, _, missed = cards.evidence(cards.read_json(ROOT / "examples/manifest.json"),
+                                         cards.read_json(ROOT / "examples/axe-measured.json"))
+        self.assertIn(f"<b>{missed} of {len(rows)} accessibility bugs pass both Nu and axe.</b>", self.readme)
+        self.assertLess(self.readme.index('src="assets/demo/tab.gif"'), self.readme.index("## Install"))
+        self.assertIn("```sh\nnpx skills add ElRaxy/divorce\n```", self.section("Install"))
         quote = ("> Your agent writes `<div onclick>`. Every validator says it's fine. Someone using a keyboard can't reach it.\n>\n"
                  "> **divorce** makes the agent pick the native element first, then proves it with Nu and axe.")
         self.assertIn(quote, self.readme)
         self.assertLess(self.readme.index(quote), self.readme.index("## Install"))
         parsed = Elements(self.readme)
-        self.assertEqual(sum(tag == "img" for tag, _ in parsed.tags), 1)
-        self.assertFalse(any(tag in ("picture", "sub") for tag, _ in parsed.tags))
-        self.assertNotRegex(self.readme, r"img\.shields\.io|!\[")
+        local = [attrs["src"] for tag, attrs in parsed.tags if tag == "img" and not attrs["src"].startswith("https://")]
+        self.assertEqual(local, ["assets/cards/banner.png", "assets/demo/tab.gif"])
+        self.assertFalse(any(tag == "sub" for tag, _ in parsed.tags))
+        self.assertNotRegex(self.readme, r"!\[")
         self.assertIn("```text\n/plugin marketplace add ElRaxy/divorce\n/plugin install divorce@divorce\n```", self.section("Install"))
         self.assertIn("Other agents and install routes: [Details](#details).", self.section("Install"))
         self.assertEqual(self.readme.count("<details>"), 1)
@@ -222,7 +226,7 @@ class ReadmeTest(unittest.TestCase):
         bullets = [line for line in evidence.splitlines() if line.startswith("- ")]
         self.assertEqual(len(bullets), 4)
         self.assertEqual(bullets[-1], '- <a href="assets/demo/replay.gif">Two recorded runs</a> of the same modal task, same prompt and model.')
-        self.assertIn("<!-- Star History:", self.raw)
+        self.assertIn("api.star-history.com/svg?repos=ElRaxy/divorce", self.readme)
 
 
 if __name__ == "__main__":
