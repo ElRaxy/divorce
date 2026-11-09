@@ -12,7 +12,7 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/hero-dark.png"><img src="assets/cards/hero-light.png" width="880" alt="Validators catch 4 of these 9. The other 5 look fine to every tool. A clickable div passes Nu and axe but has no button role and is skipped by Tab; a native button has a button role and is reached by Tab."></picture>
 
-<img src="assets/demo/replay.gif" width="880" alt="Replay of two recorded modal runs, same task and model: without divorce, one Write creates index.html using a native dialog and the agent says I've created index.html, with no automated checks; with divorce, the agent invokes the skill, writes index.html, attempts gate.py html and Nu, then says it could not run the validity and accessibility checks. Neither run tests the page in a browser; not measured is not a pass.">
+<img src="assets/demo/replay.gif" width="880" alt="same task and model. Without divorce, one Write creates index.html and a node check confirms only that the script parses; no validator runs. With divorce, the agent invokes the skill, writes index.html, runs `gate.py html`, and Nu returns pass with 0 errors and exit 0. Neither run opens a browser or runs axe; only HTML was measured.">
 
 ## Numbers
 

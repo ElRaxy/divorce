@@ -56,10 +56,59 @@ def summarize(name, inputs):
     return sanitize(json.dumps(inputs, ensure_ascii=False, sort_keys=True))[:240]
 
 
+def extract_facts(events):
+    facts = {"gate_ran": False, "gate_verdict": None, "nu_errors": None,
+             "gate_exit": None, "axe_ran": False}
+    gate_id, results = None, {}
+    for event in events:
+        for item in event.get("message", {}).get("content", []):
+            if event.get("type") == "assistant" and item.get("type") == "tool_use":
+                inputs = item.get("input", {})
+                if re.search(r"\baxe\b", json.dumps(inputs, ensure_ascii=False)):
+                    facts["axe_ran"] = True
+                if item.get("name") == "Bash" and "gate.py" in inputs.get("command", ""):
+                    facts["gate_ran"] = True
+                    gate_id = item.get("id")
+            elif event.get("type") == "user" and item.get("type") == "tool_result":
+                results[item.get("tool_use_id")] = item.get("content", "")
+    content = results.get(gate_id, "") if gate_id is not None else ""
+    if isinstance(content, list):
+        content = "\n".join(item.get("text", "") for item in content if item.get("type") == "text")
+    exit_match = re.search(r"\bexit\s*[:=]\s*(-?\d+)\s*\Z", content)
+    if exit_match:
+        facts["gate_exit"] = int(exit_match.group(1))
+    start = content.find("{")
+    if start >= 0:
+        try:
+            report, _ = json.JSONDecoder().raw_decode(content[start:])
+        except ValueError:
+            report = None
+        if isinstance(report, dict):
+            verdict = report.get("verdict")
+            if isinstance(verdict, str):
+                facts["gate_verdict"] = verdict
+            html = report.get("html")
+            if (isinstance(html, list) and all(isinstance(item, dict)
+                    and type(item.get("errors")) is int for item in html)):
+                facts["nu_errors"] = sum(item["errors"] for item in html)
+    return facts
+
+
+def footer(facts):
+    if facts["gate_ran"]:
+        text = (f'gate: {facts["gate_verdict"] or "null"} · '
+                f'Nu errors: {json.dumps(facts["nu_errors"])} · exit {json.dumps(facts["gate_exit"])}')
+    else:
+        text = "gate: not run"
+    if not facts["axe_ran"]:
+        text += " · axe: not run"
+    return text, facts["gate_verdict"] == "pass" and facts["gate_exit"] == 0
+
+
 def read_trace(path):
     steps, final = [], ""
-    for line in Path(path).read_text(encoding="utf-8").splitlines():
-        event = json.loads(line)
+    events = [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines()]
+    for event in events:
         if event.get("type") == "assistant":
             for item in event.get("message", {}).get("content", []):
                 if item.get("type") == "tool_use":
@@ -71,7 +120,12 @@ def read_trace(path):
             final = event["result"]
     if not steps or not final:
         raise ValueError("Trace needs recorded tool steps and a final message")
-    result = {"steps": steps, "final": sanitize(final)}
+    facts = extract_facts(events)
+    if facts["gate_verdict"] is not None:
+        facts["gate_verdict"] = sanitize(facts["gate_verdict"])
+    text, ok = footer(facts)
+    result = {"steps": steps, "final": sanitize(final), "facts": facts,
+              "footer": {"text": sanitize(text), "ok": ok}}
     validate_public(result)
     return result
 
@@ -118,7 +172,7 @@ pre { margin: 1px 0 0; white-space: pre-wrap; overflow-wrap: anywhere;
 .final { font-size: 11px; line-height: 15px; margin: 6px 0 0; }
 .status { margin: auto 0 0; border-top: 1px solid var(--line); padding-top: 10px;
   font-size: 11px; font-weight: 700; }
-.red { color: var(--red); } .green { color: var(--green); }
+.status-fail { color: var(--red); } .status-pass { color: var(--green); }
 footer { color: var(--muted); font-size: 10px; margin-top: 14px; text-align: center; }
 </style>
 </head>
@@ -130,16 +184,16 @@ footer { color: var(--muted); font-size: 10px; margin-top: 14px; text-align: cen
 <h2 id="without-title">WITHOUT DIVORCE</h2>
 <ol class="steps" id="without-steps"></ol>
 <p class="final" id="without-final"></p>
-<p class="status red" id="without-status"></p>
+<p class="status" id="without-status"></p>
 </section>
 <section class="terminal" aria-labelledby="with-title">
 <h2 id="with-title">WITH DIVORCE</h2>
 <ol class="steps" id="with-steps"></ol>
 <p class="final" id="with-final"></p>
-<p class="status green" id="with-status"></p>
+<p class="status" id="with-status"></p>
 </section>
 </div>
-<footer>Replay of two recorded runs from the benchmark (same task, same model).</footer>
+<footer>Two recorded runs of the modal task, same prompt and model, no browser.</footer>
 </main>
 <script id="replay-data" type="application/json">__DATA__</script>
 <script>
@@ -174,8 +228,9 @@ window.setFrame = function (n) {
     const firstSentence = run.final.match(/^.*?[.!?](?:\\s|$)/s);
     document.getElementById(arm + '-final').textContent = complete
       ? (firstSentence ? firstSentence[0].trim() : run.final) : '';
-    document.getElementById(arm + '-status').textContent = complete
-      ? (arm === 'without' ? 'claimed done · checks: none' : 'checks: not_measured · not claimed') : '';
+    const status = document.getElementById(arm + '-status');
+    status.textContent = complete ? run.footer.text : '';
+    status.className = 'status ' + (run.footer.ok ? 'status-pass' : 'status-fail');
   }
 };
 window.setFrame(0);

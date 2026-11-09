@@ -24,13 +24,17 @@ class ReplayTest(unittest.TestCase):
     def test_recorded_steps_and_final_messages_are_faithful(self):
         with_run = json.loads((ROOT / "data/modal-with.json").read_text())
         without_run = json.loads((ROOT / "data/modal-without.json").read_text())
-        self.assertEqual([s["tool"] for s in without_run["steps"]], ["Write"])
-        self.assertEqual([s["tool"] for s in with_run["steps"]], ["Skill", "Write", "Bash", "Bash", "Bash"])
+        self.assertEqual([s["tool"] for s in without_run["steps"]], ["Write", "Bash"])
+        self.assertEqual([s["tool"] for s in with_run["steps"]], ["Skill", "Write", "Bash"])
         self.assertIn("divorce", with_run["steps"][0]["summary"])
         self.assertIn("gate.py", with_run["steps"][2]["summary"])
-        self.assertIn("vnu --format json", with_run["steps"][4]["summary"])
-        self.assertTrue(without_run["final"].startswith("I've created `index.html`"))
-        self.assertTrue(with_run["final"].startswith("I wrote `index.html`, but I couldn't run"))
+        self.assertIn("node -e", without_run["steps"][1]["summary"])
+        self.assertTrue(without_run["final"].startswith("I've written the document manager to `index.html`"))
+        self.assertTrue(with_run["final"].startswith("I wrote `index.html` and it passes HTML validation"))
+        self.assertEqual(with_run["facts"], {"gate_ran": True, "gate_verdict": "pass",
+                         "nu_errors": 0, "gate_exit": 0, "axe_ran": False})
+        self.assertEqual(without_run["facts"], {"gate_ran": False, "gate_verdict": None,
+                         "nu_errors": None, "gate_exit": None, "axe_ran": False})
         for run in (with_run, without_run):
             write = next(s for s in run["steps"] if s["tool"] == "Write")
             self.assertIn("index.html", write["summary"])
@@ -52,12 +56,143 @@ class ReplayTest(unittest.TestCase):
         for url in re.findall(r"url\s*\(([^)]*)\)", css, re.I):
             self.assertRegex(url, r'^"\.\./fonts/[\w-]+\.woff2"$')
         self.assertNotRegex(html, r'<(?:script|link)[^>]*(?:src|href)="https?://')
-        for text in ("claimed done · checks: none", "checks: not_measured · not claimed",
-                     "Replay of two recorded runs from the benchmark (same task, same model)."):
-            self.assertIn(text, html)
+        self.assertIn("Two recorded runs of the modal task, same prompt and model, no browser.", html)
+        for text in ("claimed done · checks: none", "checks: not_measured · not claimed"):
+            self.assertNotIn(text, html)
         embedded = json.loads(re.search(r'<script id="replay-data" type="application/json">(.*?)</script>', html, re.S).group(1))
         for arm in ("with", "without"):
             self.assertEqual(embedded[arm], json.loads((ROOT / f"data/modal-{arm}.json").read_text()))
+
+    def fact_trace(self, path, outputs, axe=False):
+        events = []
+        for index, content in enumerate(outputs):
+            tool_id = f"gate-{index}"
+            events.extend([
+                {"type": "assistant", "message": {"content": [
+                    {"type": "tool_use", "id": tool_id, "name": "Bash",
+                     "input": {"command": "python3 gate.py html index.html"}}]}},
+                {"type": "user", "message": {"content": [
+                    {"type": "tool_result", "tool_use_id": tool_id, "content": content}]}}
+            ])
+        if axe:
+            events.append({"type": "assistant", "message": {"content": [
+                {"type": "tool_use", "id": "axe-check", "name": "Bash",
+                 "input": {"command": "axe index.html"}}]}})
+        trace = self.trace(path, "The agent claims everything passed, including axe.")
+        events = [json.loads(line) for line in trace.read_text().splitlines()] + events
+        trace.write_text("\n".join(json.dumps(event) for event in events), encoding="utf-8")
+        return trace
+
+    def test_fact_footers_and_status_colors(self):
+        cases = [
+            ('{"verdict":"pass","html":[{"errors":0}]}\nexit: 0', False,
+             ("pass", 0, 0), "gate: pass · Nu errors: 0 · exit 0 · axe: not run", True),
+            ('{"verdict":"fail","html":[{"errors":1},{"errors":1}]}\nexit=1', False,
+             ("fail", 2, 1), "gate: fail · Nu errors: 2 · exit 1 · axe: not run", False),
+            ('{"verdict":"not_measured"}\nexit: 2', False,
+             ("not_measured", None, 2), "gate: not_measured · Nu errors: null · exit 2 · axe: not run", False),
+            (None, False, (None, None, None), "gate: not run · axe: not run", False),
+            ([{"type": "text", "text": 'Prefix {"verdict":"pass","html":[{"errors":0}]}'},
+              {"type": "text", "text": "exit: 0"}], True,
+             ("pass", 0, 0), "gate: pass · Nu errors: 0 · exit 0", True),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for output, axe, values, text, ok in cases:
+                with self.subTest(text=text):
+                    trace = self.fact_trace(root / "trace.jsonl", [] if output is None else [output], axe)
+                    events = [json.loads(line) for line in trace.read_text().splitlines()]
+                    before = json.dumps(events)
+                    facts = replay.extract_facts(events)
+                    self.assertEqual(json.dumps(events), before)
+                    self.assertEqual(facts, dict(zip(
+                        ("gate_ran", "gate_verdict", "nu_errors", "gate_exit", "axe_ran"),
+                        (output is not None, *values, axe))))
+                    self.assertEqual(replay.footer(facts), (text, ok))
+                    replay.build(trace, trace, root / "output")
+                    run = json.loads((root / "output/data/modal-with.json").read_text())
+                    self.assertEqual(run["facts"], facts)
+                    self.assertEqual(run["footer"], {"text": text, "ok": ok})
+                    html = (root / "output/replay.html").read_text()
+                    self.assertIn("const complete = frame >= 52;", html)
+                    self.assertIn("status.textContent = complete ? run.footer.text : '';", html)
+                    self.assertIn("status.className = 'status ' + (run.footer.ok ? 'status-pass' : 'status-fail');", html)
+                    for old in ("claimed done · checks: none", "checks: not_measured · not claimed"):
+                        self.assertNotIn(old, html)
+
+    def test_missing_or_malformed_gate_facts_stay_null(self):
+        cases = [
+            ([], (None, None, None)),
+            (['{"verdict":"pass","html":[{"errors":0}]\nexit: 0'], (None, None, 0)),
+            (['{"verdict":"pass","html":[{"errors":"0"}]}'], ("pass", None, None)),
+            (['{"html":[{"errors":true}]}\nexit: 0\nmore output'], (None, None, None)),
+            (['{"verdict":"pass","html":[{"errors":0}]}\nexit: 0',
+              'prefix {"verdict":"fail","html":[{"errors":1}],"note":"} brace"}\nexit: 0\nexit=1'],
+             ("fail", 1, 1)),
+            (['{"verdict":"pass","html":[{"errors":0}]}\nexit: 0', "missing report"],
+             (None, None, None)),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "trace.jsonl"
+            for outputs, expected in cases:
+                with self.subTest(outputs=outputs):
+                    trace = self.fact_trace(path, outputs)
+                    events = [json.loads(line) for line in trace.read_text().splitlines()]
+                    if not outputs:
+                        events.append({"type": "assistant", "message": {"content": [
+                            {"type": "tool_use", "id": "unanswered", "name": "Bash",
+                             "input": {"command": "gate.py html index.html"}}]}})
+                    events.append({"type": "user", "message": {"content": [
+                        {"type": "tool_result", "tool_use_id": "unrelated",
+                         "content": '{"verdict":"pass","html":[{"errors":0}]}\nexit: 0'}]}})
+                    facts = replay.extract_facts(events)
+                    self.assertEqual(tuple(facts[key] for key in ("gate_verdict", "nu_errors", "gate_exit")), expected)
+                    self.assertFalse(replay.footer(facts)[1])
+
+            trace = self.fact_trace(path, ['{"verdict":"pass","html":[{"errors":0}]}\nexit: 0'])
+            events = [json.loads(line) for line in trace.read_text().splitlines()]
+            events.append({"type": "assistant", "message": {"content": [
+                {"type": "tool_use", "id": "latest-unanswered", "name": "Bash",
+                 "input": {"command": "gate.py html index.html"}}]}})
+            facts = replay.extract_facts(events)
+            self.assertEqual(facts, {"gate_ran": True, "gate_verdict": None, "nu_errors": None,
+                                    "gate_exit": None, "axe_ran": False})
+            self.assertEqual(replay.footer(facts),
+                             ("gate: null · Nu errors: null · exit null · axe: not run", False))
+
+    def test_facts_and_footer_are_sanitized_and_validated_before_publication(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            verdict = str(root / "report.txt") + " 12345678-1234-1234-1234-123456789abc"
+            report = {"verdict": verdict, "html": [{"errors": 0}]}
+            trace = self.fact_trace(root / "trace.jsonl", [json.dumps(report) + "\nexit: 0"])
+            replay.build(trace, trace, root / "output")
+            path = root / "output/data/modal-with.json"
+            run = json.loads(path.read_text())
+            self.assertEqual(run["facts"]["gate_verdict"], "report.txt [redacted]")
+            self.assertEqual(run["footer"]["text"],
+                             "gate: report.txt [redacted] · Nu errors: 0 · exit 0 · axe: not run")
+            replay.validate_public(run)
+            before = path.read_bytes()
+            trace = self.fact_trace(root / "trace.jsonl", ['{"verdict":"session_id"}\nexit: 0'])
+            with self.assertRaises(ValueError):
+                replay.build(trace, trace, root / "output")
+            self.assertEqual(path.read_bytes(), before)
+
+    def test_status_palette_meets_aa_contrast(self):
+        html = (ROOT / "replay.html").read_text()
+        colors = dict(re.findall(r"--(card|red|green):\s*(#[0-9a-f]{6})", html))
+
+        def luminance(color):
+            channels = [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+            linear = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in channels]
+            return sum(c * weight for c, weight in zip(linear, (0.2126, 0.7152, 0.0722)))
+
+        background = luminance(colors["card"])
+        for status, color in (("pass", "green"), ("fail", "red")):
+            self.assertIn(f".status-{status} {{ color: var(--{color}); }}", html)
+            contrast = (luminance(colors[color]) + 0.05) / (background + 0.05)
+            self.assertGreaterEqual(contrast, 4.5, f"{status} contrast: {contrast:.2f}:1")
 
     def assert_font_paths(self, urls):
         for url in urls:
@@ -80,7 +215,8 @@ class ReplayTest(unittest.TestCase):
         self.assertCountEqual(faces, [("Bricolage Grotesque", "700"), ("Bricolage Grotesque", "800"),
                                       ("JetBrains Mono", "400"), ("JetBrains Mono", "700")])
         self.assert_font_paths(urls)
-        self.assertNotRegex(html, r'''(?i)(?:\b(?:href|src)\s*=\s*["']?\s*|url\s*\(\s*["']?\s*)(?:https?:|//|data:)|@import\b''')
+        active_html = re.sub(r'<script id="replay-data" type="application/json">.*?</script>', '', html, flags=re.S)
+        self.assertNotRegex(active_html, r'''(?i)(?:\b(?:href|src)\s*=\s*["']?\s*|url\s*\(\s*["']?\s*)(?:https?:|//|data:)|@import\b''')
         return urls
 
     def test_generated_and_published_html_load_local_fonts(self):
