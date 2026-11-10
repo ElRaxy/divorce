@@ -16,6 +16,8 @@ From the repository root, run each existing test file directly:
 python3 tests/test_install.py
 python3 tests/test_examples.py
 python3 tests/test_publish_clean.py
+python3 tests/test_measure.py
+python3 tests/test_popover_rules.py
 python3 skills/divorce/scripts/tests/test_gate.py
 ```
 
@@ -26,6 +28,8 @@ Each file uses Python's standard-library `unittest` runner. These commands requi
 | `tests/test_install.py` | Installer contracts in temporary directories, including instruction-block preservation, replacement and removal. Requires Python 3.9+. |
 | `tests/test_examples.py` | Example inventory, generated index consistency, complete documents and inline JavaScript size. Real HTML checks use Nu through the gate and skip when the measurement returns 2. Inspect skips before claiming HTML validation. |
 | `tests/test_publish_clean.py` | Published text hygiene. Uses Git to enumerate files when available, with a file-system fallback. |
+| `tests/test_measure.py` | Per-page benchmark measurement (`evals/measure.py`) against a fake eval result and a fake validator. |
+| `tests/test_popover_rules.py` | The two Nu errors from the 5-run benchmark, reproduced in `tests/fixtures/popover-menu/`; real-validator checks skip when Nu is missing. |
 | `skills/divorce/scripts/tests/test_gate.py` | CLI and JSON contracts with a fake validator and temporary fixtures. Node.js enables snippet harness checks. A real-validator integration check runs only when Nu is available. Neither replaces a rendered-page axe run. |
 
 To enable real-validator checks, provide `VNU`, `vnu` on `PATH`, or `VNU_JAR` with Java. The separate Nu setup script is:

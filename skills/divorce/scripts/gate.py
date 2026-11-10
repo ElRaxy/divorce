@@ -17,6 +17,16 @@ from urllib.parse import urlsplit
 AXE_VERSION = "4.10.2"
 VALIDATOR_TIMEOUT = 60
 IMPACTS = ("critical", "serious", "moderate", "minor")
+KEYBOARD_REGISTRY = "__divorce_keyboard_listeners"
+NAVIGATION_PATTERN = (
+    r"\blocation\s*=(?!=)|\blocation\.(?:href|pathname|search)\s*=(?!=)|"
+    r"\blocation\.(?:assign|replace)\s*\(|\bwindow\.open\s*\("
+)
+KEYBOARD_ROLES = (
+    "button", "link", "checkbox", "radio", "switch", "tab", "menuitem",
+    "menuitemcheckbox", "menuitemradio", "option", "combobox", "slider",
+    "spinbutton", "textbox", "treeitem",
+)
 
 
 def unique_object(pairs):
@@ -35,6 +45,16 @@ def invalid_constant(value):
 def parse_json(text):
     return json.loads(text, object_pairs_hook=unique_object,
                       parse_constant=invalid_constant)
+
+
+def parse_capture(text):
+    payload = parse_json(text)
+    # agent-browser encodes the string returned by an eval one more time.
+    if isinstance(payload, str):
+        payload = parse_json(payload)
+        if isinstance(payload, str):
+            raise ValueError("Too many JSON string layers")
+    return payload
 
 
 def validator_command():
@@ -145,7 +165,7 @@ def measure_axe(path):
     except UnicodeError:
         return None, ["axe_json_invalid"]
     try:
-        payload = parse_json(text)
+        payload = parse_capture(text)
         if isinstance(payload, dict) and "error" in payload:
             if payload["error"] == "axe_version_mismatch":
                 return None, ["axe_version_mismatch"]
@@ -213,6 +233,159 @@ def axe_snippet():
 })()""" % (json.dumps(AXE_VERSION), json.dumps(url))
 
 
+def keyboard_init():
+    return """(() => {
+  // divorce-keyboard: load before the page's scripts.
+  const key = %s;
+  if (window[key] instanceof WeakMap) return;
+  const registry = new WeakMap();
+  const original = EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener = function(type, listener, options) {
+    const result = original.apply(this, arguments);
+    if (listener != null &&
+        ['click', 'mousedown', 'mouseup', 'pointerdown', 'pointerup'].includes(type) &&
+        this instanceof Element && !['html', 'body'].includes(this.localName)) {
+      if (!registry.has(this)) registry.set(this, []);
+      try {
+        registry.get(this).push(String(typeof listener === 'function'
+          ? listener : listener.handleEvent).slice(0, 2000));
+      } catch (error) {}
+    }
+    return result;
+  };
+  window[key] = registry;
+})()""" % json.dumps(KEYBOARD_REGISTRY)
+
+
+def keyboard_snippet():
+    return r"""(async () => {
+  try {
+    const registry = window[%s];
+    const listenersTracked = registry instanceof WeakMap;
+    const navigation = new RegExp(%s);
+    const nativeSelector = 'a[href], area[href], button, input:not([type=hidden]), ' +
+      'select, textarea, summary, iframe, [contenteditable]:not([contenteditable=false])';
+    const selector = nativeSelector + ', [tabindex], ' +
+      %s.map(role => '[role=' + role + ']').join(', ');
+    const groups = '[role=tablist],[role=menu],[role=menubar],[role=toolbar],' +
+      '[role=listbox],[role=radiogroup],[role=tree],[role=grid],[role=treegrid]';
+    const visible = el => typeof el.checkVisibility === 'function'
+      ? el.checkVisibility({visibilityProperty: true})
+      : el.getClientRects().length > 0 &&
+        !['hidden', 'collapse'].includes(getComputedStyle(el).visibility);
+    const disabled = el => el.disabled === true || el.getAttribute('aria-disabled') === 'true';
+    const hasFocusable = el => Array.from(el.querySelectorAll('*')).some(child =>
+      child.tabIndex >= 0 && visible(child) && !disabled(child));
+    const elements = [];
+    for (const el of document.querySelectorAll('*')) {
+      const tag = el.localName.toLowerCase();
+      if (tag === 'html' || tag === 'body') continue;
+      const click = [];
+      const sources = [];
+      if (el.hasAttribute('onclick')) {
+        click.push('attribute');
+        sources.push(el.getAttribute('onclick'));
+      }
+      if (typeof el.onclick === 'function') {
+        click.push('property');
+        try { sources.push(String(el.onclick)); } catch (error) {}
+      }
+      if (listenersTracked && registry.has(el)) {
+        click.push('listener');
+        sources.push(...registry.get(el));
+      }
+      const control = el.matches(selector);
+      if (!control && click.length === 0) continue;
+      const group = el.closest(groups);
+      elements.push({
+        tag, role: el.getAttribute('role'), id: el.getAttribute('id'),
+        text: (el.getAttribute('aria-label') || el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 60),
+        native: el.matches(nativeSelector), control, click,
+        navigates: sources.some(source => navigation.test(source)), visible: visible(el),
+        tab_index: el.tabIndex, disabled: disabled(el),
+        inert: el.closest('[inert]') !== null,
+        aria_hidden: el.closest('[aria-hidden=true]') !== null,
+        roving: group !== null && hasFocusable(group),
+        focusable_descendant: hasFocusable(el)
+      });
+    }
+    return JSON.stringify({tool: 'divorce-keyboard', version: 1,
+      listeners_tracked: listenersTracked, elements});
+  } catch (error) {
+    return JSON.stringify({error: String(error)});
+  }
+})()""" % (json.dumps(KEYBOARD_REGISTRY), json.dumps(NAVIGATION_PATTERN),
+            json.dumps(KEYBOARD_ROLES))
+
+
+def measure_keyboard(path):
+    try:
+        text = Path(path).read_text(encoding="utf-8")
+    except OSError:
+        return None, ["keyboard_json_missing"]
+    except UnicodeError:
+        return None, ["keyboard_json_invalid"]
+    try:
+        payload = parse_capture(text)
+        if isinstance(payload, dict) and "error" in payload:
+            return None, ["keyboard_snippet_error"]
+        if (not isinstance(payload, dict) or
+                set(payload) != {"tool", "version", "listeners_tracked", "elements"} or
+                payload["tool"] != "divorce-keyboard" or
+                type(payload["version"]) is not int or payload["version"] != 1 or
+                type(payload["listeners_tracked"]) is not bool or
+                not isinstance(payload["elements"], list)):
+            raise ValueError("Invalid keyboard capture")
+        boolean_fields = ("native", "control", "visible", "disabled", "inert",
+                          "aria_hidden", "roving", "focusable_descendant", "navigates")
+        keys = {"tag", "role", "id", "text", "click", "tab_index", *boolean_fields}
+        facts = {
+            "listeners_tracked": payload["listeners_tracked"],
+            "controls_visible": 0, "in_tab_order": 0, "out_of_tab_order": [],
+            "click_unreachable": [], "role_unreachable": [],
+            "navigating_buttons": [],
+            "not_measured": ["tab_sequence", "enter_space_activation", "escape",
+                             "focus_return", "focus_visible"],
+        }
+        for record in payload["elements"]:
+            if (not isinstance(record, dict) or set(record) != keys or
+                    any(type(record[key]) is not bool for key in boolean_fields) or
+                    type(record["tab_index"]) is not int or
+                    not isinstance(record["tag"], str) or not record["tag"] or
+                    record["tag"] != record["tag"].lower() or
+                    not isinstance(record["text"], str) or
+                    any(record[key] is not None and not isinstance(record[key], str)
+                        for key in ("role", "id")) or
+                    not isinstance(record["click"], list) or
+                    any(not isinstance(value, str) or value not in
+                        ("attribute", "property", "listener") for value in record["click"]) or
+                    len(set(record["click"])) != len(record["click"])):
+                raise ValueError("Invalid keyboard element")
+            summary = {key: record[key] for key in ("tag", "role", "id", "text")}
+            in_tab_order = (record["visible"] and record["tab_index"] >= 0 and
+                            not record["disabled"] and not record["inert"])
+            facts["controls_visible"] += int(record["visible"] and record["control"])
+            facts["in_tab_order"] += int(in_tab_order)
+            if record["visible"] and record["navigates"] and (
+                    record["tag"] in ("button", "input") or record["role"] == "button"):
+                facts["navigating_buttons"].append(summary)
+            # Inert content can be neither clicked nor focused: it is out of play, not unreachable.
+            if (not record["visible"] or record["disabled"] or record["aria_hidden"] or
+                    record["inert"]):
+                continue
+            if record["control"] and record["tab_index"] < 0:
+                facts["out_of_tab_order"].append(summary)
+            if in_tab_order or record["roving"]:
+                continue
+            if record["click"] and not record["focusable_descendant"] and record["tag"] != "label":
+                facts["click_unreachable"].append(summary)
+            if not record["native"] and record["role"] in KEYBOARD_ROLES:
+                facts["role_unreachable"].append(summary)
+        return facts, []
+    except (ValueError, TypeError, KeyError, RecursionError):
+        return None, ["keyboard_json_invalid"]
+
+
 def evaluate(args):
     result, infra, failures = {}, [], []
     if args.command in ("html", "check"):
@@ -229,6 +402,17 @@ def evaluate(args):
             if any(totals[impact] for impact in blocked):
                 failures.append("axe_violations:" + ",".join(
                     f"{impact}={totals[impact]}" for impact in blocked))
+    if args.command == "keyboard" or (args.command == "check" and args.keyboard is not None):
+        result["keyboard"], errors = measure_keyboard(args.keyboard)
+        infra.extend(errors)
+        if result["keyboard"] is not None:
+            for kind in ("click_unreachable", "role_unreachable"):
+                count = len(result["keyboard"][kind])
+                if count:
+                    failures.append(f"keyboard_{kind}:{count}")
+            count = len(result["keyboard"]["navigating_buttons"])
+            if count:
+                result["warnings"] = [f"keyboard_button_navigates:{count}"]
     code = 2 if infra else 1 if failures else 0
     result["verdict"] = {0: "pass", 1: "fail", 2: "not_measured"}[code]
     result["reasons"] = list(dict.fromkeys(infra + failures))
@@ -243,15 +427,26 @@ def main():
     axe = commands.add_parser("axe", help="Read an axe.run result or violations list")
     axe.add_argument("axe", metavar="JSON_FILE")
     commands.add_parser("axe-snippet", help="Print JavaScript for agent-browser eval")
+    commands.add_parser("keyboard-init", help="Print the listener tracking init script")
+    commands.add_parser("keyboard-snippet", help="Print JavaScript to collect keyboard facts")
+    keyboard = commands.add_parser("keyboard", help="Read keyboard facts from a rendered page")
+    keyboard.add_argument("keyboard", metavar="JSON_FILE")
     check = commands.add_parser("check", help="Combine HTML and axe measurements")
     check.add_argument("--html", nargs="+", required=True, metavar="FILE_OR_URL")
     check.add_argument("--axe", required=True, metavar="JSON_FILE")
+    check.add_argument("--keyboard", metavar="JSON_FILE")
     for command in (axe, check):
         command.add_argument("--axe-max-impact", choices=("serious", "moderate", "minor"),
                              default="serious", help="Fail at this impact or higher (default: serious)")
     args = parser.parse_args()
     if args.command == "axe-snippet":
         print(axe_snippet())
+        return 0
+    if args.command == "keyboard-init":
+        print(keyboard_init())
+        return 0
+    if args.command == "keyboard-snippet":
+        print(keyboard_snippet())
         return 0
     result, code = evaluate(args)
     print(json.dumps(result, ensure_ascii=False, indent=2))

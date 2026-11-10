@@ -79,15 +79,25 @@ python3 $G html <file-or-URL> [...]                    # Nu HTML Checker on the 
 agent-browser eval "$(python3 $G axe-snippet)" > axe.json   # axe-core on the rendered page, WCAG 2.2 AA + best practice
 python3 $G axe axe.json
 python3 $G check --html <file-or-URL> --axe axe.json --axe-max-impact serious
+agent-browser eval "$(python3 $G keyboard-snippet)" > keys.json  # optional: keyboard facts on the same rendered page
+python3 $G check --html <file-or-URL> --axe axe.json --keyboard keys.json
 ```
 
-- Exit **0** pass · **1** fail (HTML errors, or axe violations rated `serious`/`critical`) · **2** not measured
+- Exit **0** pass · **1** fail (HTML errors, axe violations rated `serious`/`critical`, or keyboard findings) · **2** not measured
   (validator missing, unreadable axe output, URL down). A 2 is never a pass.
 - The JSON it prints is the evidence: quote the counts and the messages, not your impression.
 - Install the validator once with `scripts/install-vnu.sh` (downloads the official release and checks its hash).
 - Validate the **served** page (URL or built file), not the template source: builders and frameworks add markup.
-- Automated checks catch part of WCAG, not all. Keyboard path (Tab, Enter, Space, Escape, focus returns) and a
-  look at the page are still yours: list what you did not check.
+- The keyboard check reads the rendered DOM, it does not press keys. It lists the visible controls in the Tab order
+  (`tabIndex` ≥ 0, not disabled, not inert) and fails on an element that reacts to clicks but has no keyboard path,
+  or a custom `role="button"`-style control outside the Tab order. Click handlers added with `addEventListener` are
+  only seen if the page loads with that init script first (`python3 $G keyboard-init > init.js`, then
+  `agent-browser --init-script init.js open <url>`); the JSON says `listeners_tracked`.
+- The same check warns, without failing, on a button whose own click handler assigns `location` or calls
+  `location.assign`/`replace` or `window.open`: going somewhere is `<a href>` (section 2). A handler on a parent or a
+  helper function it calls is not seen.
+- Automated checks catch part of WCAG, not all. Tab order, Enter and Space, Escape, focus return and a visible focus
+  ring (the keyboard check's `not_measured` list) and a look at the page are still yours: list what you did not check.
 
 ## 6. Closing report
 

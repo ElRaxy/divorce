@@ -24,7 +24,7 @@ Its gate then checks the HTML actually served and accessibility evidence from th
 
 No. Automated checks cover only part of WCAG. The snippet selects WCAG 2.2 A/AA tags, including earlier versions, and best-practice rules. The default gate policy blocks serious and critical violations. Moderate and minor findings still appear in the JSON and can pass that default policy.
 
-Check the keyboard path, including Tab, Enter, Space and Escape where relevant. Check focus movement and return. Inspect the page and test its actual interactions. Report what remains unchecked. A passing gate is not a claim of full WCAG conformance or proof of usability.
+The optional keyboard check (`keyboard-snippet`) finds click targets that Tab cannot reach; it does not press keys. Check the keyboard path yourself, including Tab, Enter, Space and Escape where relevant. Check focus movement and return. Inspect the page and test its actual interactions. Report what remains unchecked. A passing gate is not a claim of full WCAG conformance or proof of usability.
 
 ## Why check the served HTML instead of the family source tree?
 

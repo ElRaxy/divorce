@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Optional keyboard check on the rendered page: `gate.py keyboard-snippet`, `keyboard-init`, `keyboard` and `check --keyboard`. It fails on elements that react to clicks but are not in the Tab order, and warns on buttons whose click handler changes `location`. It does not press keys.
+- `evals/measure.py` stores the gate JSON for every benchmark page; `evals/results/pages.json` holds Nu messages and axe rules for the recorded 5-run benchmark.
+- `recipe-list` eval case for links versus buttons.
+- Regression fixture for the two Nu errors found in the benchmark (`aria-expanded` with `popovertarget`, `aria-label` on a `div` popover).
+
+### Fixed
+
+- The axe reader accepts the JSON string that `agent-browser eval` prints; following SKILL.md literally used to end in `axe_json_invalid`.
+
 ## 1.0.0
 
 ### Added

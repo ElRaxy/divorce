@@ -22,6 +22,9 @@ The implementation is [gate.py](../skills/divorce/scripts/gate.py). Shell exampl
 | `python3 skills/divorce/scripts/gate.py axe-snippet` | Prints browser JavaScript; no measurement verdict. |
 | `python3 skills/divorce/scripts/gate.py axe JSON_FILE` | Reads an axe result object or a violations list; axe only. |
 | `python3 skills/divorce/scripts/gate.py check --html FILE_OR_URL --axe JSON_FILE --axe-max-impact serious` | Combines HTML and captured axe evidence. `--html` accepts multiple inputs. |
+| `python3 skills/divorce/scripts/gate.py keyboard-snippet` | Prints browser JavaScript that collects keyboard facts; no verdict. |
+| `python3 skills/divorce/scripts/gate.py keyboard-init` | Prints an init script that records `addEventListener` click targets; load it before the page's scripts. |
+| `python3 skills/divorce/scripts/gate.py keyboard JSON_FILE` | Reads a keyboard capture; keyboard only. `check --keyboard JSON_FILE` adds it to `check`. |
 
 `FILE_OR_URL` and `JSON_FILE` are placeholders. Both `axe` and `check` accept `--axe-max-impact`. Its choices are `serious` (default), `moderate` and `minor`. Each includes all higher impacts: serious includes critical; moderate includes serious and critical; minor includes all four impacts.
 
@@ -38,6 +41,33 @@ The snippet returns a violations list with `id`, `impact`, `tags` and `n` for ea
 Normalized output has `axe.rules` and `axe.totals`. Each rule has `id`, `impact`, `nodes` and `tags`. Here `nodes` is the normalized integer count, not an array. Totals use `critical`, `serious`, `moderate`, `minor` and `null`. Totals count violated rules, not affected nodes. A null impact is retained but makes the measurement incomplete.
 
 The JSON parser rejects duplicate keys and invalid numeric constants. Invalid payload shapes or fields are not replaced with empty results.
+
+## Keyboard capture
+
+`keyboard-snippet` reads the rendered DOM and returns, for every element that matches a native or ARIA interactive
+selector or has a click handler, typed facts: tag, role, `tabIndex`, visibility, `disabled`/`aria-disabled`, `inert`,
+`aria-hidden`, whether it sits in a roving-tabindex group (tablist, menu, toolbar, listbox and similar) and whether it
+contains a focusable descendant. It does not call `focus()`, click, or dispatch events. Inline `onclick` attributes and
+properties are always seen; listeners added with `addEventListener` are seen only when `keyboard-init` ran before the
+page's scripts, and the capture reports `listeners_tracked`.
+
+Python composes the facts. An element is in the Tab order when it is visible, `tabIndex` ≥ 0, not disabled and not
+inert. The check fails on `click_unreachable` (a visible element with a click handler that is not in the Tab order,
+not disabled, inert or `aria-hidden`, not in a roving group, without a focusable descendant, and not a `label`) and on
+`role_unreachable` (a non-native element with an interactive role under the same conditions). Native controls taken
+out of the Tab order with `tabindex="-1"` are listed in `out_of_tab_order` but do not fail.
+
+Each record also carries `navigates`: whether the element's own inline handler or tracked listener source assigns
+`location`, `location.href`, `location.pathname` or `location.search`, or calls `location.assign`, `location.replace` or
+`window.open`. `location.hash`, `reload()` and `history` calls do not count. Visible buttons, inputs and `role="button"`
+elements with `navigates` are listed in `navigating_buttons` and add `warnings: ["keyboard_button_navigates:N"]` to the
+result. Warnings never change the verdict or the exit code. Delegated handlers and helper functions are not followed.
+
+It does not press keys. The output names what it does not measure: `tab_sequence`, `enter_space_activation`,
+`escape`, `focus_return` and `focus_visible`. Shadow roots and iframes are not traversed.
+
+`agent-browser eval` prints the string the snippet returns as a JSON string. The axe and keyboard readers accept that
+one extra layer of encoding; any other shape is invalid.
 
 ## Exit codes and reasons
 
@@ -61,12 +91,17 @@ These reason strings come directly from `gate.py`:
 | `axe_version_mismatch` | 2 | The capture's `error` reports `axe_version_mismatch`. |
 | `axe_snippet_error` | 2 | The capture contains another `error` value. |
 | `axe_impact_unknown` | 2 | At least one violation has a null impact. |
+| `keyboard_json_missing` | 2 | The keyboard capture could not be read. |
+| `keyboard_json_invalid` | 2 | The keyboard capture had the wrong tool or version, or a missing, extra or mistyped field. |
+| `keyboard_snippet_error` | 2 | The keyboard capture contains an `error` value. |
 | `html_errors` | 1 | At least one HTML input has an error. |
 | `axe_violations:` followed by impact counts | 1 | At least one violated rule meets the impact threshold. |
+| `keyboard_click_unreachable:N` | 1 | N elements react to clicks but have no keyboard path. |
+| `keyboard_role_unreachable:N` | 1 | N custom controls with an interactive role are outside the Tab order. |
 
 For example, the default axe failure reason can be `axe_violations:critical=0,serious=1`. At a lower threshold it also lists the corresponding lower impacts. A result with `axe_json_missing` and `html_errors` returns 2 and keeps both reasons.
 
-`axe-snippet` exits 0 when it prints the snippet. That is not a page pass. CLI argument errors are handled by the argument parser and do not use the measurement JSON contract.
+`axe-snippet`, `keyboard-snippet` and `keyboard-init` exit 0 when they print their script. That is not a page pass. CLI argument errors are handled by the argument parser and do not use the measurement JSON contract.
 
 ## Why it fails closed
 

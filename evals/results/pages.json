@@ -1,0 +1,3394 @@
+{
+ "claude_version": "2.1.318",
+ "started_at": "2026-11-06T13:00:09.982Z",
+ "pages": [
+  {
+   "page": "dropdown-menu-with-1",
+   "case": "dropdown-menu",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "2a4a315391a0912d64591cc72260dc078d335417f037e609f119577ab8c6527f",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-with-2",
+   "case": "dropdown-menu",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "2986bfdac054c1cb2dc16db148ea8c8fb9b0c3ac26648a857c711a8ae5d361a5",
+   "nu": {
+    "exit": 1,
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+     {
+      "type": "error",
+      "message": "The “aria-label” attribute must not be specified on any “div” element unless the element has a “role” value other than “caption”, “code”, “deletion”, “emphasis”, “generic”, “insertion”, “paragraph”, “presentation”, “strong”, “subscript”, or “superscript”.",
+      "line": 43,
+      "column": 49,
+      "extract": "\n</main>\n\n<div id=\"menu\" popover aria-label=\"More actions\">\n  <bu"
+     }
+    ]
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-with-3",
+   "case": "dropdown-menu",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "4d9343e3497bab00a521a32136af11dce9aad3edf7e11fe390ee9ce6f23bd308",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-with-4",
+   "case": "dropdown-menu",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "029fcd14c9437b43b06299dccb98dd9de32f1a93361bcf939c4f25add72a0d27",
+   "nu": {
+    "exit": 1,
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+     {
+      "type": "error",
+      "message": "The “aria-expanded” attribute must not be used on any element which has a “popovertarget” attribute.",
+      "line": 29,
+      "column": 86,
+      "extract": "/p>\n      <button type=\"button\" id=\"more\" popovertarget=\"more-menu\" aria-expanded=\"false\">More a"
+     }
+    ]
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-with-5",
+   "case": "dropdown-menu",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "88757144c9126410556a4fb7b54bdc411d34d0b8ae2c0fc80e29349d47eaaa87",
+   "nu": {
+    "exit": 1,
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+     {
+      "type": "error",
+      "message": "The “aria-label” attribute must not be specified on any “div” element unless the element has a “role” value other than “caption”, “code”, “deletion”, “emphasis”, “generic”, “insertion”, “paragraph”, “presentation”, “strong”, “subscript”, or “superscript”.",
+      "line": 30,
+      "column": 57,
+      "extract": "on>\n      <div popover id=\"menu-1\" aria-label=\"More actions\">\n     "
+     }
+    ]
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-without-1",
+   "case": "dropdown-menu",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "91a961e7e6458f927340323d21404cfbb0eff2e343d5f1806aa6cb294f5eb566",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-without-2",
+   "case": "dropdown-menu",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "4058c98b5c507aaa398e5e07f3ef001771e1c64da4257ee3db741693a5bba009",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-without-3",
+   "case": "dropdown-menu",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "daed138565a363e82256b134792f2d9e3f0979c565c9d6f021b33d70ed623809",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-without-4",
+   "case": "dropdown-menu",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "484283edd25000b35f2255690145dea4de0fcc9632b02f7877d22d50c45137ef",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "dropdown-menu-without-5",
+   "case": "dropdown-menu",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "b2f4a1f71fd41edbe08c92dc31558e9d04fa30c2b443fc7caad9fc776cb3623d",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-with-1",
+   "case": "faq-accordion",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "c533bb9eddbdf0b2e7a1ad3df9239c5423a6367a9811ec2e74ed651ee11e062e",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-with-2",
+   "case": "faq-accordion",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "4a1f4dcaab3c4b24d1001e3c16ae8f0881f6f9696d0cba95673df28474dce60d",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-with-3",
+   "case": "faq-accordion",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "2a51e2c7e6b302ba1fef397fefa516f4f244c4a0a223bc91ebb365da78ebadff",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-with-4",
+   "case": "faq-accordion",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "329f1485db8b988a1ab8a063698c87d46020bd92ef0de30ed0bbc10943a05ff8",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-with-5",
+   "case": "faq-accordion",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "bd57a347d8087eb420304799ebbd9825f2be7c2dc109d9dfad7f0212479ab302",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-without-1",
+   "case": "faq-accordion",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "9fc994731d0d6f88b735234e5018f26d97e18be6711ff4410d7e42cea506533e",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-without-2",
+   "case": "faq-accordion",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "dacfa239cc7dcce552250abc257841583fe4bf7c9011dea9b85a7531698c24d2",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-without-3",
+   "case": "faq-accordion",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "d0e7c109edb9d0a7bdf9d6e5acea670b1dc8e8f799446298675053e75c39d722",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-without-4",
+   "case": "faq-accordion",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "a56f6839f5cbfb33253c59054599d028607a4c286695d681a436b97cd3cc3c64",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "faq-accordion-without-5",
+   "case": "faq-accordion",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "ca4ce41489c763efc542d47a21c52417f871cb1ef2db8e8f178a3b538a9397d1",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-with-1",
+   "case": "modal",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "d82bbce935ba92999569e447a00431e792ff1be8357fd69908bf4441d6d837eb",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-with-2",
+   "case": "modal",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "46afec7499e3984ae69b496d40129a43a8c6441c60153e2f0bd0a056daabb2b2",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-with-3",
+   "case": "modal",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "aeaff7a904aceb0a1beb77f16ba676c03f8a356117a6922b419010738ceb3aa6",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-with-4",
+   "case": "modal",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "c744d43deefbb7b2697afefb56ebb29b94f6f67cdf6d59ecda4d752a197d0e63",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-with-5",
+   "case": "modal",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "4b9e7c759c7089e9925333bcd03a7d4faadb859c5d02b15e27a6629aa77fcab1",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-without-1",
+   "case": "modal",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "0c75a6298617eda69d3cdade6573e10acee5992a14d139f7ec44d4ed27af8d52",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-without-2",
+   "case": "modal",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "1dc7d862d30262e1556390adf07beae8264576a6d7438314f441501c8f57fdac",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-without-3",
+   "case": "modal",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "77e3e2df3c4eac259469dfb8b99dfc1c6f2722e331871afafb56a15c4a60e88d",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-without-4",
+   "case": "modal",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "2c44e33cacaeb63e4d39d1bb635450972c3829b36708164a851e4d2d442368ae",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "modal-without-5",
+   "case": "modal",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "28a66ca248761113e610f51d8ddf6bcec0dc95d89e798eb17e7e812d2eb9bcec",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-with-1",
+   "case": "navigation-menu",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "1bc85e2bbac27683b08667c336962dc0cf4f74903b57df06b440513b499016b9",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-with-2",
+   "case": "navigation-menu",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "bdf5f71f499a098c3e84ef32de514bfa0e3fc382b26abbbf14d75d2e6555c3ab",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-with-3",
+   "case": "navigation-menu",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "283637555abca1e03d053b75ffc3285b125e8e2a4dd921314e4ab110ed7b17b4",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-with-4",
+   "case": "navigation-menu",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "358baa88e1858d0ffd12bc6b0f16363388170719156f4c9e31f92a9a667ff10c",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 1,
+    "rules": [
+     {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 5,
+      "tags": [
+       "cat.color",
+       "wcag2aa",
+       "wcag143",
+       "TTv5",
+       "TT13.c",
+       "EN-301-549",
+       "EN-9.1.4.3",
+       "ACT"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 1,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 5,
+        "tags": [
+         "cat.color",
+         "wcag2aa",
+         "wcag143",
+         "TTv5",
+         "TT13.c",
+         "EN-301-549",
+         "EN-9.1.4.3",
+         "ACT"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 1,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "fail",
+     "reasons": [
+      "axe_violations:critical=0,serious=1"
+     ]
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-with-5",
+   "case": "navigation-menu",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "3e12296105772901db6231434ba889cd48f3eb67aaa293e82fe965168fa32fbb",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 1,
+    "rules": [
+     {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 4,
+      "tags": [
+       "cat.color",
+       "wcag2aa",
+       "wcag143",
+       "TTv5",
+       "TT13.c",
+       "EN-301-549",
+       "EN-9.1.4.3",
+       "ACT"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 1,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 4,
+        "tags": [
+         "cat.color",
+         "wcag2aa",
+         "wcag143",
+         "TTv5",
+         "TT13.c",
+         "EN-301-549",
+         "EN-9.1.4.3",
+         "ACT"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 1,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "fail",
+     "reasons": [
+      "axe_violations:critical=0,serious=1"
+     ]
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-without-1",
+   "case": "navigation-menu",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "40f4578ed239d72e1f6521a6d49f003267840e7bf29bf4e764310270ad3c3c5e",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-without-2",
+   "case": "navigation-menu",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "fe77297c756176fd5d290b7b8dfd7684e5ef5dd4c6e7b342c33b5b48d630a50e",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-without-3",
+   "case": "navigation-menu",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "d52de6829a56906d4f329bd4b752f36c4cf9319102ec9a217d3eda5c3361b7ed",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-without-4",
+   "case": "navigation-menu",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "6d8e5b7cc865e10379f368386783aace0f22763d298cfac1bc3c8cc13785a971",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "navigation-menu-without-5",
+   "case": "navigation-menu",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "d5f3d01c4d6f2d67912c004544de917250c106a878a45bc79a2e140c7ac16ab2",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-with-1",
+   "case": "product-card",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "aff92d72843869ca23ea05f5a2e70046a029417a0b18ee3783f051f26d302ad1",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-with-2",
+   "case": "product-card",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "4fefdc7559f2d2143d8c9aeca8039e228b5f9310a9782fd78ee05acc3c74591f",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-with-3",
+   "case": "product-card",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "abbcfcbd01910a4b49597a33c18616984231c4909ceb8af2f6ffa4cf6128309f",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-with-4",
+   "case": "product-card",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "97ae667820b5395d7e7183434da1e85d4752020e3a7198790ce6ae4e62c9f3dd",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 1,
+    "messages": [
+     {
+      "type": "info",
+      "message": "The “status” role is unnecessary for element “output”.",
+      "line": 105,
+      "column": 50,
+      "extract": "rm>\n      <output id=\"status\" for=\"qty\" role=\"status\"></outp"
+     }
+    ]
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-with-5",
+   "case": "product-card",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "ac6d8a13bb7c0037727acd7c0b8c448be6fa9b80bd2c998d428fcbe4ead65059",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-without-1",
+   "case": "product-card",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "77c39448aafae6ea395e647d71661ebfd53531f6e1c03d7703febb2223c04e18",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-without-2",
+   "case": "product-card",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "d9d02e938a73a80ac52a5a014bdce8a53bcc1d100acd5febf5ee3254275702ce",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-without-3",
+   "case": "product-card",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "37e3d0f386e717565f88adb8db094ac69b4b842c07de68c5851744911f5c6f0f",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-without-4",
+   "case": "product-card",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "71a050467254efeaa316759b5529001490083bd3af1e1d97129359388cd277fa",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "product-card-without-5",
+   "case": "product-card",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "478432ba1843247fa4552c485712057019f8850c466e2c597fd5d97a41cf8655",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-with-1",
+   "case": "signup-form",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "3d41446ff7af4656f2fe8fec6621027b252cce79d619f4dcffcc83cee287c5b1",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-with-2",
+   "case": "signup-form",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "ca2a03fab2be80ce58392056fbc76009740a989521ad406061a64fd27016e27a",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-with-3",
+   "case": "signup-form",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "e7468d0ccaae68a0977e6297eb4923b5808042575f3edffb2ed3ffa732575e8e",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-with-4",
+   "case": "signup-form",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "0b49f3679e44e35d009dc842e2d7bce16aae229ce33506200bf63f86c32d1bbf",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-with-5",
+   "case": "signup-form",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "38dca04c502443c19569096bed14bc92ad02cf34532c522b50079c35fd8522a0",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-without-1",
+   "case": "signup-form",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "844a7ba7c9f4db77b483fe7e7ef8e20b3dbb53659c0fea8bcd805a1eace3532d",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-without-2",
+   "case": "signup-form",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "2e0cee1895af2f04939f83ded9779f3ec3c6b60a88470edda80358a2a8419e6e",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-without-3",
+   "case": "signup-form",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "dc1f1fe9394ec761a8932f30a443db5adf13cdaedf8ce5ea8cd9c2d6e49d0aa6",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-without-4",
+   "case": "signup-form",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "beaf2fa69b30fa7a5072a1d47c76cd09e2ac6e498e42e4cda0e2e94f6cd494c2",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "signup-form-without-5",
+   "case": "signup-form",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "92a95988311690def366f1469a7544780a2b995038ce81cdf19eadff3c6d63f7",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-with-1",
+   "case": "tabs",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "4c538af5a3ec9c36ed77439cbbfe622690814a3ea7be44f94f555e97fa65aef1",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 1,
+    "rules": [
+     {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 1,
+      "tags": [
+       "cat.color",
+       "wcag2aa",
+       "wcag143",
+       "TTv5",
+       "TT13.c",
+       "EN-301-549",
+       "EN-9.1.4.3",
+       "ACT"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 1,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1,
+        "tags": [
+         "cat.color",
+         "wcag2aa",
+         "wcag143",
+         "TTv5",
+         "TT13.c",
+         "EN-301-549",
+         "EN-9.1.4.3",
+         "ACT"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 1,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "fail",
+     "reasons": [
+      "axe_violations:critical=0,serious=1"
+     ]
+    }
+   }
+  },
+  {
+   "page": "tabs-with-2",
+   "case": "tabs",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "b932f01401433168aa4ca7f269b5ac94e3a99432d44935502cd7de0ef250b376",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-with-3",
+   "case": "tabs",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "e58c21093b3c557224ea7d47703d93c645f8a7d6eab920867352db93c0799c66",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-with-4",
+   "case": "tabs",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "790756d6bc1571b7a8b8fc3860f0e8bd43bcdbe89f867dd9d1b08b022ccdf208",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-with-5",
+   "case": "tabs",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "2a6a073835aa68c38896dbe70aab2d43e748f5e11df7bb5606b679c4ee0fa4a8",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 3,
+    "messages": [
+     {
+      "type": "info",
+      "message": "Section lacks heading. Consider using “h2”-“h6” elements to add identifying headings to all sections, or else use a “div” element instead for any cases where no heading is needed.",
+      "line": 26,
+      "column": 91,
+      "extract": " </div>\n  <section role=\"tabpanel\" id=\"panel-schedule\" aria-labelledby=\"tab-schedule\" tabindex=\"0\">\n    <"
+     },
+     {
+      "type": "info",
+      "message": "Section lacks heading. Consider using “h2”-“h6” elements to add identifying headings to all sections, or else use a “div” element instead for any cases where no heading is needed.",
+      "line": 29,
+      "column": 98,
+      "extract": "ection>\n  <section role=\"tabpanel\" id=\"panel-location\" aria-labelledby=\"tab-location\" tabindex=\"0\" hidden>\n    <"
+     },
+     {
+      "type": "info",
+      "message": "Section lacks heading. Consider using “h2”-“h6” elements to add identifying headings to all sections, or else use a “div” element instead for any cases where no heading is needed.",
+      "line": 32,
+      "column": 94,
+      "extract": "ection>\n  <section role=\"tabpanel\" id=\"panel-access\" aria-labelledby=\"tab-access\" tabindex=\"0\" hidden>\n    <"
+     }
+    ]
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-without-1",
+   "case": "tabs",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "31f4e420e9c079efebc3299ee99589c43da708f6a6b1b8c76984f6e8cac666bb",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-without-2",
+   "case": "tabs",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "9482cbeabebe43878592ef7de3704d90b775bf7c8ec7f8ec1eca466cd1a6fba3",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-without-3",
+   "case": "tabs",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "01bd04f08e087c30cbf0cebc1c71907d42c5915672c6eb14233d08edcc687482",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-without-4",
+   "case": "tabs",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "2ca115f0043e219349f352d05ce2039a668ecc32e4240d5e2a4dbd81b54871a2",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "tabs-without-5",
+   "case": "tabs",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "9eefab26bb4c3caf84a894de53e531dd7d95bdb9c9dd995620f04a701d0d1e56",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": [
+     {
+      "id": "landmark-one-main",
+      "impact": "moderate",
+      "nodes": 1,
+      "tags": [
+       "cat.semantics",
+       "best-practice"
+      ]
+     },
+     {
+      "id": "region",
+      "impact": "moderate",
+      "nodes": 3,
+      "tags": [
+       "cat.keyboard",
+       "best-practice"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "landmark-one-main",
+        "impact": "moderate",
+        "nodes": 1,
+        "tags": [
+         "cat.semantics",
+         "best-practice"
+        ]
+       },
+       {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3,
+        "tags": [
+         "cat.keyboard",
+         "best-practice"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 2,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-with-1",
+   "case": "toast",
+   "arm": "with",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "80953b248a0aef2b647779d2ea571539288512e459754c1860f1ba1a5cbc1cde",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-with-2",
+   "case": "toast",
+   "arm": "with",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "e60e75f22a859b70362076b9a5513d88e68820ff8a766175279d30334080cd21",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-with-3",
+   "case": "toast",
+   "arm": "with",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "e44838a8151d31bc76d57f2ba50b211e7863279dbd95b6757a58b49405318bbe",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-with-4",
+   "case": "toast",
+   "arm": "with",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "d86a5501647edd2edf870ac9abadfd0b2644d816920f2558be858b167cd6d848",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-with-5",
+   "case": "toast",
+   "arm": "with",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "13cf0a4687e053ebbf0129a25fee8586cac76495e682068e5e9e8c65655946cb",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-without-1",
+   "case": "toast",
+   "arm": "without",
+   "run": 1,
+   "status": "measured",
+   "html_sha256": "21405df6a7257280d2e591ad4743023077a25c34f1ad3078f0bd28c218538649",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-without-2",
+   "case": "toast",
+   "arm": "without",
+   "run": 2,
+   "status": "measured",
+   "html_sha256": "76b0419091df0e43cf53f61bc26c2d62dbaf91a900e1ae655adab8587ef01103",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-without-3",
+   "case": "toast",
+   "arm": "without",
+   "run": 3,
+   "status": "measured",
+   "html_sha256": "4840c681d384ef21aaca6c3109fc5c532542e7d4569a8382fe7c437856410148",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 1,
+    "rules": [
+     {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 1,
+      "tags": [
+       "cat.color",
+       "wcag2aa",
+       "wcag143",
+       "TTv5",
+       "TT13.c",
+       "EN-301-549",
+       "EN-9.1.4.3",
+       "ACT"
+      ]
+     }
+    ]
+   },
+   "axe_gate": {
+    "exit": 1,
+    "result": {
+     "axe": {
+      "rules": [
+       {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1,
+        "tags": [
+         "cat.color",
+         "wcag2aa",
+         "wcag143",
+         "TTv5",
+         "TT13.c",
+         "EN-301-549",
+         "EN-9.1.4.3",
+         "ACT"
+        ]
+       }
+      ],
+      "totals": {
+       "critical": 0,
+       "serious": 1,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "fail",
+     "reasons": [
+      "axe_violations:critical=0,serious=1"
+     ]
+    }
+   }
+  },
+  {
+   "page": "toast-without-4",
+   "case": "toast",
+   "arm": "without",
+   "run": 4,
+   "status": "measured",
+   "html_sha256": "29036a19e0822a9e0db7de110ebede74ceeea8d5af23a20c9b7ea84b3edfb88c",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  },
+  {
+   "page": "toast-without-5",
+   "case": "toast",
+   "arm": "without",
+   "run": 5,
+   "status": "measured",
+   "html_sha256": "45f0e55700e160740edb79f1b440f907e23a482685d1bd9e5b58b225ec5fd84b",
+   "nu": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "messages": []
+   },
+   "axe": {
+    "exit": 0,
+    "rules": []
+   },
+   "axe_gate": {
+    "exit": 0,
+    "result": {
+     "axe": {
+      "rules": [],
+      "totals": {
+       "critical": 0,
+       "serious": 0,
+       "moderate": 0,
+       "minor": 0,
+       "null": 0
+      }
+     },
+     "verdict": "pass",
+     "reasons": []
+    }
+   }
+  }
+ ],
+ "totals": {
+  "with": {
+   "pages": 40,
+   "pages_measured": 40,
+   "pages_with_nu_errors": 3,
+   "nu_errors": 3,
+   "pages_with_axe_violations": 3,
+   "pages_axe_measured": 40
+  },
+  "without": {
+   "pages": 40,
+   "pages_measured": 40,
+   "pages_with_nu_errors": 0,
+   "nu_errors": 0,
+   "pages_with_axe_violations": 11,
+   "pages_axe_measured": 40
+  }
+ }
+}

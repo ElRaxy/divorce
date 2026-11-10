@@ -40,7 +40,7 @@ Other agents and install routes: [Details](#details).
 | --- | :---: | :---: | :---: | :---: |
 | **With divorce** | −29% | −41% | −33% | −76% |
 
-Over 5 runs of 8 tasks. Nu errors: 3 of 40 pages with divorce, 0 of 40 without. Method and limits in [evals](evals/README.md).
+Over 5 runs of 8 tasks. Nu errors: 3 of 40 pages with divorce, 0 of 40 without. Method and limits in [evals](evals/README.md). All three were ARIA on a popover menu; [Nu's messages](evals/README.md#what-the-3-nu-errors-were).
 ## What validators miss
 
 Both of these pass the Nu HTML Checker and axe. Only one can be reached with Tab.
@@ -110,9 +110,11 @@ python3 skills/divorce/scripts/gate.py html examples/div-button/after.html
 agent-browser eval "$(python3 skills/divorce/scripts/gate.py axe-snippet)" > axe.json
 python3 skills/divorce/scripts/gate.py axe axe.json
 python3 skills/divorce/scripts/gate.py check --html examples/div-button/after.html --axe axe.json --axe-max-impact serious
+agent-browser eval "$(python3 skills/divorce/scripts/gate.py keyboard-snippet)" > keys.json
+python3 skills/divorce/scripts/gate.py keyboard keys.json
 ```
 
-Replace the HTML input with your served URL or built file and capture genuine axe evidence from that same page and state. Outside the checkout, use the installed script path. The gate does not open a browser, run axe or refresh a capture; see [all commands and flags](docs/how-it-works.md#commands).
+Replace the HTML input with your served URL or built file and capture genuine axe evidence from that same page and state. Outside the checkout, use the installed script path. The keyboard check reads the rendered DOM and fails on elements that react to clicks but are not in the Tab order; it does not press keys, so Tab order, Escape and focus return stay manual. The gate does not open a browser, run axe or refresh a capture; see [all commands and flags](docs/how-it-works.md#commands).
 
 <h3>FAQ</h3>
 
